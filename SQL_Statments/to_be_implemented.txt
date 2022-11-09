@@ -1,51 +1,78 @@
 Creating Tables:
-Admin
-User
-Viewer
-Student
-Student takes
-Student Course
-Course
-Exam topic
-Assignment
-Completes Assignment
-Exam/Quiz
-Student Exam
-Class Meeting
-Lecture
-Lab
-Tutorial
-Seminar
-Speaker
-Scheduled_Time_Slot
-Attends_Class
+-Nathan-
+    Admin
+    User
+    Viewer
+    Student
+    Student takes
+    Student Course
+    Course
+    Exam topic
+    Assignment
+    Completes Assignment
 
+Mohammed:
+    Exam/Quiz
+    Student Exam
+    Class Meeting
+    Lecture
+    Lab
+    Tutorial
+    Seminar
+    Speaker
+    Scheduled_Time_Slot
 
+Dani:
+    Attends_Class
+    Schedule
+    To_Do_List
+    Tasks
+    Section
+    Group_Meeting
+    Group_Meeting_Date
+    Group_Meeting_Members
+    Attend_Group_Meeting
 
 Add/Insert:
-Course
-Class Meeting
-Group Meeting
-Assignment
-Exam
-To_Do_List_Item
+Dani:
+    Add Main Admin (admin to create other admins so we have access to the system)
+    Course
+    Class Meeting
+
+Mohammed:
+    Group Meeting
+    Assignment
+
+Nathan
+    Exam
+    task
 
 Remove/Delete:
-To_Do_List_Item
-Course
-Exam
-Quiz
-Assignment
-Group_Meeting
-Class_Meeting
-Schedule
-Viewer
-Student
+Mohammed:
+    To_Do_List_Item
+    Course
+    Exam
+    Quiz
+
+Dani:
+    Assignment
+    Group_Meeting
+    Class_Meeting
+
+Nathan
+    Schedule
+    Viewer
+    Student`
 
 Modify/Update:
-change user password (admin only)
-change course Meeting
-change group Meeting
-change exam (ex. date, time, room, etc)
-change Assignment
-change to-do-list task
+Dani:
+    change user password (admin only)
+    change course Meeting
+
+Mohammed:
+    change group Meeting
+    change exam (ex. date, time, room, etc)
+
+Nathan
+    change Assignment
+    change to-do-list task

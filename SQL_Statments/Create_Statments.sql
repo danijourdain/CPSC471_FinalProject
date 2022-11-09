@@ -8,5 +8,6 @@ CREATE TABLE User
     FName       VARCHAR(15)     NOT NULL,
     LName       VARCHAR(15)     NOT NULL,
     Passwork    VARCHAR(15)     NOT NULL,
-    
+    UserType    VARCHAR(15)     NOT NULL,
+    AdminEmail  VARCHAR(15)     NOT NULL,
     )
