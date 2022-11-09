@@ -1,0 +1,51 @@
+Creating Tables:
+Admin
+User
+Viewer
+Student
+Student takes
+Student Course
+Course
+Exam topic
+Assignment
+Completes Assignment
+Exam/Quiz
+Student Exam
+Class Meeting
+Lecture
+Lab
+Tutorial
+Seminar
+Speaker
+Scheduled_Time_Slot
+Attends_Class
+
+
+
+Add/Insert:
+Course
+Class Meeting
+Group Meeting
+Assignment
+Exam
+To_Do_List_Item
+
+Remove/Delete:
+To_Do_List_Item
+Course
+Exam
+Quiz
+Assignment
+Group_Meeting
+Class_Meeting
+Schedule
+Viewer
+Student
+
+Modify/Update:
+change user password (admin only)
+change course Meeting
+change group Meeting
+change exam (ex. date, time, room, etc)
+change Assignment
+change to-do-list task
