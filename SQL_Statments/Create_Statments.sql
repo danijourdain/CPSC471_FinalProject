@@ -184,3 +184,20 @@ CREATE TABLE Attends_Group_Meeting
     FOREIGN KEY(MeetingID) REFERENCES Group_Meeting(ID),
     FOREIGN KEY(SEmail) REFERENCES Student(Email)
 );
+
+CREATE TABLE Exam_Quiz
+(
+    Name_           VARCHAR(32)     NOT NULL,
+    Course_Name     CHAR(4)         NOT NULL,
+    Course_Number   INT             NOT NULL,
+    Weight_         FLOAT           ,
+    -- can it be null, how to account for dropping lowest quiz
+    Chapters        VARCHAR(32)     ,
+    Hall            VARCHAR(32)     NOT NULL,
+    -- does that already account for online quizzes?
+    Date_           DATE            NOT NULL,
+    Length_         INT             NOT NULL,
+    PRIMARY KEY(Name_, Course_Name, Course_Number),
+    FOREIGN KEY(Course_Name) REFERENCES Course(CName),
+    FOREIGN KEY(Course_Number) REFERENCES Course(CNumber)             
+);
