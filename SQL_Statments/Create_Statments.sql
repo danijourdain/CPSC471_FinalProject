@@ -192,7 +192,7 @@ CREATE TABLE Exam_Quiz
     Course_Number   INT             NOT NULL,
     Weight_         FLOAT           ,
     -- can it be null, how to account for dropping lowest quiz
-    Chapters        VARCHAR(32)     ,
+    Chapters        VARCHAR(128)     ,
     Hall            VARCHAR(32)     NOT NULL,
     -- does that already account for online quizzes?
     Date_           DATE            NOT NULL,
@@ -201,3 +201,95 @@ CREATE TABLE Exam_Quiz
     FOREIGN KEY(Course_Name) REFERENCES Course(CName),
     FOREIGN KEY(Course_Number) REFERENCES Course(CNumber)             
 );
+
+CREATE TABLE Student_Exam
+(
+    SEmail          VARCHAR(32)     NOT NULL,
+    Course_Name     CHAR(4)         NOT NULL,
+    Course_Number   INT             NOT NULL,
+    EQName           VARCHAR(32)     NOT NULL,
+
+    --not sure about having a primary key made entirely out of foreign keys
+    --would sql be able to run it, maybe move tables with dependencies to the bottom
+    PRIMARY KEY(SEmail, Course_Name, Course_Number, EQName),
+    FOREIGN KEY(SEmail) REFERENCES Student(Email),
+    FOREIGN KEY(Course_Name) REFERENCES Course(CName),
+    FOREIGN KEY(Course_Number) REFERENCES Course(CNumber)
+    FOREIGN KEY(EQName) REFERENCES Exam_Quiz(Name_)
+);
+
+CREATE TABLE Class_Meeting
+(
+    MeetingName     VARCHAR(32)     NOT NULL,
+    Room#           VARCHAR(32)     NOT NULL,
+    -- maybe allow null for room# and replace null with "online"
+    Topic           VARCHAR(32),
+    Course_Name     CHAR(4)         NOT NULL,
+    Course_Number   INT             NOT NULL,
+    PRIMARY KEY(MeetingName),
+    FOREIGN KEY(Course_Name) REFERENCES Course(CName),
+    FOREIGN KEY(Course_Number) REFERENCES Course(CNumber)
+);
+
+CREATE TABLE Lecture
+(
+    MeetingName_Lec  VARCHAR(32)     NOT NULL,
+    Learning_Obj    VARCHAR(256),
+    Ch_dicussed     VARCHAR(32),
+    
+    PRIMARY KEY(MeetingName_Lec),
+    FOREIGN KEY(MeetingName_Lec) REFERENCES Class_Meeting(MeetingName)
+);
+
+CREATE TABLE Lab
+(
+    MeetingName_Lab  VARCHAR(32)     NOT NULL,
+    Lab_topic        VARCHAR(256),
+    Due_Date         DATE            NOT NULL,
+    TA_Name          VARCHAR(64),
+    
+    PRIMARY KEY(MeetingName_Lab),
+    FOREIGN KEY(MeetingName_Lab) REFERENCES Class_Meeting(MeetingName)
+);
+
+CREATE TABLE Tutorial
+(
+    MeetingName_Tut  VARCHAR(32)     NOT NULL,
+    TA_Name          VARCHAR(64),
+    
+    PRIMARY KEY(MeetingName_Tut),
+    FOREIGN KEY(MeetingName_Tut) REFERENCES Class_Meeting(MeetingName)
+);
+
+CREATE TABLE Seminar
+(
+    MeetingName_Sem  VARCHAR(32)     NOT NULL,
+    
+    PRIMARY KEY(MeetingName_Sem),
+    FOREIGN KEY(MeetingName_Sem) REFERENCES Class_Meeting(MeetingName)
+);
+
+CREATE TABLE Speaker
+(
+    MeetingName_Sp  VARCHAR(32)     NOT NULL,
+    Name_           VARCHAR(64)     NOT NULL,
+    Organization    VARCHAR(32)     NOT NULL,
+    Credentials     VARCHAR(256)    NOT NULL,
+    -- are all of these supposed to be a key, review ER
+    PRIMARY KEY(MeetingName_Sp, Name_, Organization, Credentials),
+    FOREIGN KEY(MeetingName_Sp) REFERENCES Seminar(MeetingName_Sem)
+);
+
+CREATE TABLE Scheduled_Time_Slot
+(
+    MeetingName_     VARCHAR(32)     NOT NULL,
+    DaysOFWeek       VARCHAR(64)     NOT NULL,
+    -- not sure about not null/ primary key on Dayofweek
+    TimeOfDay        VARCHAR(32)     NOT NULL,
+    -- format so refers to time and duration?
+    Frequency        VARCHAR(16)     NOT NULL
+    
+    PRIMARY KEY(MeetingName_, DaysOFWeek, TimeOfDay, Frequency),
+    FOREIGN KEY(MeetingName_) REFERENCES Class_Meeting(MeetingName)
+);
+

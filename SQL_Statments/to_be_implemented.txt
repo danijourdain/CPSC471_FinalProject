@@ -12,15 +12,15 @@ Creating Tables:
     Completes Assignment
 
 Mohammed:
-    Exam/Quiz
-    Student Exam
-    Class Meeting
-    Lecture
-    Lab
-    Tutorial
-    Seminar
-    Speaker
-    Scheduled_Time_Slot
+    Exam/Quiz --
+    Student Exam --
+    Class Meeting --
+    Lecture --
+    Lab --
+    Tutorial --
+    Seminar --
+    Speaker --
+    Scheduled_Time_Slot --
 
 Dani:
     Attends_Class
@@ -49,7 +49,7 @@ Nathan
 
 Remove/Delete:
 Mohammed:
-    To_Do_List_Item
+    To_Do_List_Item (task)
     Course
     Exam
     Quiz
