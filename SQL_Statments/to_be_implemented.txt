@@ -40,8 +40,8 @@ Dani:
     Class Meeting
 
 Mohammed:
-    Group Meeting
-    Assignment
+    Group Meeting -- 
+    Assignment --
 
 Nathan
     Exam
@@ -49,10 +49,10 @@ Nathan
 
 Remove/Delete:
 Mohammed:
-    To_Do_List_Item (task)
-    Course
-    Exam
-    Quiz
+    To_Do_List_Item (task) --
+    Course -- 
+    Exam -- 
+    Quiz --
 
 Dani:
     Assignment
