@@ -76,3 +76,10 @@ Mohammed:
 Nathan
     change Assignment
     change to-do-list task
+
+
+
+    Fix Inserts
+
+    Modify statements for the following:
+

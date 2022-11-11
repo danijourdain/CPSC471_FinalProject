@@ -3,15 +3,7 @@ CREATE DATABASE '471_Final_Project';
 --remove the database if it already exists, and create a new database
 
 
-CREATE TABLE User
-    (Email      VARCHAR(32)     NOT NULL,
-    FName       VARCHAR(15)     NOT NULL,
-    LName       VARCHAR(15)     NOT NULL,
-    Password_    VARCHAR(15)     NOT NULL,
-    UserType    VARCHAR(15)     NOT NULL,
-    AdminEmail  VARCHAR(15)     NOT NULL,
-    PRIMARY KEY (Email)
-    );
+
 
 CREATE TABLE Admin_
     (Email      VARCHAR(32)     NOT NULL,
@@ -21,18 +13,35 @@ CREATE TABLE Admin_
     PRIMARY KEY(Email)
     );
 
+    CREATE TABLE User
+    (Email      VARCHAR(32)     NOT NULL,
+    FName       VARCHAR(15)     NOT NULL,
+    LName       VARCHAR(15)     NOT NULL,
+    Password_    VARCHAR(15)     NOT NULL,
+    UserType    VARCHAR(15)     NOT NULL,
+    AdminEmail  VARCHAR(15)     NOT NULL,
+    PRIMARY KEY (Email)
+    FOREGIN KEY(AdminEmail) REFERENCES Admin_(Email)
+    ON DELETE CASCADE       ON UPDATE CASCADE
+    );
+
 CREATE TABLE Viewer
     (Email      VARCHAR(32)     NOT NULL,
     SEmail      VARCHAR(15)     NOT NULL,
     SchedID     INT,            NOT NULL,
-    PRIMARY KEY(Email)
+    PRIMARY KEY(Email, SchedID),
+    FOREGIN KEY(Email) REFERENCES User(Email),
+    FOREGIN KEY(SchedID) REFERENCES Schedule(SchedID),
+    FOREGIN KEY(SEmail) REFERENCES Student(Email)
     );
 
 CREATE TABLE Student
     (Email      VARCHAR(32)     NOT NULL,
     Major       VARCHAR(15)     NOT NULL,
     Year_        INT             NOT NULL,
-    PRIMARY KEY(Email)
+    PRIMARY KEY(Email),
+    FOREGIN KEY(Email) REFERENCES User(Email),
+    ON DELETE CASCADE       ON UPDATE CASCADE
     );
 
 
@@ -41,7 +50,7 @@ CREATE TABLE Course
     CNumber     INT             NOT NULL,
     Descrip     VARCHAR(15),
     PRIMARY KEY(CName, CNumber),
-    ON DELETE CASCADE       ON UPDATE CASCADE;
+    ON DELETE CASCADE       ON UPDATE CASCADE
     );
 
 CREATE TABLE Student_Takes
@@ -85,7 +94,7 @@ CREATE TABLE Assignment
     FOREIGN KEY(CNumber) REFERENCES Course(CNumber),
     FOREIGN KEY(CName) REFERENCES Course(CName),
     FOREIGN KEY(ListID) REFERENCES To_Do_List(ListID),
-    ON DELETE CASCADE       ON UPDATE CASCADE;
+    ON DELETE CASCADE       ON UPDATE CASCADE
     );
 
 CREATE TABLE Completes_Assignmetns
@@ -97,6 +106,7 @@ CREATE TABLE Completes_Assignmetns
     FOREIGN KEY(CNumber) REFERENCES Course(CNumber),
     FOREIGN KEY(CName) REFERENCES Course(CName),
     FOREIGN KEY(AName) REFERENCES Assignment(Name_)
+    FOREIGN KEY(SEmail) REFERENCES Student(Email)
     );
 
 CREATE TABLE Attends_Class
@@ -106,8 +116,8 @@ CREATE TABLE Attends_Class
     PRIMARY KEY(CMeetingName, SEmail),
     FOREIGN KEY(CMeetingName) REFERENCES Class_Meeting(MeetingName),
     FOREIGN KEY(SEmail) REFERENCES Student(Email)
+    ON DELETE CASCADE       ON UPDATE CASCADE
 );
---NEED TO ADD UPDATE/DELETE CASCAE/SET NULL/SET DEFAULT THING
 
 CREATE TABLE Schedule
 (
@@ -115,7 +125,6 @@ CREATE TABLE Schedule
     StartDate       DATE            NOT NULL,
     EndDate         DATE            NOT NULL,
     Year_           INT             NOT NULL,
-    --is year really needed when we have start date and end date as actual date type?
     SemName         VARCHAR(20)     NOT NULL,
     StudentEmail    VARCHAR(32)     NOT NULL,
     PRIMARY KEY(ID),
@@ -158,6 +167,7 @@ CREATE TABLE Group_Meeting
     PRIMARY KEY(ID),
     FOREIGN KEY(CName) REFERENCES Course(CName),
     FOREIGN KEY(CNumber) REFERENCES Course(CNumber)
+    ON DELETE CASCADE       ON UPDATE CASCADE
 );
 
 CREATE TABLE Group_Meeting_Date
@@ -199,7 +209,8 @@ CREATE TABLE Exam_Quiz
     Length_         INT             NOT NULL,
     PRIMARY KEY(Name_, Course_Name, Course_Number),
     FOREIGN KEY(Course_Name) REFERENCES Course(CName),
-    FOREIGN KEY(Course_Number) REFERENCES Course(CNumber)             
+    FOREIGN KEY(Course_Number) REFERENCES Course(CNumber)
+    ON DELETE CASCADE       ON UPDATE CASCADE             
 );
 
 CREATE TABLE Student_Exam
@@ -214,8 +225,9 @@ CREATE TABLE Student_Exam
     PRIMARY KEY(SEmail, Course_Name, Course_Number, EQName),
     FOREIGN KEY(SEmail) REFERENCES Student(Email),
     FOREIGN KEY(Course_Name) REFERENCES Course(CName),
-    FOREIGN KEY(Course_Number) REFERENCES Course(CNumber)
-    FOREIGN KEY(EQName) REFERENCES Exam_Quiz(Name_)
+    FOREIGN KEY(Course_Number) REFERENCES Course(CNumber),
+    FOREIGN KEY(EQName) REFERENCES Exam_Quiz(Name_),
+    ON DELETE CASCADE       ON UPDATE CASCADE
 );
 
 CREATE TABLE Class_Meeting
@@ -229,6 +241,7 @@ CREATE TABLE Class_Meeting
     PRIMARY KEY(MeetingName),
     FOREIGN KEY(Course_Name) REFERENCES Course(CName),
     FOREIGN KEY(Course_Number) REFERENCES Course(CNumber)
+    ON DELETE CASCADE       ON UPDATE CASCADE
 );
 
 CREATE TABLE Lecture
@@ -250,6 +263,7 @@ CREATE TABLE Lab
     
     PRIMARY KEY(MeetingName_Lab),
     FOREIGN KEY(MeetingName_Lab) REFERENCES Class_Meeting(MeetingName)
+    ON DELETE CASCADE       ON UPDATE CASCADE
 );
 
 CREATE TABLE Tutorial
@@ -259,6 +273,7 @@ CREATE TABLE Tutorial
     
     PRIMARY KEY(MeetingName_Tut),
     FOREIGN KEY(MeetingName_Tut) REFERENCES Class_Meeting(MeetingName)
+    ON DELETE CASCADE       ON UPDATE CASCADE
 );
 
 CREATE TABLE Seminar
@@ -267,6 +282,7 @@ CREATE TABLE Seminar
     
     PRIMARY KEY(MeetingName_Sem),
     FOREIGN KEY(MeetingName_Sem) REFERENCES Class_Meeting(MeetingName)
+    ON DELETE CASCADE       ON UPDATE CASCADE
 );
 
 CREATE TABLE Speaker

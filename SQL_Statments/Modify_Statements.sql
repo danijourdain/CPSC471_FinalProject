@@ -1,10 +1,12 @@
+--all empty quotation marks indicate the value will be set by a user input
+
 UPDATE  User 
 SET     Password_ = ""
 WHERE   Email = "";
 
 UPDATE  Class_Meeting
-SET     ???
-WHERE   MeetingName = ""
+SET     Room# = "", Topic = "", CName = ""
+WHERE   MeetingName = "";
 
 UPDATE Assignment
 SET Name_ = "",  CName = "", CNumber = "", Weight_ = "", Due_Date = "", Descrip = "", Contact = ""
@@ -15,7 +17,7 @@ SET Task = ""
 WHERE ListID = "", Task = "";
 
 UPDATE Group_Meeting
-SET  Name_ = "",            CName = "",          CNumber = ""
+SET  Name_ = "", CName = "", CNumber = ""
 WHERE ID = "";
 
 UPDATE Exam_Quiz
