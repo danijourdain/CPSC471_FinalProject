@@ -10,3 +10,7 @@ INSERT INTO User ();
 INSERT INTO Course ();
 
 INSERT INTO Class_Meeting ();
+
+INSERT INTO Exam ();
+
+INSERT INTO Task();
