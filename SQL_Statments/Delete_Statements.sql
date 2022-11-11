@@ -12,3 +12,11 @@ DELETE FROM COURSE WHERE Cname = userInputName AND CNumber = userInputNum;
 
 DELETE FROM Exam_Quiz WHERE Cname = userInputName AND CNumber = userInputNum AND Name_ = userInputExName;
 
+DELETE FROM Class_Meeting WHERE MeetingName = "";
+
+DELETE FROM Schedule WHERE ID = ;
+
+DELETE FROM STUDENT WHERE Email = "";
+
+DELETE FROM Viewer WHERE Email = "";
+

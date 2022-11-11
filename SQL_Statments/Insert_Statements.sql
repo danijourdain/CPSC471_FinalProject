@@ -21,3 +21,10 @@ Values (temp_name, some_input_var.CName, some_input_var.CNumber);
 SELECT (CName, CNumber, StuEmail from Course Where Cname = userInputName AND CNumber = userInputNum, StuEmail = userInputEmail) INTO @some_input_var;
 INSERT Into Assignment
 Values (Name_, some_input_var.CName, some_input_var.CNumber, Weight_, Due_Date, Descrip, Contact, (SELECT ListID from To_Do_List WHERE some_input_var.StuEmail = StuEmail));
+
+
+INSERT INTO Class_Meeting ();
+
+INSERT INTO Exam ();
+
+INSERT INTO Task();
