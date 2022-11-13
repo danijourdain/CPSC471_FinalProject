@@ -152,7 +152,7 @@ CREATE TABLE Assignment
 
 
 
-CREATE TABLE Completes_Assignmetns
+CREATE TABLE Completes_Assignments
     (SEmail     VARCHAR(15)     NOT NULL,
     AName       VARCHAR(15)     NOT NULL,
     CName       CHAR(4)     	NOT NULL,
