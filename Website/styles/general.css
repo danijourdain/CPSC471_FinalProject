@@ -1,0 +1,89 @@
+body, html {
+    height: 100%;
+}
+
+body {
+    background-color: rgb(238, 240, 251);
+    font-family: 'PT Sans', sans-serif;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.header {
+    height: 50px;
+    background-color: rgb(160, 193, 209);
+
+    padding-right: 70px;
+    padding-left: 70px;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+}
+
+.header-tab, .selected-header-tab {
+    height: 37px;
+    padding-top: 13px;
+    padding-right: 10px;
+    padding-left: 10px;
+    color: rgb(35, 44, 51);
+}
+
+.header-tab:hover, .selected-header-tab {
+    background-color: rgb(70, 117, 142);
+    color: white;
+}
+
+.header-link {
+    text-decoration: none;
+    color: white;
+}
+
+.sidebar {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    top: 50px;
+    width: 200px;
+    background-color: rgb(199, 217, 230);
+    color: rgb(35, 44, 51);
+    z-index: 200;
+    padding-top: 80px;
+    padding-bottom: 100px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.sidebar-tab, .selected-sidebar-tab {
+    text-align: right;
+    width: 180px;
+    padding-right: 20px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+}
+
+.sidebar-tab:hover, .selected-sidebar-tab {
+    background-color:  rgb(160, 193, 209);
+}
+
+.selected-sidebar-tab, .selected-header-tab {
+    font-weight: 700;
+}
+
+.sidebar-link {
+    color: rgb(35, 44, 51);
+    text-decoration: none;
+}
