@@ -129,6 +129,7 @@ CREATE TABLE Tasks
 (
     ListID          INT             NOT NULL,
     Task            VARCHAR(50)     NOT NULL,
+    isDone          BOOLEAN         NOT NULL DEFAULT 0,
     PRIMARY KEY(ListID, Task),
     FOREIGN KEY(ListID) REFERENCES To_Do_List(ListID)
      ON DELETE CASCADE       ON UPDATE CASCADE
