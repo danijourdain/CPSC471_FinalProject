@@ -23,7 +23,7 @@
                     </form>
                 </div>
                 <div class="back-button-section">
-                    <a href="index.html"><button class="back-button">
+                    <a href="index.php"><button class="back-button">
                         Back to Login
                     </button></a>
                 </div>

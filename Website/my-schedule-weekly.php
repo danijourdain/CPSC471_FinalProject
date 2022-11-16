@@ -10,7 +10,7 @@
 
     <body>
         <header class="header">
-            <a class="header-link" href="index.html">
+            <a class="header-link" href="index.php">
                 <div class="header-tab">
                     <div>Log Out</div>
                 </div>
@@ -56,3 +56,8 @@
         </main>
     </body>
 </html>
+
+<?php
+    session_start();
+    echo "hi " .$_SESSION['user-email']. "! Welcome to your schdule!";
+?>
