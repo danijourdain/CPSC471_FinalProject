@@ -16,6 +16,15 @@
                 <div class="box-header">Create New User</div>
                 <div class="user-input-section">
                     <form action="add-user.php" method="post">
+                        <input class="input-box" type="text" name="fname" placeholder="First Name"><br>
+                        <input class="input-box" type="text" name="lname" placeholder="Last Name"><br>
+                        <div>
+                            <select class="dropdown-box" id="user-type" name="user-type">
+                                <option value="none" selected disabled hidden>Select User Type</option>
+                                <option value="student">Student</option>
+                                <option value="viewer">Viewer</option>
+                            </select>
+                        </div>
                         <input class="input-box" type="text" name="email" placeholder="E-mail"><br>
                         <input class="input-box" type="password" name="password1" placeholder="Password"><br>
                         <input class="input-box" type="password" name="password2" placeholder="Confirm Password"><br>

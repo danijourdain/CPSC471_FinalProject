@@ -17,11 +17,20 @@
         echo "error! too many rows returned!";
         die();
     }
+    else if(mysqli_num_rows($result) == 1) {
+        while($row = mysqli_fetch_array($result)) {
+            echo $row['Email']. "\t". $row['Password_']. "<br>";
+        }
+    
+        header("Location: my-schedule-weekly.php");
+        die();
+    }
+    else {
+        echo '<script>alert("Welcome to Geeks for Geeks")</script>';
 
-    while($row = mysqli_fetch_array($result)) {
-        echo $row['Email']. "\t". $row['Password_']. "<br>";
+        //header("Location: index.php");
+        //die();
     }
 
-    header("Location: my-schedule-weekly.php");
-    die();
+
 ?>
