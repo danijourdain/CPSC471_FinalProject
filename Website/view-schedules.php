@@ -10,12 +10,12 @@
 
     <body>
        <header class="header">
-            <a class="header-link" href="index.html">
+            <a class="header-link" href="index.php">
                 <div class="header-tab">
                     <div>Log Out</div>
                 </div>
             </a>
-            <a class="header-link" href="my-schedule-weekly.html">
+            <a class="header-link" href="my-schedule-weekly.php">
                 <div class="header-tab">
                     <div>My Schedule</div>
                 </div>
