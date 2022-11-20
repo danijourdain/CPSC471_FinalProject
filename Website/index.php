@@ -27,7 +27,7 @@
                         <a href = "new-user.php">New User?</a>
                     </div>
                     <div class="forgot-password-link">
-                        <a href = "forgot-password.html">Forgot Password?</a>
+                        <a href = "forgot-password.php">Forgot Password?</a>
                     </div>
                 </div>
             </div>
@@ -37,36 +37,46 @@
 
     <?php
         $email = $_POST["email"];
-        $password = $_POST["password"];
+        $password = hash('md5', $_POST["password"]);
+        //get the user input using POST
 
         session_start();
         $_SESSION['user-email'] = $email;
 
-        $con = new mysqli("localhost","cpsc471","cpsc471","test-adding-user");
+        $con = new mysqli("localhost","select","cpsc471","471_Final_Project");
         //create database connection
 
         if ($con->connect_error) {
             echo "Failed to connect to MySQL: " . mysqli_connect_error();
         }
 
-        $select_user = $con->prepare("SELECT * FROM Users WHERE Email=? AND Password_=?");
+        $select_user = $con->prepare("SELECT * FROM User_ WHERE Email=? AND Password_=?");
         $select_user->bind_param("ss", $email, $password);
         $select_user->execute();
         //use a prepared statment to check username and passwords
+
 
         $result = $select_user->get_result();
         $select_user->close();
         //get the result and close the statements
 
-        if(mysqli_num_rows($result) > 1) {
+        if($result->num_rows > 1) {
             echo "error! too many rows returned!";
             die();
             //if there is are multiple results, something has gone wrong, end the program
         }
-        else if(mysqli_num_rows($result) == 1) {
-            header("Location: my-schedule-weekly.php");
-            die();
-            //if there was only one result, move to the weekly schdule view
+        else if($result->num_rows == 1) {
+            $res = $result->fetch_array();
+            if($res['UserType'] == 'student') {
+                header("Location: my-schedule-weekly.php");
+                die();
+                //move to the weekly schedule page
+            }
+            else {
+                header("Location: view-schedules.php");
+                die();
+                //move to the weekly schedule page
+            }
         }
         else if($email != null || $password != null){
             echo '<script>alert("Incorrect E-mail or Password!")</script>';
