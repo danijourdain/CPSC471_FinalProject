@@ -64,7 +64,7 @@
 
         $check_email = $con->prepare("SELECT * FROM User_ WHERE Email=?");
         $check_email->bind_param("s", $email);
-        $check_email->execute();;
+        $check_email->execute();
         //check if a user already exists with this email
 
         $email_result = $check_email->get_result();
@@ -75,18 +75,26 @@
         }
         else if($fname != null && $lname !=null && $type != null &&
             $email != null && $password1 != null && $password1 == $password2) {
-
+                
             $create_user = $con->prepare("INSERT INTO User_ (Email, FName, LName, Password_, UserType) VALUES (?, ?, ?, ?, ?)");
             $create_user->bind_param("sssss", $email, $fname, $lname, $password1, $type);
             $create_user->execute();
-            //create the new user tuples
+            //create the new user tuple
 
             if($type == 'student') {
+                $insert_student = $con->prepare("INSERT INTO Student (Email, Major, Year_) VALUES (?, 'fill_later', 0)");
+                $insert_student->bind_param("s", $email);
+                $insert_student->execute();
+
                 header("Location: my-schedule-weekly.php");
                 die();
                 //move to the weekly schedule page
             }
             else {
+                $insert_viewer = $con->prepare("INSERT INTO Viewer (Email, SEmail, SchedID) VALUES (?, 'student@gmail.com', 1)");
+                $insert_viewer->bind_param("s", $email);
+                $insert_viewer->execute();
+
                 header("Location: view-schedules.php");
                 die();
                 //move to the weekly schedule page

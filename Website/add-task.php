@@ -5,6 +5,7 @@
         <title>To Do</title>
 
         <link rel="stylesheet" href="styles/general.css">
+        <link rel="stylesheet" href="styles/to-do-list.css">
     </head>
 
     <body>
@@ -31,9 +32,9 @@
                     <div>Weekly Schedule</div>
                 </div>
             </a>
-            <div class="selected-sidebar-tab">
+            <a class="selected-link" href="to-do-list.php"> <div class="selected-sidebar-tab">
                 <div>To Do List</div>
-            </div>
+            </div> </a>
             <a class="sidebar-link" href="assignments.html">
                 <div class="sidebar-tab">
                     <div>Assigments</div>
@@ -52,7 +53,24 @@
         </nav>
 
         <main>
-
+            <form method="post">
+                <input class="add-task-box" type="text" name="task" placeholder="Task Name"><br>
+                <input class="add-task-button" type="submit" value="Add Task">
+            </form>
         </main>
     </body>
+
+    <?php
+        session_start();
+        $con = new mysqli("localhost","admin","cpsc471","471_Final_Project");
+        //create database connection
+
+        if ($con->connect_error) {
+            echo "Failed to connect to MySQL: " . mysqli_connect_error();
+        }
+
+        $task = $con->prepare("INSERT INTO Tasks (ListID, Task) VALUES (?, ?)");
+        $task->bind_param("ss", $_SESSION['to-do-list-id'], $_POST['task']);
+        $task->execute();
+    ?>
 </html>

@@ -29,7 +29,7 @@
             <div class="selected-sidebar-tab">
                 <div>Weekly Schedule</div>
             </div>
-            <a class="sidebar-link" href="to-do-list.html">
+            <a class="sidebar-link" href="to-do-list.php">
                 <div class="sidebar-tab">
                     <div>To Do List</div>
                 </div>
@@ -55,9 +55,9 @@
 
         </main>
     </body>
-</html>
 
-<?php
-    session_start();
-    echo "hi " .$_SESSION['user-email']. "! Welcome to your schdule!";
-?>
+    <?php
+        session_start();
+        echo "hi " .$_SESSION['user-email']. "! Welcome to your schedule!";
+    ?>
+</html>
