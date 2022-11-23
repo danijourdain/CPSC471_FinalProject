@@ -160,12 +160,13 @@ CREATE TABLE Completes_Assignments
 
 CREATE TABLE Class_Meeting
 (
+    ID              INT             NOT NULL, AUTO_INCREMENT
     MeetingName     VARCHAR(32)     NOT NULL,
     RoomNum         VARCHAR(32)     DEFAULT NULL,
     Topic           VARCHAR(32),
     Course_Name     CHAR(4)         NOT NULL,
     Course_Number   INT             NOT NULL,
-    PRIMARY KEY(MeetingName),
+    PRIMARY KEY(ID, MeetingName),
     FOREIGN KEY(Course_Name, Course_Number) REFERENCES Course(CName, CNumber)
      ON DELETE CASCADE       ON UPDATE CASCADE
 );
