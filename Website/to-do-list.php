@@ -59,10 +59,8 @@
 
             <?php 
                 session_start();
-
                 $con = new mysqli("localhost","admin","cpsc471","471_Final_Project");
                 //create database connection
-
                 if ($con->connect_error) {
                     echo "Failed to connect to MySQL: " . mysqli_connect_error();
                 }
@@ -86,9 +84,15 @@
                 }
 
                 $row = $to_do->fetch_array(MYSQLI_ASSOC);
-                echo "<br><br> List ID = ". $row['ListID'];
-                
+                //echo "<br><br> List ID = ". $row['ListID'];
+                $allTasks = 'SELECT t.Task FROM Tasks  AS t WHERE ListID = ' . $_SESSION['to-do-list-id'];
+                $allTasks = mysqli_query($con, $allTasks);
+                foreach($allTasks as $item){
+                    echo $item['Task'];
+                    echo '<br>';
+                }
                 $_SESSION['to-do-list-id'] = $row['ListID'];
+
             ?> 
 
         </main>
