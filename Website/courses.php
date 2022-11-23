@@ -5,6 +5,7 @@
         <title>Courses</title>
 
         <link rel="stylesheet" href="styles/general.css">
+        <link rel="stylesheet" href="styles/course.css">
     </head>
 
     <body>
@@ -51,9 +52,9 @@
         </nav>
 
         <main>
-            <button class="add-course-button">
-                Add Course
-            </button>
+            <a  href="add-course.php"> <button class="add-course-button">
+                Add New Course
+            </button></a>
         </main>
     </body>
 
@@ -69,11 +70,17 @@
         $courses = $con->prepare("SELECT * FROM Course AS C, Student_Course AS S WHERE S.SEmail=? AND S.CName = C.CName AND C.CNumber = S.CNumber");
         $courses->bind_param("s", $_SESSION['user-email']);
         $courses->execute();
-        $courses->get_result();
+        $courses = $courses->get_result();
         //get all courses the student is currently taking from the database
 
         echo $courses->num_rows;
 
+        foreach($courses as $c):?>
+            <div class="course-box">
+                <?php echo $c['CName']. "\t". $c['CNumber']; ?>
+            </div>
+        <?php endforeach;
+        //print each course name and number the student is taking
         
     ?>
 </html>
