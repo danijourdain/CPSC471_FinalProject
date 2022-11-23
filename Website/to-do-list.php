@@ -64,8 +64,12 @@
                 if ($con->connect_error) {
                     echo "Failed to connect to MySQL: " . mysqli_connect_error();
                 }
-
-                $to_do = $con->query("SELECT * FROM To_Do_List WHERE SEmail='". $_SESSION['user-email']. "';");
+                $email = $_SESSION['user-email'];
+                $to_do = $con->prepare("SELECT * FROM To_Do_List WHERE SEmail=?");
+                $to_do ->bind_param("s", $email);
+                $to_do ->execute();
+                $to_do = $to_do ->get_result();
+                //$to_do = $to_do -> fetch_assoc();
                 //for some reason this literally WILL NOT WORK when using a prepared statement
                 //try and fix later I guess?
                 if($to_do->num_rows == 0) {
