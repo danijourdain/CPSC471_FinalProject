@@ -78,8 +78,12 @@
             <?php foreach($allTasks as $item): ?>
                 <div class="card my-3 w-75">
                     <div class="card-body text-center">
-                        <?php echo $item['Task']; ?>
-                        <input type="checkbox" name="checkboc_name" values="checkbox_value">
+                        <!-- <?php echo $item['Task']; ?>
+                        <input type="checkbox" name="checkboc_name" values="checkbox_value"> -->
+                        <form method="post">
+                            <input class="task-checkbox" id="task-checkbox" type="checkbox" name="checkbox_name" values="checkbox_value">
+                            <label for="task-checkbox"> <?php echo $item['Task']; ?></label><br>
+                        </form>
                     </div>
                 </div>
             <?php endforeach; ?>
