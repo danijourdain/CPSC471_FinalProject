@@ -2,17 +2,6 @@ DROP DATABASE IF EXISTS '471_Final_Project';
 CREATE DATABASE '471_Final_Project';
 --remove the database if it already exists, and create a new database
 
-
-
-
-CREATE TABLE Admin_
-    (Email      VARCHAR(32)     NOT NULL,
-    Password_   VARCHAR(32)     NOT NULL,
-    Name_       VARCHAR(15)     NOT NULL,
-    Role_       VARCHAR(15)     NOT NULL,
-    PRIMARY KEY(Email)
-    );
-
 CREATE TABLE User_
     (Email      VARCHAR(32)     NOT NULL,
     FName       VARCHAR(15)     NOT NULL,
@@ -171,12 +160,13 @@ CREATE TABLE Completes_Assignments
 
 CREATE TABLE Class_Meeting
 (
+    ID              INT             NOT NULL, AUTO_INCREMENT
     MeetingName     VARCHAR(32)     NOT NULL,
     RoomNum         VARCHAR(32)     DEFAULT NULL,
     Topic           VARCHAR(32),
     Course_Name     CHAR(4)         NOT NULL,
     Course_Number   INT             NOT NULL,
-    PRIMARY KEY(MeetingName),
+    PRIMARY KEY(ID, MeetingName),
     FOREIGN KEY(Course_Name, Course_Number) REFERENCES Course(CName, CNumber)
      ON DELETE CASCADE       ON UPDATE CASCADE
 );
