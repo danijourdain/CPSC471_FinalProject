@@ -51,12 +51,8 @@
                 </div>
             </a>
         </nav>
-
-        <main>
-            <form method="post">
-                <input class="add-task-box" type="text" name="task" placeholder="Task Name"><br>
-                <input class="add-task-button" type="submit" value="Add Task">
-            </form>
+        
+        
         </main>
     </body>
 
@@ -68,9 +64,45 @@
         if ($con->connect_error) {
             echo "Failed to connect to MySQL: " . mysqli_connect_error();
         }
+    ?>
+    <?php
+        $allTasks = 'SELECT t.Task FROM Tasks  AS t WHERE ListID = ' . $_SESSION['to-do-list-id'];
+        $allTasks = mysqli_query($con, $allTasks);
+        ?>
+        <main>
+            <h2>To Do List:</h2>
+            <?php if(empty($allTasks)): ?>
+                <p class="lead mt3"> There are no items on your to do list</p>
+            <?php endif; ?>
 
-        $task = $con->prepare("INSERT INTO Tasks (ListID, Task) VALUES (?, ?)");
-        $task->bind_param("ss", $_SESSION['to-do-list-id'], $_POST['task']);
-        $task->execute();
+            <?php foreach($allTasks as $item): ?>
+                <div class="card my-3 w-75">
+                    <div class="card-body text-center">
+                        <?php echo $item['Task']; ?>
+                        <input type="checkbox" name="checkboc_name" values="checkbox_value">
+                    </div>
+                </div>
+            <?php endforeach; ?>
+            <form method="post">
+                <input class="add-task-box" type="text" name="task" placeholder="Task Name"><br>
+                <input class="add-task-button" type="submit" value="Add Task">
+            </form>
+    <?php
+        $allTasks = 'SELECT t.Task FROM Tasks  AS t WHERE ListID = ' . $_SESSION['to-do-list-id'];
+        $allTasks = mysqli_query($con, $allTasks);
+        $dupFlag = 0;
+        foreach($allTasks as $item){
+            if(strtolower($item['Task']) == strtolower($_POST['task'])){
+                $dupFlag = 1;
+                echo "Duplicate Entry";
+                
+            }
+        }
+        if(!$dupFlag){
+            $allTasks = mysqli_fetch_all($allTasks, MYSQLI_ASSOC);
+            $task = $con->prepare("INSERT INTO Tasks (ListID, Task) VALUES (?, ?)");
+            $task->bind_param("ss", $_SESSION['to-do-list-id'], $_POST['task']);
+            $task->execute();
+        }
     ?>
 </html>
