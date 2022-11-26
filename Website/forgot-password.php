@@ -32,6 +32,12 @@
     </body>
 
     <?php
+        if(empty($_POST["email"]) || empty($_POST["password1"]) || empty($_POST["password2"])) {
+            echo '<script>alert("Must fill in all fields!")</script>';
+            die();
+            //if there is no match, give the user an error message
+        }
+
         $email = $_POST["email"];
         $password1 = hash('md5', $_POST["password1"]);
         $password2 = hash('md5', $_POST["password2"]);

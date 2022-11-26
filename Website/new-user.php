@@ -42,6 +42,12 @@
 
 
     <?php
+        if(empty($_POST["fname"]) || empty($_POST["lname"]) || empty($_POST["user-type"]) || empty($_POST["email"]) || empty($_POST["password1"]) || empty($_POST["password2"])) {
+            echo '<script>alert("Must fill in all fields!")</script>';
+            die();
+            //if there is no match, give the user an error message
+        }
+
         $fname = $_POST["fname"];
         $lname = $_POST["lname"];
         $type = $_POST["user-type"];

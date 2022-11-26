@@ -2,10 +2,10 @@
 
 <html>
     <head>
-        <title>Weekly Schedule</title>
+        <title>To Do</title>
 
         <link rel="stylesheet" href="styles/general.css">
-        <link rel="stylesheet" href="styles/my-schedule-page.css">
+        <link rel="stylesheet" href="styles/to-do-list.css">
     </head>
 
     <body>
@@ -26,14 +26,15 @@
         </header>
 
         <nav class="sidebar">
-            <div class="selected-sidebar-tab">
-                <div>Weekly Schedule</div>
-            </div>
-            <a class="sidebar-link" href="to-do-list.php">
+            
+            <a class="sidebar-link" href="my-schedule-weekly.php">
                 <div class="sidebar-tab">
-                    <div>To Do List</div>
+                    <div>Weekly Schedule</div>
                 </div>
             </a>
+            <a class="sidebar-link" href="to-do-list.php"> <div class="sidebar-tab">
+                <div>To Do List</div>
+            </div> </a>
             <a class="sidebar-link" href="assignments.php">
                 <div class="sidebar-tab">
                     <div>Assigments</div>
@@ -44,20 +45,25 @@
                     <div>Exams</div>
                 </div>
             </a>
-            <a class="sidebar-link" href="courses.php">
-                <div class="sidebar-tab">
+            <a class="selected-link" href="courses.php">
+                <div class="selected-sidebar-tab">
                     <div>Courses</div>
                 </div>
             </a>
         </nav>
 
-        <main>
 
-        </main>
     </body>
 
     <?php
         session_start();
-        echo "hi " .$_SESSION['user-email']. "! Welcome to your schedule!";
+        $con = new mysqli("localhost","admin","cpsc471","471_Final_Project");
+        //create database connection
+
+        if ($con->connect_error) {
+            echo "Failed to connect to MySQL: " . mysqli_connect_error();
+        }
+
+        echo "course = ". $_SESSION['cnames'];
     ?>
 </html>

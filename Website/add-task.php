@@ -35,7 +35,7 @@
             <a class="selected-link" href="to-do-list.php"> <div class="selected-sidebar-tab">
                 <div>To Do List</div>
             </div> </a>
-            <a class="sidebar-link" href="assignments.html">
+            <a class="sidebar-link" href="assignments.php">
                 <div class="sidebar-tab">
                     <div>Assigments</div>
                 </div>

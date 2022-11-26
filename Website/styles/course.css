@@ -3,7 +3,6 @@
     width: 140px;
     padding-top: 7px;
     padding-bottom: 7px;
-    margin-left: 120px;
 
     font-size: 15px;
 
@@ -25,6 +24,7 @@
 
 .selected-sidebar-tab:hover {
     background-color:  rgb(135, 169, 186);
+    cursor: pointer;
 }
 
 .course-input-box {
@@ -33,7 +33,7 @@
     border-style: solid;
     width: 300px;
     border-radius: 15px;
-    margin-bottom: 40px;
+    margin-bottom: 10px;
     height: 30px;
     padding-left: 15px;
 }
@@ -44,4 +44,34 @@
     margin-bottom: 40px;
     height: 30px;
     padding-left: 15px;
+}
+
+.separation-line {
+    height: 2px;
+    background-color: rgb(160, 193, 209);
+}
+
+.course-box {
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 15px;
+    padding-right: 15px;
+    background-color: white;
+
+    text-align: right;
+}
+
+.table-header {
+    padding-bottom: 30px;
+}
+
+.other-button-section {
+    margin-top: 30px;
+    display: flex;
+    flex-direction: row;
+}
+
+.input-form {
+    padding-left: 8px;
+    padding-right: 8px;
 }

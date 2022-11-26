@@ -36,6 +36,12 @@
 
 
     <?php
+        if(empty($_POST["email"]) || empty($_POST["password"])) {
+            echo '<script>alert("Must fill in all fields!")</script>';
+            die();
+            //if there is no match, give the user an error message
+        }
+
         $email = $_POST["email"];
         $password = hash('md5', $_POST["password"]);
         //get the user input using POST
@@ -78,7 +84,7 @@
                 //move to the weekly schedule page
             }
         }
-        else if($email != null || $password != null){
+        else{
             echo '<script>alert("Incorrect E-mail or Password!")</script>';
             //if there is no match, give the user an error message
         }
