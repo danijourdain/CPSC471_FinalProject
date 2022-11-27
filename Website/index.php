@@ -36,6 +36,7 @@
 
 
     <?php
+        require_once("zapcallib.php");
         if(empty($_POST["email"]) || empty($_POST["password"])) {
             echo '<script>alert("Must fill in all fields!")</script>';
             die();
