@@ -53,10 +53,6 @@
         </nav>
 
         <main>
-            <a  href="add-task.php"> <button class="add-task-button">
-                Add Task
-            </button></a>
-
             <?php 
                 session_start();
                 $con = new mysqli("localhost","admin","cpsc471","471_Final_Project");
@@ -76,6 +72,11 @@
                     $insert_todo = $con->prepare("INSERT INTO To_Do_List (SEmail) VALUES (?)");
                     $insert_todo->bind_param("s", $_SESSION['user-email']);
                     $insert_todo->execute();
+                    $id = $con->prepare("SELECT ListID FROM To_Do_List WHERE SEmail=?");
+                    $id ->bind_param("s", $email);
+                    $id ->execute();
+                    $id = $id ->get_result();
+                    $_SESSION['to-do-list-id'] = $id;
                     //insert the new to do list into the table
 
                     $to_do = $con->query("SELECT * FROM To_Do_List WHERE SEmail='". $_SESSION['user-email']. "';");
@@ -86,18 +87,70 @@
                     //something has gone wrong, end the program
                 }
 
-                $row = $to_do->fetch_array(MYSQLI_ASSOC);
-                //echo "<br><br> List ID = ". $row['ListID'];
-                $allTasks = 'SELECT t.Task FROM Tasks  AS t WHERE ListID = ' . $_SESSION['to-do-list-id'];
-                $allTasks = mysqli_query($con, $allTasks);
-                foreach($allTasks as $item){
-                    echo $item['Task'];
-                    echo '<br>';
-                }
-                $_SESSION['to-do-list-id'] = $row['ListID'];
-
             ?> 
+            <?php
+            $allTasks = 'SELECT * FROM Tasks  AS t WHERE ListID = ' . $_SESSION['to-do-list-id'];
+            $allTasks = mysqli_query($con, $allTasks);
+            ?>
+        <main>
+            <h2>To Do List:</h2>
+            <?php if(empty($allTasks)): ?>
+                <p class="lead mt3"> There are no items on your to do list</p>
+            <?php endif; ?>
+            <form method="post">
+            <?php foreach($allTasks as $item): ?>
+                <?php if(!$item['isDone']): ?>
+                <div class="card my-3 w-75">
+                    <div class="card-body text-center">
+                        
+                            <input class="task-checkbox" id="task-checkbox" type="checkbox" name="chk1[ ]" value=<?php echo $item['Task']; ?>>
+                            <label for="task-checkbox"> <?php echo $item['Task']; ?></label><br>
+                            
+                        
+                    </div>
+                </div>
+                <?php endif; ?>
+            <?php endforeach; ?>
+                <input type="submit" name="Submit" value="Submit"> 
+            </form>
+            <form method="post">
+                <input class="add-task-box" type="text" name="task" placeholder="Task Name"><br>
+                <input class="add-task-button" type="submit" value="Add Task">
+            </form>
+    <?php
+        $allTasks = 'SELECT t.Task FROM Tasks  AS t WHERE ListID = ' . $_SESSION['to-do-list-id'];
+        $allTasks = mysqli_query($con, $allTasks);
+        $dupFlag = 0;
+        if(!empty($_POST['task'])){
+            foreach($allTasks as $item){
+                if(strtolower($item['Task']) == strtolower($_POST['task'])){
+                    $dupFlag = 1;
+                    echo "Duplicate Entry";
+                    
+                }
+            }
+            if(!$dupFlag){
+                $allTasks = mysqli_fetch_all($allTasks, MYSQLI_ASSOC);
+                $task = $con->prepare("INSERT INTO Tasks (ListID, Task) VALUES (?, ?)");
+                $task->bind_param("ss", $_SESSION['to-do-list-id'], $_POST['task']);
+                $task->execute();
+                echo "<meta http-equiv='refresh' content='0'>";
+            }
+        }  
+        if (!empty($_POST['Submit']) && $_POST['Submit'] == "Submit"){  
+            if(!empty($_POST['chk1'])){
+                foreach($_POST['chk1'] as $selected){
+                    //echo $selected . " has been completed!";
+                    $complete = $con->prepare("UPDATE Tasks SET isDone = 1 WHERE ListID = ? AND Task = ?");
+                    $complete ->bind_param("is", $_SESSION['to-do-list-id'], $selected);
+                    $complete ->execute();
+                    echo "<meta http-equiv='refresh' content='0'>";
+                }
+               
+            }
+        }
 
+    ?>
         </main>
     </body>
 </html>
