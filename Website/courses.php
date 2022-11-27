@@ -72,18 +72,21 @@
             $courses = $courses->get_result();
             //get all courses the student is currently taking from the database
 
-            $i = 0;
-            $_SESSION['cnames'] = array();
-            $_SESSION['cnums'] = array();
+            // $i = 0;
+            // $_SESSION['cnames'] = array();
+            // $_SESSION['cnums'] = array();
 
             foreach($courses as $c):?>
                 <div class="course-box">
-                    <?php 
-                        echo $c['CName']. "\t". $c['CNumber']; 
-                        $_SESSION['cnames'][$i] = $c['CName'];
-                        $_SESSION['cnums'][$i] = $c['CNumber'];
-                        $i += 1;
-                    ?>
+                    <div>
+                        <?php echo $c['CName']. "\t". $c['CNumber'];?>
+                    </div>
+
+                    <div><form action="edit-course.php" method="post">
+                        <input type="hidden" name="cname" value="<?php echo $c['CName']?>"/>
+                        <input type="hidden" name="cnum" value="<?php echo $c['CNumber']?>"/>
+                        <input class="edit-button" type="submit" value='Edit Course'>
+                    </form></div>
                 </div>
                 <div class="separation-line"></div>
             <?php endforeach;
@@ -92,60 +95,14 @@
         ?></div>
 
         <div class="other-button-section">
-            <!-- <button class="add-course-button">
-                Add New Course
-            </button></a> -->
             <!-- add course section -->
-            <div class="input-form"> <form method="post">
+            <div class="input-form"> <form method="post" action="add-course.php">
                 <input class="course-input-box" type="text" name="name" placeholder="Course Name (ex. CPSC)"><br>
                 <input class="course-input-box" type="text" name="number" placeholder="Course Number (ex. 471)"><br>
+                <input class="course-input-box" type="text" name="lecture-section" placeholder="Lecture Section (ex. L01)"><br>
+                <input class="course-input-box" type="text" name="semester" placeholder="Semester (ex. Fall 2022)"><br>
                 <input class="add-course-button" type="submit" value="Add Course">
-            </form></div>
-
-            <!-- edit course form -->
-            <div class="input-form"><form method="post" action="edit-course.php">
-                <input class="course-input-box" type="text" name="name" placeholder="Course Name (ex. CPSC)"><br>
-                <input class="course-input-box" type="text" name="number" placeholder="Course Number (ex. 471)"><br>
-                <input class="add-course-button" type="submit" value="Edit Course">
             </form></div>
         </div>
     </body>
-
-    <?php
-        if(!empty($_POST["name"]) && !empty($_POST["number"])) {
-            $name = $_POST["name"];
-            $number = $_POST["number"];
-
-            $con = new mysqli("localhost","admin","cpsc471","471_Final_Project");
-            //create database connection
-
-            if ($con->connect_error) {
-                echo "Failed to connect to MySQL: " . mysqli_connect_error();
-            }
-
-            $course = $con->prepare("SELECT * FROM Course WHERE CName=? AND CNumber=?");
-            $course->bind_param("ss", $name, $number);
-            $course->execute();
-            $course = $course->get_result();
-            //check if the new course already exists in the course table
-
-            if($course->num_rows == 0) {
-                $insert = $con->prepare("INSERT INTO Course(CName, CNumber) VALUES (?, ?)");
-                $insert->bind_param("si", $name, $number);
-                $insert->execute();
-            }
-
-            $student_course = $con->query("SELECT * FROM Student_Course WHERE SEmail='". $_SESSION['user-email']. "' AND CName='". $name. "' AND CNumber=". $number);
-            //check if the student is already taking the course
-
-            if($student_course->num_rows == 0) {
-                $insert_student = $con->prepare("INSERT INTO Student_Course(SEmail, CName, CNumber) VALUES (?, ?, ?)");
-                $insert_student->bind_param("ssi", $_SESSION['user-email'], $name, $number);
-                $insert_student->execute();
-                //if the student is not already taking the course, add them to the Student_Course table
-            }
-
-            header("Refresh:0");
-        }
-    ?>
 </html>
