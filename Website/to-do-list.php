@@ -72,11 +72,6 @@
                     $insert_todo = $con->prepare("INSERT INTO To_Do_List (SEmail) VALUES (?)");
                     $insert_todo->bind_param("s", $_SESSION['user-email']);
                     $insert_todo->execute();
-                    $id = $con->prepare("SELECT ListID FROM To_Do_List WHERE SEmail=?");
-                    $id ->bind_param("s", $email);
-                    $id ->execute();
-                    $id = $id ->get_result();
-                    $_SESSION['to-do-list-id'] = $id;
                     //insert the new to do list into the table
 
                     $to_do = $con->query("SELECT * FROM To_Do_List WHERE SEmail='". $_SESSION['user-email']. "';");
@@ -86,6 +81,15 @@
                     die();
                     //something has gone wrong, end the program
                 }
+
+                $id = $con->prepare("SELECT ListID FROM To_Do_List WHERE SEmail=?");
+                $id ->bind_param("s", $email);
+                $id ->execute();
+                $id = $id ->get_result();
+                foreach($id as $i) {
+                    $_SESSION['to-do-list-id'] = $i['ListID'];
+                }
+                //set the listID for the session
 
             ?> 
             <?php
@@ -98,7 +102,7 @@
             ?>
         <main>
             <h2>To Do List:</h2>
-            <?php if($allTasks == null): ?>
+            <?php if($allTasks->num_rows == 0): ?>
                 <?php echo "empty!" ?>
                 <div class="card my-3 w-75">
                 <div class="card-body text-center">
@@ -128,7 +132,7 @@
                 <input class="add-task-button" type="submit" value="Add Task">
             </form>
     <?php
-        $allTasks = 'SELECT t.Task FROM Tasks  AS t WHERE ListID = ' . $_SESSION['to-do-list-id'];
+        $allTasks = 'SELECT t.Task FROM Tasks AS t WHERE ListID = ' . $_SESSION['to-do-list-id'];
         $allTasks = mysqli_query($con, $allTasks);
         $dupFlag = 0;
         if(!empty($_POST['task'])){

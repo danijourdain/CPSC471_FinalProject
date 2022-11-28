@@ -70,22 +70,32 @@
                 $insert->bind_param("ssssi", $_POST["meeting-name"], $_POST["room-no"], $_POST["topic"], $_SESSION['course-name'], $_SESSION['course-number']);
                 $insert->execute();
                 //add the meeting into Class_Meeting
+                echo "a";
 
                 $get_id = $con->query("SELECT MAX(ID) AS max_id FROM Class_Meeting");
                 $row = $get_id->fetch_array();
                 $id = $row['max_id'];
                 //get the id of the newly inserted tuple
+                echo "b";
 
-                $time = $con->prepare("INSERT INTO Scheduled_Time_Slot(ID, MeetingName_, DaysOFWeek, TimeOfDay, Frequency) VALUES(?, ?, ?, ?, ?)");
-                $time->bind_param("sssss", $id, $_POST["meeting-name"], $day, $_POST["time"], strtoupper($_POST["frequency"]));
+                echo strtoupper($_POST["frequency"]);
+
+                echo "c1?";
+
                 foreach($days as $id=>$day) {
+                    echo $day;
+                    $time = $con->prepare("INSERT INTO Scheduled_Time_Slot(ID, MeetingName_, DaysOFWeek, TimeOfDay, Frequency) VALUES(?, ?, ?, ?, ?)");
+                    $time->bind_param("sssss", $id, $_POST["meeting-name"], $day, $_POST["time"], strtoupper($_POST["frequency"]));
                     $time->execute();
+                    echo "c";
                 }
+                echo "c2";
 
                 $insert = $con->prepare("INSERT INTO Attends_Class(CMeetingName, SEmail) VALUES (?, ?)");
                 $insert->bind_param("ss", $_POST["meeting-name"], $_SESSION['user-email']);
                 $insert->execute();
                 //insert into the attends_class table
+                echo "d";
             }
         ?>
     </body>
