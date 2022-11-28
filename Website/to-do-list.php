@@ -89,21 +89,30 @@
 
             ?> 
             <?php
-            $allTasks = 'SELECT * FROM Tasks  AS t WHERE ListID = ' . $_SESSION['to-do-list-id'];
-            $allTasks = mysqli_query($con, $allTasks);
+            $allTasks = $con->prepare("SELECT * FROM Tasks  AS t WHERE ListID = ? AND isDone = 0;");
+            $allTasks -> bind_param("i", $_SESSION['to-do-list-id']);
+           // $allTasks -> bindValue(1, $_SESSION['to-do-list-id'], PDO::PARAM_INT);
+            //$allTasks -> bindValue(2, false, PDO::PARAM_BOOL);
+            $allTasks -> execute();
+            $allTasks = $allTasks->get_result();
             ?>
         <main>
             <h2>To Do List:</h2>
-            <?php if(empty($allTasks)): ?>
-                <p class="lead mt3"> There are no items on your to do list</p>
-            <?php endif; ?>
+            <?php if($allTasks == null): ?>
+                <?php echo "empty!" ?>
+                <div class="card my-3 w-75">
+                <div class="card-body text-center">
+                    <p class="lead mt3"> There are no items on your to do list</p>
+                </div>
+                </div>
+            <?php else: ?>
             <form method="post">
             <?php foreach($allTasks as $item): ?>
                 <?php if(!$item['isDone']): ?>
                 <div class="card my-3 w-75">
                     <div class="card-body text-center">
                         
-                            <input class="task-checkbox" id="task-checkbox" type="checkbox" name="chk1[ ]" value=<?php echo $item['Task']; ?>>
+                            <input class="task-checkbox" id="task-checkbox" type="checkbox" name="chk1[ ]" value=<?php echo "'". $item['Task']. "';"; ?>>
                             <label for="task-checkbox"> <?php echo $item['Task']; ?></label><br>
                             
                         
@@ -113,6 +122,7 @@
             <?php endforeach; ?>
                 <input type="submit" name="Submit" value="Submit"> 
             </form>
+            <?php endif; ?>
             <form method="post">
                 <input class="add-task-box" type="text" name="task" placeholder="Task Name"><br>
                 <input class="add-task-button" type="submit" value="Add Task">
