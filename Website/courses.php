@@ -82,7 +82,7 @@
                         <?php echo $c['CName']. "\t". $c['CNumber'];?>
                     </div>
 
-                    <div><form action="edit-course.php" method="post">
+                    <div class="button-section"><form action="edit-course.php" method="post">
                         <input type="hidden" name="cname" value="<?php echo $c['CName']?>"/>
                         <input type="hidden" name="cnum" value="<?php echo $c['CNumber']?>"/>
                         <input class="edit-button" type="submit" value='Edit Course'>

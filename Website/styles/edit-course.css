@@ -8,11 +8,12 @@
     cursor: pointer;
 }
 
-.delete-course-button {
+.delete-course-button, .back-button, .add-meeting-button {
     height: 30px;
     width: 140px;
     padding-top: 7px;
     padding-bottom: 7px;
+    margin-top: 30px;
 
     font-size: 15px;
 
@@ -22,7 +23,7 @@
     color: white;
 }
 
-.delete-course-button:hover {
+.delete-course-button:hover, .back-button:hover, .add-meeting-button:hover {
     background-color: rgb(26, 31, 36);
     cursor: pointer;
 }
@@ -37,4 +38,48 @@
 .center {
     display: flex;
     flex-direction: row;
+    margin-top: 100px;
+    margin-left: 75px;
+}
+
+.existing-meetings {
+    margin-right: 50px;
+}
+
+.divider-bar {
+    width: 2px;
+    background-color: rgb(199, 217, 230);
+}
+
+.new-meeting {
+    width: 300px;
+}
+
+.add-meeting-input {
+    width: 250px;
+    margin-left: 50px;
+    margin-bottom: 5px;
+
+    height: 30px;
+    padding-left: 15px;
+
+    border: none;
+    border-radius: 15px;
+}
+
+.dropdown-box {
+    border: none;
+    border-radius: 15px;
+    margin-bottom: 15px;
+    margin-left: 50px;
+    height: 30px;
+    width: 165px;
+    padding-left: 10px;
+    color: rgb(106, 106, 106);
+}
+
+.add-meeting-button {
+    margin-top: 0px;
+    margin-left: 50px;
+    width: 165px;
 }

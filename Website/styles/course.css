@@ -78,3 +78,21 @@
     padding-left: 8px;
     padding-right: 8px;
 }
+
+.edit-button {
+    background-color: rgb(35, 44, 51);
+    color: white;
+
+    height: 24px;
+    width: 80px;
+    
+    border-style: none;
+    border-radius: 12px;
+
+    margin-left: 50px;
+}
+
+.edit-button:hover {
+    background-color: rgb(26, 31, 36);
+    cursor: pointer;
+}

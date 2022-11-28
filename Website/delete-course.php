@@ -13,4 +13,6 @@
     $delete->bind_param("ssi", $_SESSION['user-email'], $_SESSION['course-name'], $_SESSION['course-number']);
     $delete->execute();
     header("Location: courses.php");
+
+    //delete things from attend_class
 ?>

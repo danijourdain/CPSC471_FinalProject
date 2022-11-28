@@ -63,19 +63,30 @@
                     echo "Failed to connect to MySQL: " . mysqli_connect_error();
                 }
 
-                echo "a";
+                $days = explode(",", $_POST["day"]);
+                //split the days into array elements
 
                 $insert = $con->prepare("INSERT INTO Class_Meeting(MeetingName, RoomNum, Topic, Course_Name, Course_Number) VALUES (?, ?, ?, ?, ?)");
                 $insert->bind_param("ssssi", $_POST["meeting-name"], $_POST["room-no"], $_POST["topic"], $_SESSION['course-name'], $_SESSION['course-number']);
                 $insert->execute();
+                //add the meeting into Class_Meeting
+
+                $get_id = $con->query("SELECT MAX(ID) AS max_id FROM Class_Meeting");
+                $row = $get_id->fetch_array();
+                $id = $row['max_id'];
+                //get the id of the newly inserted tuple
+
+                $time = $con->prepare("INSERT INTO Scheduled_Time_Slot(ID, MeetingName_, DaysOFWeek, TimeOfDay, Frequency) VALUES(?, ?, ?, ?, ?)");
+                $time->bind_param("sssss", $id, $_POST["meeting-name"], $day, $_POST["time"], strtoupper($_POST["frequency"]));
+                foreach($days as $id=>$day) {
+                    $time->execute();
+                }
 
                 $insert = $con->prepare("INSERT INTO Attends_Class(CMeetingName, SEmail) VALUES (?, ?)");
                 $insert->bind_param("ss", $_POST["meeting-name"], $_SESSION['user-email']);
                 $insert->execute();
+                //insert into the attends_class table
             }
-
-            // header("Location: edit-course.php");
-            // die();
         ?>
     </body>
 </html>
