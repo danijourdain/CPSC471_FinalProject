@@ -160,7 +160,7 @@ CREATE TABLE Completes_Assignments
 
 CREATE TABLE Class_Meeting
 (
-    ID              INT             NOT NULL, AUTO_INCREMENT
+    ID              INT             NOT NULL AUTO_INCREMENT,
     MeetingName     VARCHAR(32)     NOT NULL,
     RoomNum         VARCHAR(32)     DEFAULT NULL,
     Topic           VARCHAR(32),
