@@ -9,9 +9,7 @@ CREATE TABLE User_
     Password_    VARCHAR(32)     NOT NULL,
     UserType    VARCHAR(15)     NOT NULL,
     AdminEmail  VARCHAR(32)     NULL,
-    PRIMARY KEY (Email),
-    FOREIGN KEY(AdminEmail) REFERENCES Admin_(Email)
-    ON DELETE CASCADE       ON UPDATE CASCADE
+    PRIMARY KEY (Email)
     );
     
 CREATE TABLE Student
@@ -57,11 +55,11 @@ CREATE TABLE Course
     );
     
 CREATE TABLE Student_Course
-    (StuEmail   VARCHAR(32)     NOT NULL,
+    (SEmail   VARCHAR(32)     NOT NULL,
     CName       CHAR(4)     NOT NULL,
     CNumber       INT             NOT NULL,
     Grade       INT				DEFAULT NULL,
-    PRIMARY KEY(CName, CNumber),
+    PRIMARY KEY(CName, CNumber, StuEmail),
     FOREIGN KEY(StuEmail) REFERENCES Student(Email)
       ON DELETE CASCADE       ON UPDATE CASCADE,
     FOREIGN KEY(CName, CNumber) REFERENCES Course(CName, CNumber)
@@ -149,14 +147,13 @@ CREATE TABLE Completes_Assignments
 CREATE TABLE Class_Meeting
 (
     MeetingName     VARCHAR(32)     NOT NULL,
-    SEmail          VARCHAR(32)     NOT NULL,
-    RoomNum         VARCHAR(32)     DEFAULT NULL,
-    Topic           VARCHAR(32),
     Course_Name     CHAR(4)         NOT NULL,
     Course_Number   INT             NOT NULL,
-    PRIMARY KEY(MeetingName, SEmail),
-    FOREIGN KEY(Course_Name, Course_Number) REFERENCES Course(CName, CNumber),
-    FOREIGN KEY(SEmail) REFERENCES Student(Email)
+    SEmail          VARCHAR(32)     NOT NULL,
+    RoomNum         VARCHAR(32)     DEFAULT NULL,
+    Topic           VARCHAR(32)     DEFAULT NULL,
+    PRIMARY KEY(MeetingName, SEmail, Course_Name, Course_Number),
+    FOREIGN KEY(Course_Name, Course_Number, SEmail) REFERENCES Student_Course(CName, CNumber, StuEmail)
      ON DELETE CASCADE       ON UPDATE CASCADE
 );
 
@@ -164,26 +161,29 @@ CREATE TABLE Lecture
 (
     MeetingName_Lec  VARCHAR(32)     NOT NULL,
     SEmail          VARCHAR(32)     NOT NULL,
+    CName     CHAR(4)         NOT NULL,
+    CNumber   INT             NOT NULL,
     Learning_Obj    VARCHAR(256),
-    Ch_dicussed     VARCHAR(32),
+    Ch_discussed     VARCHAR(32),
+    InstructorName  VARCHAR(32)    DEFAULT NULL,
     
-    PRIMARY KEY(MeetingName_Lec),
-    FOREIGN KEY(MeetingName_Lec) REFERENCES Class_Meeting(MeetingName),
-    FOREIGN KEY(SEmail) REFERENCES Class_Meeting(SEmail)
-     ON DELETE CASCADE       ON UPDATE CASCADE
+    PRIMARY KEY(MeetingName_Lec, SEmail, CName, CNumber),
+    FOREIGN KEY(MeetingName_Lec, SEmail, CName, CNumber) REFERENCES Class_Meeting(MeetingName, SEmail, Course_Name, Course_Number)
+    ON DELETE CASCADE       ON UPDATE CASCADE
 );
 
 CREATE TABLE Lab
 (
     MeetingName_Lab  VARCHAR(32)     NOT NULL,
     SEmail          VARCHAR(32)     NOT NULL,
+    CName     CHAR(4)         NOT NULL,
+    CNumber   INT             NOT NULL,
     Lab_topic        VARCHAR(256),
     Due_Date         DATE            NOT NULL,
     TA_Name          VARCHAR(64),
     
-    PRIMARY KEY(MeetingName_Lab),
-    FOREIGN KEY(MeetingName_Lab) REFERENCES Class_Meeting(MeetingName),
-    FOREIGN KEY(SEmail) REFERENCES Class_Meeting(SEmail)
+    PRIMARY KEY(MeetingName_Lab, SEmail, CName, CNumber),
+    FOREIGN KEY(MeetingName_Lab, SEmail, CName, CNumber) REFERENCES Class_Meeting(MeetingName, SEmail, Course_Name, Course_Number)
     ON DELETE CASCADE       ON UPDATE CASCADE
 );
 
@@ -191,11 +191,12 @@ CREATE TABLE Tutorial
 (
     MeetingName_Tut  VARCHAR(32)     NOT NULL,
     SEmail          VARCHAR(32)     NOT NULL,
+    CName     CHAR(4)         NOT NULL,
+    CNumber   INT             NOT NULL,
     TA_Name          VARCHAR(64),
     
-    PRIMARY KEY(MeetingName_Tut),
-    FOREIGN KEY(MeetingName_Tut) REFERENCES Class_Meeting(MeetingName),
-    FOREIGN KEY(SEmail) REFERENCES Class_Meeting(SEmail)
+    PRIMARY KEY(MeetingName_Tut, SEmail, CName, CNumber),
+    FOREIGN KEY(MeetingName_Tut, SEmail, CName, CNumber) REFERENCES Class_Meeting(MeetingName, SEmail, Course_Name, Course_Number)
     ON DELETE CASCADE       ON UPDATE CASCADE
 );
 
@@ -203,36 +204,43 @@ CREATE TABLE Seminar
 (
     MeetingName_Sem  VARCHAR(32)     NOT NULL,
     SEmail          VARCHAR(32)     NOT NULL,
+    CName     CHAR(4)         NOT NULL,
+    CNumber   INT             NOT NULL,
     
-    PRIMARY KEY(MeetingName_Sem),
-    FOREIGN KEY(MeetingName_Sem) REFERENCES Class_Meeting(MeetingName),
-    FOREIGN KEY(SEmail) REFERENCES Class_Meeting(SEmail)
+    PRIMARY KEY(MeetingName_Sem, SEmail, CName, CNumber),
+    FOREIGN KEY(MeetingName_Sem, SEmail, CName, CNumber) REFERENCES Class_Meeting(MeetingName, SEmail, Course_Name, Course_Number)
     ON DELETE CASCADE       ON UPDATE CASCADE
 );
 
 CREATE TABLE Speaker
 (
     MeetingName_Sp  VARCHAR(32)     NOT NULL,
+    SEmail          VARCHAR(32)     NOT NULL,
+    CName     CHAR(4)         NOT NULL,
+    CNumber   INT             NOT NULL,
     Name_           VARCHAR(64)     NOT NULL,
     Organization    VARCHAR(32)     NOT NULL,
     Credentials     VARCHAR(256)    NOT NULL,
     -- are all of these supposed to be a key, review ER
-    PRIMARY KEY(MeetingName_Sp, Name_, Organization, Credentials),
-    FOREIGN KEY(MeetingName_Sp) REFERENCES Seminar(MeetingName_Sem)
+    PRIMARY KEY(MeetingName_Sp, SEmail, CName, CNumber, Name_, Organization, Credentials),
+    FOREIGN KEY(MeetingName_Sp, SEmail, CName, CNumber) REFERENCES Seminar(MeetingName_Sem, SEmail, CName, CNumber)
      ON DELETE CASCADE       ON UPDATE CASCADE
 );
 
 CREATE TABLE Scheduled_Time_Slot
 (
     MeetingName_     VARCHAR(32)     NOT NULL,
+    SEmail          VARCHAR(32)     NOT NULL,
+    CName     CHAR(4)         NOT NULL,
+    CNumber   INT             NOT NULL,
     DaysOFWeek       VARCHAR(64)     NOT NULL,
     -- not sure about not null/ primary key on Dayofweek
     TimeOfDay        VARCHAR(32)     NOT NULL,
     -- format so refers to time and duration?
     Frequency        VARCHAR(16)     NOT NULL,
     
-    PRIMARY KEY(MeetingName_, DaysOFWeek, TimeOfDay, Frequency),
-    FOREIGN KEY(MeetingName_) REFERENCES Class_Meeting(MeetingName)
+    PRIMARY KEY(MeetingName_, SEmail, CName, CNumber, DaysOFWeek, TimeOfDay, Frequency),
+    FOREIGN KEY(MeetingName_, SEmail, CName, CNumber) REFERENCES Class_Meeting(MeetingName, SEmail, Course_Name, Course_Number)
      ON DELETE CASCADE       ON UPDATE CASCADE
 );
 

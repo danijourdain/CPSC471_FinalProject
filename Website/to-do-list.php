@@ -124,7 +124,7 @@
                 </div>
                 <?php endif; ?>
             <?php endforeach; ?>
-                <input type="submit" name="Submit" value="Submit"> 
+                <input type="submit" name="Submit" value="Complete Selected Tasks"> 
             </form>
             <?php endif; ?>
             <form method="post">
@@ -151,7 +151,7 @@
                 echo "<meta http-equiv='refresh' content='0'>";
             }
         }  
-        if (!empty($_POST['Submit']) && $_POST['Submit'] == "Submit"){  
+        if (!empty($_POST['Submit']) && $_POST['Submit'] == "Complete Selected Tasks"){  
             if(!empty($_POST['chk1'])){
                 foreach($_POST['chk1'] as $selected){
                     //echo $selected . " has been completed!";
