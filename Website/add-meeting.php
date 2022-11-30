@@ -53,9 +53,10 @@
         </nav>
 
         <?php
+            echo "hi";
             session_start();
 
-            if(!empty($_POST["meeting-name"]) && !empty($_POST["day"]) && !empty($_POST["time"]) && !empty($_POST["frequency"])) {
+            if(!empty($_POST["meeting-name"]) && !empty($_POST["time"]) && !empty($_POST["frequency"])) {
                 $con = new mysqli("localhost","admin","cpsc471","471_Final_Project");
                 //create database connection
 
@@ -63,20 +64,20 @@
                     echo "Failed to connect to MySQL: " . mysqli_connect_error();
                 }
 
-                $days = explode(",", $_POST["day"]);
-                //split the days into array elements
+                echo "??";
 
                 $insert = $con->prepare("INSERT INTO Class_Meeting(MeetingName, SEmail, RoomNum, Topic, Course_Name, Course_Number) VALUES (?, ?, ?, ?, ?, ?)");
                 $insert->bind_param("sssssi", $_POST["meeting-name"], $_SESSION['user-email'], $_POST["room-no"], $_POST["topic"], $_SESSION['course-name'], $_SESSION['course-number']);
                 $insert->execute();
                 //add the meeting into Class_Meeting
 
-                foreach($days as $id=>$day) {
-                    $time = $con->prepare("INSERT INTO Scheduled_Time_Slot(MeetingName_, SEmail, CName, CNumber, DaysOFWeek, TimeOfDay, Frequency) VALUES(?, ?, ?, ?, ?, ?, ?)");
-                    $time->bind_param("sssisss", $_POST["meeting-name"], $_SESSION['user-email'], $_SESSION['course-name'], $_SESSION['course-number'], $day, $_POST["time"], strtoupper($_POST["frequency"]));
-                    $time->execute();
-                    //insert each day into the scheduled time slot table 
-                }
+                echo "here";
+                echo $_POST['days'];
+
+                $time = $con->prepare("INSERT INTO Scheduled_Time_Slot(MeetingName_, SEmail, CName, CNumber, DaysOFWeek, TimeOfDay, Frequency) VALUES(?, ?, ?, ?, ?, ?, ?)");
+                $time->bind_param("sssisss", $_POST["meeting-name"], $_SESSION['user-email'], $_SESSION['course-name'], $_SESSION['course-number'], $_POST["day"], $_POST["time"], strtoupper($_POST["frequency"]));
+                $time->execute();
+                //insert each day into the scheduled time slot table 
 
                 
                 $_SESSION['meeting-name'] = $_POST['meeting-name'];
@@ -113,7 +114,7 @@
                     ?>
 
                     <div class="input-area"><form method="post" action="add-seminar.php">
-
+                        <input class="">
                     </form></div>
                     
             <?php

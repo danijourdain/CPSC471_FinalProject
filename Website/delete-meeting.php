@@ -16,6 +16,10 @@
     $_POST['cname'] = $_SESSION['course-name'];
     $_POST['cnum'] = $_SESSION['course-number'];
 
-    header("Location: edit-course.php");
-    die();
+    echo $_POST['cname'];
+    echo $_POST['cnum'];
+    //fix this thing still
+
+    // header("Location: edit-course.php");
+    // die();
 ?>

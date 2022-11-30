@@ -66,12 +66,16 @@
     ?>
 
     <?php 
-        // if(($_SESSION['course-name'] == null && $_SESSION['course-number'] == null) || ($_SESSION['course-name'] == $_POST['cname'] && $_SESSION['course-number'] == $_POST['cnum'])) {
+        if(($_SESSION['course-name'] == null && $_SESSION['course-number'] == null) || ($_SESSION['course-name'] != $_POST['cname'] && $_SESSION['course-number'] != $_POST['cnum'])) {
             $_SESSION['course-name'] = $_POST['cname'];
             $_SESSION['course-number'] = $_POST['cnum']; 
-        // }?>
-    <h1> <?php
-        echo $_SESSION["course-name"]. " ". $_SESSION["course-number"]; ?>
+        }?>
+    <h1> <?php 
+        echo $_SESSION["course-name"]. " ". $_SESSION["course-number"]; 
+        
+        
+        echo "post: ". $_POST['cname']. $_POST['cnum']. "<br>";
+        echo "session: ". $_SESSION['course-name']. $_SESSION['course-number']. "<br>";?>
     </h1>
 
     <div class="center">
@@ -111,8 +115,34 @@
             <form method="post" action="add-meeting.php">
                 <input class="add-meeting-input" type="text" name="meeting-name" placeholder="Meeting Name"><br>
                 <input class="add-meeting-input" type="text" name="room-no" placeholder="Room #"><br>
-                <input class="add-meeting-input" type="text" name="day" placeholder="Days of week (separated by a comma)"><br>
-                <input class="add-meeting-input" type="text" name="time" placeholder="Time (hh:mm format)"><br>
+                <!-- <input class="add-meeting-input" type="text" name="day" placeholder="Days of week (separated by a comma)"><br> -->
+                <fieldset class="weekday-select" data-name="days" id="days">
+                    <div class="days">
+                        <label>
+                        <input type="checkbox" value="MO" name="days"> Monday
+                        </label>
+                        <label>
+                        <input type="checkbox" value="TU" name="days"> Tuesday
+                        </label>
+                        <label>
+                        <input type="checkbox" value="WE" name="days"> Wednesday
+                        </label>
+                        <label>
+                        <input type="checkbox" value="TH" name="days"> Thursday
+                        </label>
+                        <label>
+                        <input type="checkbox" value="FR" name="days"> Friday
+                        </label>
+                        <label>
+                        <input type="checkbox" value="SA" name="days"> Saturday
+                        </label>
+                        <label>
+                        <input type="checkbox" value="SU" name="days"> Sunday
+                        </label>
+                        <!-- FIX DAY STUFF LATER -->
+                    </div>
+                </fieldset>
+                <input class="add-meeting-input" type="time" name="time" placeholder="Time (hh:mm format)"><br>
                 <input class="add-meeting-input" type="text" name="frequency" placeholder="Frequency (ex. weekly, biweekly)"><br>
                 <input class="add-meeting-input" type="text" name="topic" placeholder="Topic"><br>
                 <div>
