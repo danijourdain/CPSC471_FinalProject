@@ -1,6 +1,5 @@
 DROP DATABASE IF EXISTS `471_Final_Project`;
 CREATE DATABASE `471_Final_Project`;
---remove the database if it already exists, and create a new database
 
 CREATE TABLE User_
     (Email      VARCHAR(32)     NOT NULL,
@@ -59,8 +58,8 @@ CREATE TABLE Student_Course
     CName       CHAR(4)     NOT NULL,
     CNumber       INT             NOT NULL,
     Grade       INT				DEFAULT NULL,
-    PRIMARY KEY(CName, CNumber, StuEmail),
-    FOREIGN KEY(StuEmail) REFERENCES Student(Email)
+    PRIMARY KEY(CName, CNumber, SEmail),
+    FOREIGN KEY(SEmail) REFERENCES Student(Email)
       ON DELETE CASCADE       ON UPDATE CASCADE,
     FOREIGN KEY(CName, CNumber) REFERENCES Course(CName, CNumber)
       ON DELETE CASCADE       ON UPDATE CASCADE
@@ -153,7 +152,7 @@ CREATE TABLE Class_Meeting
     RoomNum         VARCHAR(32)     DEFAULT NULL,
     Topic           VARCHAR(32)     DEFAULT NULL,
     PRIMARY KEY(MeetingName, SEmail, Course_Name, Course_Number),
-    FOREIGN KEY(Course_Name, Course_Number, SEmail) REFERENCES Student_Course(CName, CNumber, StuEmail)
+    FOREIGN KEY(Course_Name, Course_Number, SEmail) REFERENCES Student_Course(CName, CNumber, SEmail)
      ON DELETE CASCADE       ON UPDATE CASCADE
 );
 
