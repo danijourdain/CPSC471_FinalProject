@@ -1,5 +1,5 @@
-DROP DATABASE IF EXISTS '471_Final_Project';
-CREATE DATABASE '471_Final_Project';
+DROP DATABASE IF EXISTS `471_Final_Project`;
+CREATE DATABASE `471_Final_Project`;
 --remove the database if it already exists, and create a new database
 
 CREATE TABLE User_
@@ -9,9 +9,7 @@ CREATE TABLE User_
     Password_    VARCHAR(32)     NOT NULL,
     UserType    VARCHAR(15)     NOT NULL,
     AdminEmail  VARCHAR(32)     NULL,
-    PRIMARY KEY (Email),
-    FOREIGN KEY(AdminEmail) REFERENCES Admin_(Email)
-    ON DELETE CASCADE       ON UPDATE CASCADE
+    PRIMARY KEY (Email)
     );
     
 CREATE TABLE Student
@@ -29,9 +27,9 @@ CREATE TABLE Schedule_
     StartDate       DATE            NOT NULL,
     EndDate         DATE            NOT NULL,
     Year_           INT             NOT NULL,
-    SemName         VARCHAR(20)     NOT NULL,
+    SemName         VARCHAR(10)     NOT NULL,
     StudentEmail    VARCHAR(32)     NOT NULL,
-    PRIMARY KEY(ID),
+    PRIMARY KEY(ID, SemName),
     FOREIGN KEY(StudentEmail) REFERENCES Student(Email)
      ON DELETE CASCADE       ON UPDATE CASCADE
 );
@@ -160,13 +158,13 @@ CREATE TABLE Completes_Assignments
 
 CREATE TABLE Class_Meeting
 (
-    ID              INT             NOT NULL, AUTO_INCREMENT
     MeetingName     VARCHAR(32)     NOT NULL,
     RoomNum         VARCHAR(32)     DEFAULT NULL,
     Topic           VARCHAR(32),
     Course_Name     CHAR(4)         NOT NULL,
     Course_Number   INT             NOT NULL,
-    PRIMARY KEY(ID, MeetingName),
+    PRIMARY KEY(MeetingName),
+    CONSTRAINT unique_meeting UNIQUE (MeetingName, RoomNum, Course_Name, Course_Number),
     FOREIGN KEY(Course_Name, Course_Number) REFERENCES Course(CName, CNumber)
      ON DELETE CASCADE       ON UPDATE CASCADE
 );
@@ -258,8 +256,10 @@ CREATE TABLE Section
     CNumber         INT             NOT NULL,
     LectureSection  CHAR(3)         NOT NULL,
     Semester        VARCHAR(10)     NOT NULL,
+    ID              INT             NOT NULL,
     PRIMARY KEY(CName, CNumber, LectureSection, Semester),
-    FOREIGN KEY(CName, CNumber) REFERENCES Course(CName, CNumber)
+    FOREIGN KEY(CName, CNumber) REFERENCES Course(CName, CNumber),
+    FOREIGN KEY(ID, Semester) REFERENCES Schedule_(ID, SemName)
      ON DELETE CASCADE       ON UPDATE CASCADE
 );
 

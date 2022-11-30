@@ -2,10 +2,10 @@
 
 <html>
     <head>
-        <title>To Do</title>
+        <title>Edit Course</title>
 
         <link rel="stylesheet" href="styles/general.css">
-        <link rel="stylesheet" href="styles/to-do-list.css">
+        <link rel="stylesheet" href="styles/edit-course.css">
     </head>
 
     <body>
@@ -63,7 +63,62 @@
         if ($con->connect_error) {
             echo "Failed to connect to MySQL: " . mysqli_connect_error();
         }
-
-        echo "course = ". $_SESSION['cnames'];
     ?>
+
+    <h1> <?php 
+        echo $_POST["cname"]. " ". $_POST["cnum"]; ?>
+    </h1>
+        
+    <?php
+        $_SESSION['course-name'] = $_POST['cname'];
+        $_SESSION['course-number'] = $_POST['cnum'];
+    ?>
+
+    <div class="center">
+        <div class="existing-meetings">
+            <?php
+                $student_class = $con->prepare("SELECT c.* FROM Attends_Class AS a, Student_Course AS s, Class_Meeting AS c WHERE s.SEmail=? AND c.Course_Name=s.CName AND c.Course_Number=s.CNumber AND a.CMeetingName=c.MeetingName AND a.SEmail=? AND s.CName=? AND s.CNumber=?");
+                $student_class->bind_param("sssi", $_SESSION['user-email'], $_SESSION['user-email'], $_SESSION['course-name'], $_SESSION['course-number']);
+                $student_class->execute();
+                $student_class = $student_class->get_result();
+
+                foreach($student_class as $c) {
+                    echo $c['MeetingName']. " ". $c['RoomNum']. " ". $c['Topic']. "<br>";
+                }
+            ?>
+        </div>
+        <div class="divider-bar"></div>
+        <div class="new-meeting">
+            <form method="post" action="add-meeting.php">
+                <input class="add-meeting-input" type="text" name="meeting-name" placeholder="Meeting Name"><br>
+                <input class="add-meeting-input" type="text" name="room-no" placeholder="Room #"><br>
+                <input class="add-meeting-input" type="text" name="day" placeholder="Days of week (separated by a comma)"><br>
+                <input class="add-meeting-input" type="text" name="time" placeholder="Time (hh:mm format)"><br>
+                <input class="add-meeting-input" type="text" name="frequency" placeholder="Frequency (ex. weekly, biweekly)"><br>
+                <input class="add-meeting-input" type="text" name="topic" placeholder="Topic"><br>
+                <div>
+                    <select class="dropdown-box" id="meeting-type" name="meeting-type">
+                        <option value="none" selected disabled hidden>Select Class Type</option>
+                        <option value="lab">Lab</option>
+                        <option value="lecture">Lecture</option>
+                        <option value="seminar">Seminar</option>
+                        <option value="tutorial">Tutorial</option>
+                    </select>
+                </div>
+                <input class="add-meeting-button" type="submit" value="Add New Meeting">
+            </form>
+        </div>
+    </div>
+    
+    <div>
+        <form method="post" action="delete-course.php">
+            <input class="delete-course-button" type="submit" value="Delete Course">
+        </form>
+    </div>
+
+    <div>
+        <a href="courses.php"><button class="back-button">
+            Back
+        </button></a>
+    </div>
 </html>
