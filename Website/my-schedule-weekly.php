@@ -55,10 +55,59 @@
 
         </main>
     </body>
+    <?php
+            session_start();
+           echo "hi " .$_SESSION['user-email']. "! Welcome to your schedule!";
+    ?>
+    <div class="table-header">
+            These are all the Schedules you have made so far
+        </div>
+
+        <div>
+            <div class="separation-line"></div>
+
+            <div>
+            <div class="separation-line"></div>
+            <?php
+            
+            $con = new mysqli("localhost", "admin", "cpsc471", "471_Final_Project");
+            //create new database connection
+
+            if($con->connect_error) {
+                echo "Failed to connect to MySQL: " . mysqli_connect_error();
+            }
+
+            $schedule = $con->prepare("SELECT * FROM schedule_ AS C WHERE C.StudentEmail=?");
+            $schedule->bind_param("s", $_SESSION['user-email']);
+            $schedule->execute();
+            $schedule = $schedule->get_result();
+            //get all courses the student is currently taking from the database
+
+            // $i = 0;
+            // $_SESSION['cnames'] = array();
+            // $_SESSION['cnums'] = array();
+
+            foreach($schedule as $c):?>
+                <div class="Schedule-box">
+                    <div>
+                        <?php echo $c['SemName']. "\t". $c['Year_'];?>
+                    </div>
+
+                    <div class="button-section"><form action="edit-schedule.php" method="post">
+                        <input type="hidden" name="SemName" value="<?php echo $c['SemName']?>"/>
+                        <input type="hidden" name="Year_" value="<?php echo $c['Year_']?>"/>
+                        <input class="edit-button" type="submit" value='Edit Schedule'>
+                    </form></div>
+                </div>
+                <div class="separation-line"></div>
+            <?php endforeach;
+            //print each course name and number the student is taking
+            
+        ?></div>
 
     <?php
         include_once("zapcallib.php");
-        session_start();
+        // session_start();
         $con = new mysqli("localhost","select","cpsc471","471_Final_Project");
         //create database connection
 
@@ -136,7 +185,7 @@
         $info =  rtrim($icalobj->export());
         $file = "./icalendar/calendars/".$_SESSION['user-email'].".ics";
         file_put_contents($file, $info);
-        echo "hi " .$_SESSION['user-email']. "! Welcome to your schedule!";
+ 
         
     ?>
 </html>
