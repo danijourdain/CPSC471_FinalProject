@@ -84,33 +84,11 @@
                 $student_semester = $student_semester->get_result();
 
                 foreach($student_semester as $c) {
-                    echo $c['MeetingName']. " ". $c['RoomNum']. " ". $c['Topic']. "<br>";
+                    echo $c['SemName']. " ". $c['Year_']. " ". "<br>";
                 }
             ?>
         </div>
-        <div class="divider-bar"></div>
-        <div class="new-meeting">
-            <form method="post" action="add-meeting.php">
-                <input class="add-meeting-input" type="text" name="meeting-name" placeholder="Meeting Name"><br>
-                <input class="add-meeting-input" type="text" name="room-no" placeholder="Room #"><br>
-                <input class="add-meeting-input" type="text" name="day" placeholder="Days of week (separated by a comma)"><br>
-                <input class="add-meeting-input" type="text" name="time" placeholder="Time (hh:mm format)"><br>
-                <input class="add-meeting-input" type="text" name="frequency" placeholder="Frequency (ex. weekly, biweekly)"><br>
-                <input class="add-meeting-input" type="text" name="topic" placeholder="Topic"><br>
-                <div>
-                    <select class="dropdown-box" id="meeting-type" name="meeting-type">
-                        <option value="none" selected disabled hidden>Select Class Type</option>
-                        <option value="lab">Lab</option>
-                        <option value="lecture">Lecture</option>
-                        <option value="seminar">Seminar</option>
-                        <option value="tutorial">Tutorial</option>
-                    </select>
-                </div>
-                <input class="add-meeting-button" type="submit" value="Add New Meeting">
-            </form>
-        </div>
-    </div>
-    
+        
     <div>
         <form method="post" action="delete-course.php">
             <input class="delete-course-button" type="submit" value="Delete Course">

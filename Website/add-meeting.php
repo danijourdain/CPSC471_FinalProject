@@ -73,7 +73,8 @@
 
                 foreach($days as $id=>$day) {
                     $time = $con->prepare("INSERT INTO Scheduled_Time_Slot(MeetingName_, SEmail, CName, CNumber, DaysOFWeek, TimeOfDay, Frequency) VALUES(?, ?, ?, ?, ?, ?, ?)");
-                    $time->bind_param("sssisss", $_POST["meeting-name"], $_SESSION['user-email'], $_SESSION['course-name'], $_SESSION['course-number'], $day, $_POST["time"], strtoupper($_POST["frequency"]));
+                    $frequency = strtoupper($_POST["frequency"]);
+                    $time->bind_param("sssisss", $_POST["meeting-name"], $_SESSION['user-email'], $_SESSION['course-name'], $_SESSION['course-number'], $day, $_POST["time"], $frequency);
                     $time->execute();
                     //insert each day into the scheduled time slot table 
                 }

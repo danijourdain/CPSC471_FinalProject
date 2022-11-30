@@ -104,7 +104,16 @@
             //print each course name and number the student is taking
             
         ?></div>
-
+        <div class="other-button-section">
+                <!-- add course section -->
+                <div class="input-form"> <form method="post" action="add-schedule.php">
+                    <input class="schedule-input-box" type="text" name="start_date" placeholder="yyyy-mm--dd (ex. 2022-04-02)"><br>
+                    <input class="schedule-input-box" type="text" name="end_date" placeholder="yyyy-mm--dd (ex. 2022-10-21)"><br>
+                    <input class="schedule-input-box" type="text" name="Year" placeholder="yyyy (ex. 2019)"><br>
+                    <input class="schedule-input-box" type="text" name="Semester" placeholder="Semester (ex. Fall)"><br>
+                    <input class="add-schedule-button" type="submit" value="Add Schedule">
+                </form></div>
+            </div>
     <?php
         include_once("zapcallib.php");
         // session_start();
@@ -131,7 +140,7 @@
             $start_date = $res['StartDate'];
             $end_date = $res['EndDate'];
         }
-        $meeting_names = $con->prepare("SELECT * FROM attends_class WHERE SEmail = ?");
+        $meeting_names = $con->prepare("SELECT * FROM student_course WHERE SEmail = ?");
         $meeting_names->bind_param("s", $_SESSION['user-email']);
         $meeting_names->execute();
         $result = $meeting_names->get_result();
