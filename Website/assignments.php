@@ -51,6 +51,74 @@
         </nav>
 
         <main>
+            <?php 
+                session_start();
+                $con = new mysqli("localhost","admin","cpsc471","471_Final_Project");
+                //create database connection
+                if ($con->connect_error) {
+                    echo "Failed to connect to MySQL: " . mysqli_connect_error();
+                }
+
+                $courses = $con->prepare("SELECT * FROM Course AS C, Student_Course AS S WHERE S.SEmail=? AND S.CName = C.CName AND C.CNumber = S.CNumber");
+                $courses->bind_param("s", $_SESSION['user-email']);
+                $courses->execute();
+                $courses = $courses->get_result();
+                ?>
+
+                <?php if($courses->num_rows == 0): ?>
+                <div class="card my-3 w-75">
+                <div class="card-body text-center">
+                    <p class="lead mt3"> Add a class first before adding assignements</p>
+                </div>
+                </div>
+                <?php else: ?>
+                    
+
+                    <?php foreach($courses as $item): ?>
+                        <h2>
+                            <?php echo ($item['CName']. " " . $item['CNumber']); ?>
+                        </h2>
+                        <?php 
+                            $CAssign = $con->prepare("SELECT * FROM Course AS C, Student_Course AS S, Assignment AS A WHERE S.SEmail=? AND S.CName = C.CName AND C.CNumber = S.CNumber AND S.CName = ? AND S.CNumber = ?");
+                            $CAssign-> bind_param("ssi", $_SESSION['user-email'], $item['CName'], $item['CNumber']);
+                            $CAssign-> execute();
+                            $CAssign = $CAssign->get_result();
+                        ?>
+                        <?php if($CAssign->num_rows == 0): ?>
+                        <p class="lead mt3"> No Assignments for this class yet</p>
+                        
+
+                        <?php else: ?>
+                            <form method="post">
+                            <?php foreach($CAssign as $assign): ?>
+                                <p class="lead mt3"> <?php echo $iassign['Name_'] ?></p>
+                                <input type="submit" name="Edit" value="Edit"> 
+                                <input type="submit" name="Delete" value="Delete"> 
+                            <?php endforeach; ?>
+                            </form>
+                        <?php endif; ?>
+                    <?php endforeach; ?>
+                    <form>
+                        <input class="add-task-box" type="text" name="Name" placeholder="Assignment Name"><br>
+                        <input class="add-task-box" type="text" name="Weight" placeholder="Weight"><br>
+                        <input class="add-task-box" type="text" name="DueDate" placeholder="Due Date (mm/dd/yy)"><br>
+                        <input class="add-task-box" type="text" name="Description" placeholder="Description (Optional)"><br>
+                        <input class="add-task-box" type="text" name="Contact" placeholder="Contact (Optional)"><br>
+                        <br>
+                        <label for="courses"></label>
+                        <select name="courses" id="courseNum">
+                            <option value= "none" selected disabled hidden> Select a course </option>
+                            <?php foreach($courses as $item): ?>
+                                <option value=<?php echo ($item['CName']. " " . $item['CNumber']); ?>><?php echo ($item['CName']. " " . $item['CNumber']); ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                        <br><br>
+                        <input class="add-task-button" type="add" value="Add Assignment">
+                    </form>
+                <?php endif; ?>
+
+
+                
 
         </main>
     </body>

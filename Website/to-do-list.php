@@ -103,7 +103,6 @@
         <main>
             <h2>To Do List:</h2>
             <?php if($allTasks->num_rows == 0): ?>
-                <?php echo "empty!" ?>
                 <div class="card my-3 w-75">
                 <div class="card-body text-center">
                     <p class="lead mt3"> There are no items on your to do list</p>

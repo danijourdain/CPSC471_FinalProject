@@ -26,9 +26,9 @@ CREATE TABLE Schedule_
     StartDate       DATE            NOT NULL,
     EndDate         DATE            NOT NULL,
     Year_           INT             NOT NULL,
-    SemName         VARCHAR(20)     NOT NULL,
+    SemName         VARCHAR(10)     NOT NULL,
     StudentEmail    VARCHAR(32)     NOT NULL,
-    PRIMARY KEY(ID),
+    PRIMARY KEY(ID, SemName),
     FOREIGN KEY(StudentEmail) REFERENCES Student(Email)
      ON DELETE CASCADE       ON UPDATE CASCADE
 );
@@ -152,6 +152,7 @@ CREATE TABLE Class_Meeting
     RoomNum         VARCHAR(32)     DEFAULT NULL,
     Topic           VARCHAR(32)     DEFAULT NULL,
     PRIMARY KEY(MeetingName, SEmail, Course_Name, Course_Number),
+    CONSTRAINT unique_meeting UNIQUE (MeetingName, RoomNum, Course_Name, Course_Number),
     FOREIGN KEY(Course_Name, Course_Number, SEmail) REFERENCES Student_Course(CName, CNumber, SEmail)
      ON DELETE CASCADE       ON UPDATE CASCADE
 );
@@ -250,8 +251,10 @@ CREATE TABLE Section
     CNumber         INT             NOT NULL,
     LectureSection  CHAR(3)         NOT NULL,
     Semester        VARCHAR(10)     NOT NULL,
+    ID              INT             NOT NULL,
     PRIMARY KEY(CName, CNumber, LectureSection, Semester),
-    FOREIGN KEY(CName, CNumber) REFERENCES Course(CName, CNumber)
+    FOREIGN KEY(CName, CNumber) REFERENCES Course(CName, CNumber),
+    FOREIGN KEY(ID, Semester) REFERENCES Schedule_(ID, SemName)
      ON DELETE CASCADE       ON UPDATE CASCADE
 );
 
