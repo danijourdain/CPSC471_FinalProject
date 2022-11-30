@@ -48,7 +48,9 @@
             //if the student is not already taking the course, add them to the Student_Course table
         }
 
-        header("Location: courses.php");
+        
         //refresh the page so the new course will show up
     }
+    header("Location: courses.php");
+    die();
 ?>

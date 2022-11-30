@@ -65,26 +65,45 @@
         }
     ?>
 
-    <h1> <?php 
-        echo $_POST["cname"]. " ". $_POST["cnum"]; ?>
+    <?php 
+        // if(($_SESSION['course-name'] == null && $_SESSION['course-number'] == null) || ($_SESSION['course-name'] == $_POST['cname'] && $_SESSION['course-number'] == $_POST['cnum'])) {
+            $_SESSION['course-name'] = $_POST['cname'];
+            $_SESSION['course-number'] = $_POST['cnum']; 
+        // }?>
+    <h1> <?php
+        echo $_SESSION["course-name"]. " ". $_SESSION["course-number"]; ?>
     </h1>
-        
-    <?php
-        $_SESSION['course-name'] = $_POST['cname'];
-        $_SESSION['course-number'] = $_POST['cnum'];
-    ?>
 
     <div class="center">
         <div class="existing-meetings">
+            <div class="meeting-header">
+                <div class="header-label">Meeting Name</div>
+                <div class="header-label">Room Number</div>
+                <div class="header-label">Topic</div>
+                <div class="header-label">Meeting Type</div>
+                <div class="header-label"></div>
+            </div>
+
             <?php
-                $student_class = $con->prepare("SELECT c.* FROM Attends_Class AS a, Student_Course AS s, Class_Meeting AS c WHERE s.SEmail=? AND c.Course_Name=s.CName AND c.Course_Number=s.CNumber AND a.CMeetingName=c.MeetingName AND a.SEmail=? AND s.CName=? AND s.CNumber=?");
-                $student_class->bind_param("sssi", $_SESSION['user-email'], $_SESSION['user-email'], $_SESSION['course-name'], $_SESSION['course-number']);
+                $student_class = $con->prepare("SELECT c.* FROM Student_Course AS s, Class_Meeting AS c WHERE s.SEmail=? AND c.Course_Name=s.CName AND c.Course_Number=s.CNumber AND s.SEmail=c.SEmail AND s.CName=? AND s.CNumber=?");
+                $student_class->bind_param("ssi", $_SESSION['user-email'], $_SESSION['course-name'], $_SESSION['course-number']);
                 $student_class->execute();
                 $student_class = $student_class->get_result();
 
-                foreach($student_class as $c) {
-                    echo $c['MeetingName']. " ". $c['RoomNum']. " ". $c['Topic']. "<br>";
-                }
+                foreach($student_class as $c) { ?>
+                <div class="meeting">
+                    <div class="table"> <?php echo $c['MeetingName'];?></div>
+                    <div class="table"> <?php echo $c['RoomNum'];?></div>
+                    <div class="table"> <?php echo $c['Topic'];?></div>
+                    <div class="table"> <?php echo $c['Topic'];?></div>
+
+
+                    <div class="button-section"><form class="delete-form" action="delete-meeting.php" method="post">
+                        <input type="hidden" name="name" value="<?php echo $c['MeetingName']?>"/>
+                        <input class="edit-button" type="submit" value='Delete Meeting'>
+                    </form></div>
+                </div>
+                <?php }
             ?>
         </div>
         <div class="divider-bar"></div>
