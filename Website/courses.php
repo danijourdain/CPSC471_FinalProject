@@ -65,16 +65,12 @@
             if($con->connect_error) {
                 echo "Failed to connect to MySQL: " . mysqli_connect_error();
             }
-
+            
             $courses = $con->prepare("SELECT * FROM Course AS C, Student_Course AS S WHERE S.SEmail=? AND S.CName = C.CName AND C.CNumber = S.CNumber");
             $courses->bind_param("s", $_SESSION['user-email']);
             $courses->execute();
             $courses = $courses->get_result();
             //get all courses the student is currently taking from the database
-
-            // $i = 0;
-            // $_SESSION['cnames'] = array();
-            // $_SESSION['cnums'] = array();
 
             foreach($courses as $c):?>
                 <div class="course-box">

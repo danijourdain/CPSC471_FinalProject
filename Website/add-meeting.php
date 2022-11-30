@@ -66,26 +66,69 @@
                 $days = explode(",", $_POST["day"]);
                 //split the days into array elements
 
-                $insert = $con->prepare("INSERT INTO Class_Meeting(MeetingName, RoomNum, Topic, Course_Name, Course_Number) VALUES (?, ?, ?, ?, ?)");
-                $insert->bind_param("ssssi", $_POST["meeting-name"], $_POST["room-no"], $_POST["topic"], $_SESSION['course-name'], $_SESSION['course-number']);
+                $insert = $con->prepare("INSERT INTO Class_Meeting(MeetingName, SEmail, RoomNum, Topic, Course_Name, Course_Number) VALUES (?, ?, ?, ?, ?, ?)");
+                $insert->bind_param("sssssi", $_POST["meeting-name"], $_SESSION['user-email'], $_POST["room-no"], $_POST["topic"], $_SESSION['course-name'], $_SESSION['course-number']);
                 $insert->execute();
                 //add the meeting into Class_Meeting
 
-                $get_id = $con->query("SELECT MAX(ID) AS max_id FROM Class_Meeting");
-                $row = $get_id->fetch_array();
-                $id = $row['max_id'];
-                //get the id of the newly inserted tuple
-
-                $time = $con->prepare("INSERT INTO Scheduled_Time_Slot(ID, MeetingName_, DaysOFWeek, TimeOfDay, Frequency) VALUES(?, ?, ?, ?, ?)");
-                $time->bind_param("sssss", $id, $_POST["meeting-name"], $day, $_POST["time"], strtoupper($_POST["frequency"]));
                 foreach($days as $id=>$day) {
+                    $time = $con->prepare("INSERT INTO Scheduled_Time_Slot(MeetingName_, SEmail, CName, CNumber, DaysOFWeek, TimeOfDay, Frequency) VALUES(?, ?, ?, ?, ?, ?, ?)");
+                    $time->bind_param("sssisss", $_POST["meeting-name"], $_SESSION['user-email'], $_SESSION['course-name'], $_SESSION['course-number'], $day, $_POST["time"], strtoupper($_POST["frequency"]));
                     $time->execute();
+                    //insert each day into the scheduled time slot table 
                 }
 
-                $insert = $con->prepare("INSERT INTO Attends_Class(CMeetingName, SEmail) VALUES (?, ?)");
-                $insert->bind_param("ss", $_POST["meeting-name"], $_SESSION['user-email']);
-                $insert->execute();
-                //insert into the attends_class table
+                
+                $_SESSION['meeting-name'] = $_POST['meeting-name'];
+
+                if($_POST['meeting-type'] == 'lab') {
+                    echo "Extra Info for Lab:";
+                    ?>
+
+                    <div class="input-area"><form method="post" action="add-lab.php">
+                        <input class="text-field" type="text" name="topic" placeholder="Lab Topic">
+                        <label class="field-label" for="due">Due Date: </label>
+                        <input class="text-field" type="date" name="due" placeholder="Due Date">
+                        <input class="text-field" type="text" name="ta" placeholder="TA Name">
+                        <input class="submit-button" type="submit" value="Add Lab">
+                    </form></div>
+                    
+            <?php
+                }
+                else if($_POST['meeting-type'] == 'lecture') {
+                    echo "Extra Info for Lecture:";
+                    ?>
+
+                    <div class="input-area"><form method="post" action="add-lecture.php">
+                        <input class="text-field" type="text" name="objectve" placeholder="Learning Objective">
+                        <input class="text-field" type="text" name="chapter" placeholder="Chapter Discussed">
+                        <input class="text-field" type="text" name="instructor" placeholder="Instructor Name">
+                        <input class="submit-button" type="submit" value="Add Lecture">
+                    </form></div>
+                    
+            <?php
+                }
+                else if($_POST['meeting-type'] == 'seminar') {
+                    echo "Extra Info for Seminar:";
+                    ?>
+
+                    <div class="input-area"><form method="post" action="add-seminar.php">
+
+                    </form></div>
+                    
+            <?php
+                }
+                else if($_POST['meeting-type'] == 'tutorial') {
+                    echo "Extra Info for Tutorial:";
+                    ?>
+
+                    <div class="input-area"><form method="post" action="add-tutorial.php">
+                        <input class="text-field" type="text" name="ta" placeholder="TA Name">
+                        <input class="submit-button" type="submit" value="Add Lecture">
+                    </form></div>
+                    
+            <?php
+                }
             }
         ?>
     </body>
