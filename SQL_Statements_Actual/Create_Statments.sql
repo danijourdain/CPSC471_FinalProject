@@ -149,6 +149,7 @@ CREATE TABLE Class_Meeting
     Course_Name     CHAR(4)         NOT NULL,
     Course_Number   INT             NOT NULL,
     SEmail          VARCHAR(32)     NOT NULL,
+    MeetingType     VARCHAR(8)      NOT NULL,
     RoomNum         VARCHAR(32)     DEFAULT NULL,
     Topic           VARCHAR(32)     DEFAULT NULL,
     PRIMARY KEY(MeetingName, SEmail, Course_Name, Course_Number),
@@ -237,6 +238,7 @@ CREATE TABLE Scheduled_Time_Slot
     -- not sure about not null/ primary key on Dayofweek
     TimeOfDay        VARCHAR(32)     NOT NULL,
     -- format so refers to time and duration?
+    Duration         INT            NOT NULL,
     Frequency        VARCHAR(16)     NOT NULL,
     
     PRIMARY KEY(MeetingName_, SEmail, CName, CNumber, DaysOFWeek, TimeOfDay, Frequency),
