@@ -102,6 +102,7 @@
                 <div class="button-section"><form action="download-schedule.php" method="post">
                         <input type="hidden" name="Semester" value="<?php echo $c['SemName']?>"/>
                         <input type="hidden" name="Year" value="<?php echo $c['Year_']?>"/>
+                        <input type="hidden" name="ID" value="<?php echo $c['ID']?>"/>
                         <input class="download-button" type="submit" value='download Schedule'>
                     </form></div>
                 </div>

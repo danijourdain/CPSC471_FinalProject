@@ -56,19 +56,19 @@
             session_start();
 
             $days = array();
-            if($_POST["monday"]=="MO") {
+            if(@$_POST["monday"]=="MO") {
                 $days[] ="MO";
             }
-            if($_POST["tuesday"]=="TU") {
+            if(@$_POST["tuesday"]=="TU") {
                 $days[]="TU";
             }
-            if($_POST["wednesday"]=="WE") {
+            if(@$_POST["wednesday"]=="WE") {
                 $days[]="WE";
             }
-            if($_POST["thursday"]=="TH") {
+            if(@$_POST["thursday"]=="TH") {
                 $days[]="TH";
             }
-            if($_POST["friday"]=="FR") {
+            if(@$_POST["friday"]=="FR") {
                 $days[]="FR";
             }
             $days = implode(",", $days);
@@ -88,7 +88,8 @@
                 //add the meeting into Class_Meeting
 
                 $time = $con->prepare("INSERT INTO Scheduled_Time_Slot(MeetingName_, SEmail, CName, CNumber, DaysOFWeek, TimeOfDay, Frequency, Duration) VALUES(?, ?, ?, ?, ?, ?, ?, ?)");
-                $time->bind_param("sssisssi", $_POST["meeting-name"], $_SESSION['user-email'], $_SESSION['course-name'], $_SESSION['course-number'], $days, $_POST["time"], strtoupper($_POST["frequency"]), $_POST["duration"]);
+                $frequency = strtoupper($_POST["frequency"]);
+                $time->bind_param("sssisssi", $_POST["meeting-name"], $_SESSION['user-email'], $_SESSION['course-name'], $_SESSION['course-number'], $days, $_POST["time"],$frequency , $_POST["duration"]);
                 $time->execute();
                 //insert each day into the scheduled time slot table 
 

@@ -62,6 +62,7 @@
     if(!empty($_POST["Year"]) && !empty($_POST["Semester"])) {
         $year = $_POST["Year"];
         $semester = $_POST["Semester"];
+        $ID = $_POST["ID"];
         
         include_once("zapcallib.php");
         // session_start();
@@ -73,8 +74,8 @@
         }
 
         $icalobj = new ZCiCal();
-        $start_date = $con->prepare("SELECT * FROM schedule_ WHERE StudentEmail = ? AND SemName = ?");
-        $start_date->bind_param("ss", $_SESSION['user-email'], $semester);
+        $start_date = $con->prepare("SELECT * FROM schedule_ WHERE StudentEmail = ? AND SemName = ? AND ID = ?");
+        $start_date->bind_param("ssi", $_SESSION['user-email'], $semester, $ID);
         $start_date->execute();
         $result = $start_date->get_result();
         $start_date->close();
@@ -120,7 +121,9 @@
             // add start date
             $eventobj->addNode(new ZCiCalDataNode("DTSTART:" . $temp_start));
             $eventobj->addNode(new ZCiCalDataNode("LOCATION:" . $RoomInfo['RoomNum']));
-            $eventobj->addNode(new ZCiCalDataNode(" DURATION:" . "PT1H0M0S"));
+            $minutes = $TimingInfo['Duration'];
+            $hours = "PT" . intdiv($minutes, 60).'H'. ($minutes % 60).'M0S';
+            $eventobj->addNode(new ZCiCalDataNode(" DURATION:" . $hours));
 
             // add end date since no duration it is assumed to be 1 hr
             // $eventobj->addNode(new ZCiCalDataNode("DTEND:" . ZCiCal::fromSqlDateTime($event_end)));

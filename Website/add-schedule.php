@@ -14,8 +14,8 @@
             echo "Failed to connect to MySQL: " . mysqli_connect_error();
         }
 
-        $schedule = $con->prepare("SELECT * FROM schedule_ WHERE StudentEmail=? AND SemName=?");
-        $schedule->bind_param("ss", $_SESSION['user-email'], $semester);
+        $schedule = $con->prepare("SELECT * FROM schedule_ WHERE StudentEmail=? AND SemName=? AND Year_=?");
+        $schedule->bind_param("ssi", $_SESSION['user-email'], $semester, $year);
         $schedule->execute();
         $schedule = $schedule->get_result();
         //check if the new course already exists in the course table
@@ -30,6 +30,6 @@
         
         //refresh the page so the new course will show up
     }
-    header("Location: my-weekly-schedule.php");
+    header("Location: my-schedule-weekly.php");
     die();
 ?>

@@ -255,7 +255,8 @@ CREATE TABLE Section
     Semester        VARCHAR(10)     NOT NULL,
     ID              INT             NOT NULL,
     PRIMARY KEY(CName, CNumber, LectureSection, Semester),
-    FOREIGN KEY(CName, CNumber) REFERENCES Course(CName, CNumber),
+    FOREIGN KEY(CName, CNumber) REFERENCES Course(CName, CNumber)
+    ON DELETE CASCADE       ON UPDATE CASCADE,
     FOREIGN KEY(ID, Semester) REFERENCES Schedule_(ID, SemName)
      ON DELETE CASCADE       ON UPDATE CASCADE
 );
