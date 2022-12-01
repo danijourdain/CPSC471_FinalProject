@@ -1,4 +1,9 @@
 INSERT INTO Admin_ ('example@gmail.com', 'CPSC471', 'Main Admin', 'Admin');
+<<<<<<< Updated upstream
+=======
+--why does admin have role?
+-- guessing it implies the head admin cannot be deleted - M.Alshoura
+>>>>>>> Stashed changes
 
 INSERT INTO Admin_ (@Email, @Password_, @Name_, @Role_);
 
@@ -6,6 +11,7 @@ INSERT INTO User_(@Email, @FName, @LName, @Password_, @UserType, @AdminEmail);
 
 INSERT INTO Student(@Email, @Major, @Year_);
 
+<<<<<<< Updated upstream
 INSERT INTO Schedule_(@ID, @StartDate, @EndDate, @Year_, @SemName, @StudentEmail);
 
 INSERT INTO Viewer(@Email, @SEmail, @SchedID);
@@ -55,3 +61,16 @@ INSERT INTO Group_Meeting_Members(@GroupID, @Member);
 INSERT INTO Attends_Group_Meeting(@GroupID, @Member);
 
 INSERT INTO Student_Exam(@SEmail, @Course_Name, @Course_Number, @EQName)
+=======
+INSERT INTO Class_Meeting ();
+
+SELECT (CName, CNumber from Course Where Cname = userInputName AND CNumber = userInputNum) INTO @some_input_var;
+INSERT Into Group_Meeting (Name_, CName, CNumber)
+Values (temp_name, some_input_var.CName, some_input_var.CNumber);
+-- user input needed from front end
+
+
+SELECT (CName, CNumber, StuEmail from Course Where Cname = userInputName AND CNumber = userInputNum, StuEmail = userInputEmail) INTO @some_input_var;
+INSERT Into Assignment
+Values (Name_, some_input_var.CName, some_input_var.CNumber, Weight_, Due_Date, Descrip, Contact, (SELECT ListID from To_Do_List WHERE some_input_var.StuEmail = StuEmail));
+>>>>>>> Stashed changes
