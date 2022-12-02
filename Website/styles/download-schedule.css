@@ -1,0 +1,8 @@
+.selected-link {
+    color: rgb(35, 44, 51);
+    text-decoration: none;
+}
+
+.selected-sidebar-tab:hover {
+    background-color:  rgb(135, 169, 186);
+}

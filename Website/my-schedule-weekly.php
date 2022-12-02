@@ -60,13 +60,13 @@
            echo "hi " .$_SESSION['user-email']. "! Welcome to your schedule!";
     ?>
     <div class="table-header">
-            These are all the Schedules you have made so far
-        </div>
+        These are all the Schedules you have made so far
+    </div>
+
+    <div>
+        <div class="separation-line"></div>
 
         <div>
-            <div class="separation-line"></div>
-
-            <div>
             <div class="separation-line"></div>
             <?php
             
@@ -100,25 +100,25 @@
                     </form></div>
                 </div>
                 <div class="button-section"><form action="download-schedule.php" method="post">
-                        <input type="hidden" name="Semester" value="<?php echo $c['SemName']?>"/>
-                        <input type="hidden" name="Year" value="<?php echo $c['Year_']?>"/>
-                        <input class="download-button" type="submit" value='download Schedule'>
-                    </form></div>
-                </div>
-                <div class="separation-line"></div>
-            <?php endforeach;
-            //print each course name and number the student is taking
-            
-        ?></div>
-        <div class="other-button-section">
-                <!-- add course section -->
-                <div class="input-form"> <form method="post" action="add-schedule.php">
-                    <input class="schedule-input-box" type="text" name="start_date" placeholder="yyyy-mm--dd (ex. 2022-04-02)"><br>
-                    <input class="schedule-input-box" type="text" name="end_date" placeholder="yyyy-mm--dd (ex. 2022-10-21)"><br>
-                    <input class="schedule-input-box" type="text" name="Year" placeholder="yyyy (ex. 2019)"><br>
-                    <input class="schedule-input-box" type="text" name="Semester" placeholder="Semester (ex. Fall)"><br>
-                    <input class="add-schedule-button" type="submit" value="Add Schedule">
+                    <input type="hidden" name="Semester" value="<?php echo $c['SemName']?>"/>
+                    <input type="hidden" name="Year" value="<?php echo $c['Year_']?>"/>
+                    <input class="download-button" type="submit" value='Download Schedule'>
                 </form></div>
-            </div>
-    
+        </div>
+            <div class="separation-line"></div>
+        <?php endforeach;
+        //print each course name and number the student is taking
+        
+    ?></div>
+    <div class="other-button-section">
+            <!-- add course section -->
+            <div class="input-form"> <form method="post" action="add-schedule.php">
+                <input class="schedule-input-box" type="date" name="start_date" ><br>
+                <input class="schedule-input-box" type="date" name="end_date"><br>
+                <input class="schedule-input-box" type="number" name="Year" placeholder="yyyy (ex. 2019)"><br>
+                <input class="schedule-input-box" type="text" name="Semester" placeholder="Semester (ex. Fall)"><br>
+                <input class="add-schedule-button" type="submit" value="Add Schedule">
+            </form></div>
+        </div>
+
 </html>

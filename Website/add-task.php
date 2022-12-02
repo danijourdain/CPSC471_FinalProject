@@ -1,4 +1,8 @@
-<!DOCTYPE html>
+<?php
+    echo "wrong page";
+?>
+
+<!-- <!DOCTYPE html>
 
 <html>
     <head>
@@ -109,4 +113,4 @@
             $task->execute();
         }
     ?>
-</html>
+</html> -->

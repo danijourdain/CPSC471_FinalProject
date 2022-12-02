@@ -1,0 +1,67 @@
+.selected-sidebar-tab:hover {
+    background-color:  rgb(135, 169, 186);
+}
+
+.content {
+    display: flex;
+    flex-direction: row;
+}
+
+.separation-bar {
+    width: 2px;
+    background-color: rgb(199, 217, 230);
+    margin-left: 30px;
+    margin-right: 30px;
+}
+
+.add-task-box {
+    width: 250px;
+    margin-bottom: 5px;
+
+    height: 30px;
+    padding-left: 15px;
+
+    border: none;
+    border-radius: 15px;
+}
+
+.date-field {
+    width: 183px;
+    margin-bottom: 5px;
+
+    height: 30px;
+    padding-left: 15px;
+
+    border: none;
+    border-radius: 15px;
+}
+
+.dropdown {
+    border: none;
+    border-radius: 15px;
+    margin-bottom: 5px;
+    height: 30px;
+    width: 214px;
+    padding-left: 10px;
+    color: rgb(106, 106, 106);
+}
+
+.add-assignment-button {
+    height: 30px;
+    width: 140px;
+    padding-top: 7px;
+    padding-bottom: 7px;
+    margin-top: 15px;
+
+    font-size: 15px;
+
+    border-radius: 40px;
+    border: none;
+    background-color: rgb(35, 44, 51);
+    color: white;
+}
+
+.add-assignment-button:hover {
+    background-color: rgb(26, 31, 36);
+    cursor: pointer;
+}

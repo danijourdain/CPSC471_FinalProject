@@ -10,14 +10,12 @@
 
 .input-area {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     margin-top: 20px;
-    background-color: lightpink;
 }
 
-.text-field {
+.text-field, .date-field, .text-field-lab {
     width: 250px;
-    margin-left: 50px;
     margin-bottom: 5px;
 
     height: 30px;
@@ -25,6 +23,18 @@
 
     border: none;
     border-radius: 15px;
+}
+
+.date-field::placeholder {
+    color: rgb(106, 106, 106);
+}
+
+.field-label {
+    width: 60px;
+}
+
+.text-field-lab {
+    margin-left: 70px;
 }
 
 .submit-button {

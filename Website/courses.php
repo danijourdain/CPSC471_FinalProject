@@ -52,7 +52,7 @@
         </nav>
 
         <div class="table-header">
-            These are all the courses you are currently taking
+            These are all the courses you are currently taking!
         </div>
 
         <div>
