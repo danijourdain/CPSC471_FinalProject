@@ -115,7 +115,7 @@
                 <div class="card my-3 w-75">
                     <div class="card-body text-center">
                         
-                            <input class="task-checkbox" id="task-checkbox" type="checkbox" name="chk1[ ]" value=<?php echo "'". $item['Task']. "';"; ?>>
+                            <input class="task-checkbox" id="task-checkbox" type="checkbox" name="chk1[ ]" value=<?php echo '"'. $item['Task']. '";'; ?>>
                             <label for="task-checkbox"> <?php echo $item['Task']; ?></label><br>
                             
                         

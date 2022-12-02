@@ -58,12 +58,15 @@
                 if ($con->connect_error) {
                     echo "Failed to connect to MySQL: " . mysqli_connect_error();
                 }
-            ?>
 
-            <h1> <?php
-                echo "Editing ". $_POST['aName']. " from ". $_POST['cname']. " ". $_POST['cnum'];
-            ?></h1>
+                $delete = $con->prepare("DELETE FROM Assignment
+                                            WHERE Assignment.Name_ = ?
+                                            AND Assignment.CName = ?
+                                            AND Assignment.CNumber = ?
+                                            AND Assignment.ListID = ?");
+                    $delete->bind_param("ssii", $_POST['aName'], $_POST['cname'], $_POST['cnum'], $_SESSION['to-do-list-id']);
+                    $delete->execute();
 
-        </main>
-    </body>
-</html>
+                    header("Location: assignments.php");
+                    die();
+                ?>

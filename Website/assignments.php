@@ -80,10 +80,15 @@
                             <?php echo ($item['CName']. " " . $item['CNumber']); ?>
                         </h2>
                         <?php 
-                            $CAssign = $con->prepare("SELECT * FROM Course AS C, Student_Course AS S, Assignment AS A WHERE S.SEmail=? AND S.CName = C.CName AND C.CNumber = S.CNumber AND S.CName = ? AND S.CNumber = ?");
+                            $CAssign = $con->prepare("SELECT * FROM Course AS C, Student_Course AS S, Assignment AS A 
+                                                        WHERE S.SEmail=? 
+                                                        AND S.CName = C.CName AND C.CNumber = S.CNumber 
+                                                        AND A.CName = ? AND A.CNumber = ? 
+                                                        AND A.CName=C.CName AND A.CNumber =C.CNumber");
                             $CAssign-> bind_param("ssi", $_SESSION['user-email'], $item['CName'], $item['CNumber']);
                             $CAssign-> execute();
                             $CAssign = $CAssign->get_result();
+
                         ?>
                         <?php if($CAssign->num_rows == 0): ?>
                             <p class="lead mt3"> No Assignments for this class yet</p>
@@ -94,24 +99,25 @@
                                 <?php echo $assign['Name_'];?>
                                 </div>
 
-                                <div class="button-section"><form action="edit-assignment.php" method="post">
+                                <div class="button-section"><form action="view-assignment.php" method="post">
                                 <input type="hidden" name="cname" value="<?php echo $item['CName']?>"/>
                                 <input type="hidden" name="cnum" value="<?php echo $item['CNumber']?>"/>
                                 <input type="hidden" name="aName" value="<?php echo $assign['Name_']?>"/>
-                                <input class="edit-button" type="submit" value='Edit Assignment'>
+                                <input class="edit-button" type="submit" value='View'>
                                 </form></div>
-                                <div class="button-section"><form action="edit-course.php" method="post">
+                                <div class="button-section"><form action="delete-assignment.php" method="post">
                                 <input type="hidden" name="cname" value="<?php echo $item['CName']?>"/>
                                 <input type="hidden" name="cnum" value="<?php echo $item['CNumber']?>"/>
                                 <input type="hidden" name="aName" value="<?php echo $assign['Name_']?>"/>
-                                <input class="delete-button" type="submit" value='Delete Assignment'>
+                                <input class="delete-button" type="submit" value='Delete'>
                                 </form></div>
                                 </div>
                                 <div class="separation-line"></div>
                             <?php endforeach; ?>
                         <?php endif; ?>
-                        <h2> Add a new assignment: </h2>
+                        
                     <?php endforeach; ?>
+                    <h2> Add a new assignment: </h2>
                     <form method="post">
                         <input class="add-task-box" type="text" name="Name" placeholder="Assignment Name"><br>
                         <input class="add-task-box" type="number" name="Weight" placeholder="Weight (percentage)"><br>
@@ -131,13 +137,24 @@
                     </form>
                 <?php endif; ?>
                 <?php if(!empty($_POST['addTask'])){
-                        $course = explode(" ", $_POST['courses']);
-                        echo $course[0];
-                        echo $course[1];
-                        $task = $con->prepare("INSERT INTO Assignment (Name_, CNumber, CName, Weight_, Due_Date, Descrip, Contact, ListID) VALUES (?, ?, ?, ?, ?, null, null, ?)");
-                        $task->bind_param("sisisi", $_POST['Name'], $course[1], $course[0], $_POST['Weight'], $_POST['due'], $_SESSION['to-do-list-id']);
-                        $task->execute();
-                        echo "<meta http-equiv='refresh' content='0'>";
+                        if(empty($_POST['Name'])){
+                            echo "Assignment name is required";
+                        }
+                        else if(empty($_POST['Weight'])){
+                            echo "Assignment weight is required";
+                        }
+                        else if(empty($_POST['due'])){
+                            echo "Assignment due date is required";
+                        }
+                        else{
+                            $course = explode(" ", $_POST['courses']);
+                            echo $course[0];
+                            echo $course[1];
+                            $task = $con->prepare("INSERT INTO Assignment (Name_, CNumber, CName, Weight_, Due_Date, Descrip, Contact, ListID) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+                            $task->bind_param("sisisssi", $_POST['Name'], $course[1], $course[0], $_POST['Weight'], $_POST['due'], $_POST['Description'], $_POST['Contact'],$_SESSION['to-do-list-id']);
+                            $task->execute();
+                            echo "<meta http-equiv='refresh' content='0'>";
+                        }
                 }
 
                 if(!empty($_POST['Edit'])){
