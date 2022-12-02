@@ -63,24 +63,23 @@
         if ($con->connect_error) {
             echo "Failed to connect to MySQL: " . mysqli_connect_error();
         }
-    ?>
 
-    <?php 
-        // if(($_SESSION['course-name'] == null && $_SESSION['course-number'] == null) || ($_SESSION['course-name'] == $_POST['cname'] && $_SESSION['course-number'] == $_POST['cnum'])) {
+        if(($_SESSION['course-name'] == null && $_SESSION['course-number'] == null) || ($_SESSION['course-name'] != $_POST['cname'] && $_SESSION['course-number'] != $_POST['cnum'])) {
             $_SESSION['course-name'] = $_POST['cname'];
             $_SESSION['course-number'] = $_POST['cnum']; 
-        // }?>
-    <h1> <?php
-        echo $_SESSION["course-name"]. " ". $_SESSION["course-number"]; ?>
+        }?>
+
+    <h1> <?php 
+        echo $_SESSION["course-name"]. " ". $_SESSION["course-number"]; 
+        ?>
     </h1>
 
     <div class="center">
         <div class="existing-meetings">
             <div class="meeting-header">
                 <div class="header-label">Meeting Name</div>
-                <div class="header-label">Room Number</div>
-                <div class="header-label">Topic</div>
                 <div class="header-label">Meeting Type</div>
+                <div class="header-label"></div>
                 <div class="header-label"></div>
             </div>
 
@@ -93,13 +92,16 @@
                 foreach($student_class as $c) { ?>
                 <div class="meeting">
                     <div class="table"> <?php echo $c['MeetingName'];?></div>
-                    <div class="table"> <?php echo $c['RoomNum'];?></div>
-                    <div class="table"> <?php echo $c['Topic'];?></div>
-                    <div class="table"> <?php echo $c['Topic'];?></div>
+                    <div class="table"> <?php echo ucwords($c['MeetingType']);?></div>
 
 
+                    <div class="button-section"><form class="view-form" action="view-meeting.php" method="post">
+                        <input type="hidden" name="name" value="<?php echo $c['MeetingName'];?>"/>
+                        <input type="hidden" name="type" value="<?php echo $c['MeetingType'];?>"/>
+                        <input class="edit-button" type="submit" value='View Meeting Details'>
+                    </form></div>
                     <div class="button-section"><form class="delete-form" action="delete-meeting.php" method="post">
-                        <input type="hidden" name="name" value="<?php echo $c['MeetingName']?>"/>
+                        <input type="hidden" name="name" value="<?php echo $c['MeetingName'];?>"/>
                         <input class="edit-button" type="submit" value='Delete Meeting'>
                     </form></div>
                 </div>
@@ -111,8 +113,15 @@
             <form method="post" action="add-meeting.php">
                 <input class="add-meeting-input" type="text" name="meeting-name" placeholder="Meeting Name"><br>
                 <input class="add-meeting-input" type="text" name="room-no" placeholder="Room #"><br>
-                <input class="add-meeting-input" type="text" name="day" placeholder="Days of week (separated by a comma)"><br>
-                <input class="add-meeting-input" type="text" name="time" placeholder="Time (hh:mm format)"><br>
+                <input class="add-meeting-input" type="time" name="time" placeholder="Time (hh:mm format)"><br>
+                <input class="add-meeting-input" type="number" name="duration" placeholder="Duration (Minutes)"><br>
+                <div class="days-section">
+                    <label><input class="checkbox" type="checkbox" value="MO" name="monday">Monday</label>
+                    <label><input class="checkbox" type="checkbox" value="TU" name="tuesday">Tuesday</label><br>
+                    <label><input class="checkbox" type="checkbox" value="WE" name="wednesday">Wednesday</label>
+                    <label><input class="checkbox" type="checkbox" value="TH" name="thursday">Thursday</label>
+                    <label><input class="checkbox" type="checkbox" value="FR" name="friday">Friday</label>
+                </div>
                 <input class="add-meeting-input" type="text" name="frequency" placeholder="Frequency (ex. weekly, biweekly)"><br>
                 <input class="add-meeting-input" type="text" name="topic" placeholder="Topic"><br>
                 <div>

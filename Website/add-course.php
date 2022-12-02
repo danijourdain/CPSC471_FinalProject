@@ -1,11 +1,12 @@
 <?php
     session_start();
-
-    if(!empty($_POST["name"]) && !empty($_POST["number"]) && !empty($_POST["lecture-section"]) && !empty($_POST["semester"])) {
+    if(!empty($_POST["name"]) && !empty($_POST["number"]) && !empty($_POST["lecture-section"]) && !empty($_POST["SemName"])) {
         $name = $_POST["name"];
         $number = $_POST["number"];
         $lecture = $_POST["lecture-section"];
-        $semester = $_POST["semester"];
+        $array = explode("-", $_POST["SemName"]);
+        $data_name = $array[0];
+        $data_ID = $array[1];
 
         $con = new mysqli("localhost","admin","cpsc471","471_Final_Project");
         //create database connection
@@ -13,6 +14,7 @@
         if ($con->connect_error) {
             echo "Failed to connect to MySQL: " . mysqli_connect_error();
         }
+
 
         $course = $con->prepare("SELECT * FROM Course WHERE CName=? AND CNumber=?");
         $course->bind_param("ss", $name, $number);
@@ -26,15 +28,16 @@
             $insert->execute();
         }
 
-        $section = $con->prepare("SELECT * FROM Section WHERE CName=? AND CNumber=? AND LectureSection=? AND Semester=?");
-        $section->bind_param("siss", $name, $number, $lecture, $semester);
+        $section = $con->prepare("SELECT * FROM Section WHERE CName=? AND CNumber=? AND LectureSection=? AND Semester=? AND ID=?");
+        $section->bind_param("sissi", $name, $number, $lecture, $data_name, $data_ID);
         $section->execute();
         $section = $section->get_result();
         //check if the section already exists
 
         if($section->num_rows == 0) {
-            $insert = $con->prepare("INSERT INTO Section(CName, CNumber, LectureSection, Semester) VALUES (?, ?, ?, ?)");
-            $insert->bind_param("siss", $name, $number, $lecture, $semester);
+            $insert = $con->prepare("INSERT INTO Section(CName, CNumber, LectureSection, Semester, ID) VALUES (?, ?, ?, ?, ?)");
+            echo "im right here" . $data_ID . "  lol  " . $data_name . "<br>";
+            $insert->bind_param("sissi", $name, $number, $lecture, $data_name, $data_ID);
             $insert->execute();
         }
 

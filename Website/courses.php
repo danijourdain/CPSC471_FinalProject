@@ -90,15 +90,35 @@
             
         ?></div>
 
+        <?php
+        $result = $con->prepare("SELECT * FROM schedule_ WHERE StudentEmail = ?");
+        $result->bind_param("s", $_SESSION['user-email']);
+        $result->execute();
+        $result = $result->get_result();
+        // $result->close();
+        ?>
+
         <div class="other-button-section">
             <!-- add course section -->
             <div class="input-form"> <form method="post" action="add-course.php">
                 <input class="course-input-box" type="text" name="name" placeholder="Course Name (ex. CPSC)"><br>
                 <input class="course-input-box" type="text" name="number" placeholder="Course Number (ex. 471)"><br>
                 <input class="course-input-box" type="text" name="lecture-section" placeholder="Lecture Section (ex. L01)"><br>
-                <input class="course-input-box" type="text" name="semester" placeholder="Semester (ex. Fall 2022)"><br>
+                <div>
+                <select class="dropdown-box" name="SemName">
+                 <option value="none" selected disabled hidden>Select Semester</option>
+                 <?php foreach($result as $item): 
+                 echo '<option value="'.$item['SemName']."-".$item['ID'].'">'.$item['SemName']. " " . $item['Year_'].'</option>';
+                    endforeach; 
+                ?>
+                </select>
+                <?php
+                $result->close();
+                ?>
+                </div>
                 <input class="add-course-button" type="submit" value="Add Course">
             </form></div>
         </div>
+        
     </body>
 </html>
