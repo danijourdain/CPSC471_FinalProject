@@ -54,10 +54,31 @@
     margin-right: 10px;
 }
 
+.grade-input {
+    height: 25px;
+
+    padding-left: 15px;
+
+    border: none;
+    border-radius: 20px;
+}
+
+.grade-button {
+    color: white;
+    background-color: rgb(35, 44, 51);
+
+    height: 25px;
+    padding-right: 10px;
+    padding-left: 10px;
+
+    border: none;
+    border-radius: 20px;
+}
+
 .center {
     display: flex;
     flex-direction: row;
-    margin-top: 100px;
+    margin-top: 30px;
     margin-left: 75px;
 }
 
@@ -131,7 +152,7 @@
     color: white;
 }
 
-.delete-course-button:hover, .back-button:hover, .add-meeting-button:hover {
+.delete-course-button:hover, .back-button:hover, .add-meeting-button:hover, .grade-button:hover {
     background-color: rgb(26, 31, 36);
     cursor: pointer;
 }
