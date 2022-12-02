@@ -85,7 +85,7 @@
 .dropdown-box {
     border: none;
     border-radius: 15px;
-    margin-bottom: 15px;
+    margin-bottom: 5px;
     margin-left: 50px;
     height: 30px;
     width: 165px;
@@ -97,6 +97,10 @@
     margin-top: 0px;
     margin-left: 50px;
     width: 165px;
+}
+
+.days-header {
+    margin-left: 50px;
 }
 
 .days-section {

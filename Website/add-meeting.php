@@ -5,7 +5,7 @@
         <title>Add Meeting</title>
 
         <link rel="stylesheet" href="styles/general.css">
-        <link rel="stylesheet" href="styles/add-course.css">
+        <link rel="stylesheet" href="styles/add-meeting.css">
     </head>
 
     <body>
@@ -100,10 +100,10 @@
                     echo "Extra Info for Lab:"; ?>
 
                     <div class="input-area"><form method="post" action="add-lab.php">
-                        <input class="text-field" type="text" name="topic" placeholder="Lab Topic">
+                        <input class="text-field-lab" type="text" name="topic" placeholder="Lab Topic"><br>
                         <label class="field-label" for="due">Due Date: </label>
-                        <input class="text-field" type="date" name="due" placeholder="Due Date">
-                        <input class="text-field" type="text" name="ta" placeholder="TA Name">
+                        <input class="date-field" type="date" name="due" placeholder="Due Date"><br>
+                        <input class="text-field-lab" type="text" name="ta" placeholder="TA Name"><br>
                         <input class="submit-button" type="submit" value="Add Lab">
                     </form></div>
                     
@@ -112,9 +112,9 @@
                     echo "Extra Info for Lecture:"; ?>
 
                     <div class="input-area"><form method="post" action="add-lecture.php">
-                        <input class="text-field" type="text" name="objective" placeholder="Learning Objective">
-                        <input class="text-field" type="text" name="chapter" placeholder="Chapter Discussed">
-                        <input class="text-field" type="text" name="instructor" placeholder="Instructor Name">
+                        <input class="text-field" type="text" name="objective" placeholder="Learning Objective"><br>
+                        <input class="text-field" type="text" name="chapter" placeholder="Chapter Discussed"><br>
+                        <input class="text-field" type="text" name="instructor" placeholder="Instructor Name"><br>
                         <input class="submit-button" type="submit" value="Add Lecture">
                     </form></div>
                     
@@ -131,7 +131,7 @@
                     echo "Extra Info for Tutorial:"; ?>
 
                     <div class="input-area"><form method="post" action="add-tutorial.php">
-                        <input class="text-field" type="text" name="ta" placeholder="TA Name">
+                        <input class="text-field" type="text" name="ta" placeholder="TA Name"><br>
                         <input class="submit-button" type="submit" value="Add Tutorial">
                     </form></div>
                     

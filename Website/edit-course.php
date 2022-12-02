@@ -115,6 +115,7 @@
                 <input class="add-meeting-input" type="text" name="room-no" placeholder="Room #"><br>
                 <input class="add-meeting-input" type="time" name="time" placeholder="Time (hh:mm format)"><br>
                 <input class="add-meeting-input" type="number" name="duration" placeholder="Duration (Minutes)"><br>
+                <div class="days-header">Meeting Days:</div>
                 <div class="days-section">
                     <label><input class="checkbox" type="checkbox" value="MO" name="monday">Monday</label>
                     <label><input class="checkbox" type="checkbox" value="TU" name="tuesday">Tuesday</label><br>
@@ -122,7 +123,15 @@
                     <label><input class="checkbox" type="checkbox" value="TH" name="thursday">Thursday</label>
                     <label><input class="checkbox" type="checkbox" value="FR" name="friday">Friday</label>
                 </div>
-                <input class="add-meeting-input" type="text" name="frequency" placeholder="Frequency (ex. weekly, biweekly)"><br>
+                <!-- <input class="add-meeting-input" type="text" name="frequency" placeholder="Frequency (ex. weekly, biweekly)"><br> -->
+                <div>
+                    <select class="dropdown-box" id="frequency" name="frequency">
+                        <option value="none" selected disabled hidden>Select Freqency</option>
+                        <option value="WEEKLY">Weekly</option>
+                        <option value="BIWEEKLY">Biweekly</option>
+                        <option value="ONETIME">One Time</option>
+                    </select>
+                </div>
                 <input class="add-meeting-input" type="text" name="topic" placeholder="Topic"><br>
                 <div>
                     <select class="dropdown-box" id="meeting-type" name="meeting-type">

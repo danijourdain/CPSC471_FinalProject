@@ -180,7 +180,7 @@ CREATE TABLE Lab
     CName     CHAR(4)         NOT NULL,
     CNumber   INT             NOT NULL,
     Lab_topic        VARCHAR(256),
-    Due_Date         DATE            NOT NULL,
+    Due_Date         DATE,
     TA_Name          VARCHAR(64),
     
     PRIMARY KEY(MeetingName_Lab, SEmail, CName, CNumber),

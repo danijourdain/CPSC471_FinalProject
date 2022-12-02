@@ -123,7 +123,7 @@
                 </div>
                 <?php endif; ?>
             <?php endforeach; ?>
-                <input type="submit" name="Submit" value="Complete Selected Tasks"> 
+                <input class="complete-button" type="submit" name="Submit" value="Complete Selected Tasks"> 
             </form>
             <?php endif; ?>
             <form method="post">
@@ -154,7 +154,7 @@
             if(!empty($_POST['chk1'])){
                 foreach($_POST['chk1'] as $selected){
                     //echo $selected . " has been completed!";
-                    $complete = $con->prepare("UPDATE Tasks SET isDone = 1 WHERE ListID = ? AND Task = ?");
+                    $complete = $con->prepare("DELETE FROM Tasks WHERE ListID = ? AND Task = ?");
                     $complete ->bind_param("is", $_SESSION['to-do-list-id'], $selected);
                     $complete ->execute();
                     echo "<meta http-equiv='refresh' content='0'>";

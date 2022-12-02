@@ -32,7 +32,7 @@
     border-color:  rgb(160, 193, 209);
     border-style: solid;
     width: 200px;
-    border-radius: 15px;
+    border-radius: 20px;
     margin-bottom: 10px;
     height: 30px;
     padding-left: 15px;
@@ -95,4 +95,17 @@
 .edit-button:hover {
     background-color: rgb(26, 31, 36);
     cursor: pointer;
+}
+
+.dropdown-box {
+    border-style: solid;
+    border-radius: 20px;
+    border-color: rgb(160, 193, 209);
+    border-width: 2px;
+
+    margin-bottom: 20px;
+    height: 35px;
+    width: 220px;
+    padding-left: 15px;
+    color: rgb(106, 106, 106);
 }
