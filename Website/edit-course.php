@@ -74,6 +74,23 @@
         ?>
     </h1>
 
+    <div class="grade-section">
+        <?php
+            $grade = $con->prepare("SELECT Grade FROM Student_Course WHERE SEmail=? AND CName=? AND CNumber=?");
+            $grade->bind_param("ssi", $_SESSION['user-email'], $_SESSION['course-name'], $_SESSION['course-number']);
+            $grade->execute();
+            $grade = $grade->get_result();
+
+            foreach($grade as $g) {
+                echo "Current Grade: ". $g['Grade'];
+            }
+        ?>
+        <form action="update-grade.php" method="post">
+            <input type="number" class="grade-input" name="grade" placeholder="Enter your grade">
+            <input type="submit" class="grade-button" value="Update Grade">
+        </form>
+    </div>
+
     <div class="center">
         <div class="existing-meetings">
             <div class="meeting-header">
