@@ -101,7 +101,8 @@
                     <form>
                         <input class="add-task-box" type="text" name="Name" placeholder="Assignment Name"><br>
                         <input class="add-task-box" type="text" name="Weight" placeholder="Weight"><br>
-                        <input class="add-task-box" type="text" name="DueDate" placeholder="Due Date (mm/dd/yy)"><br>
+                        <label class="field-label" for="due">Due Date: </label>
+                        <input class="text-field" type="date" name="due" placeholder="Due Date"><br>
                         <input class="add-task-box" type="text" name="Description" placeholder="Description (Optional)"><br>
                         <input class="add-task-box" type="text" name="Contact" placeholder="Contact (Optional)"><br>
                         <br>
@@ -109,13 +110,23 @@
                         <select name="courses" id="courseNum">
                             <option value= "none" selected disabled hidden> Select a course </option>
                             <?php foreach($courses as $item): ?>
-                                <option value=<?php echo ($item['CName']. " " . $item['CNumber']); ?>><?php echo ($item['CName']. " " . $item['CNumber']); ?></option>
+                                <option value= "NameNum"><?php echo ($item['CName']. " " . $item['CNumber']); ?></option>
                             <?php endforeach; ?>
                         </select>
                         <br><br>
-                        <input class="add-task-button" type="add" value="Add Assignment">
+                        <input class="add-task-button" type="Submit" name="Submit" value="Add Assignment">
                     </form>
                 <?php endif; ?>
+                <?php
+                    if(!empty($_POST['Submit']) && $_POST['Submit'] == "Add Assignment"){
+                        echo "Hekko";
+                        $course = explode(" ", $_POST['NameNum']);
+                        echo "". $course[0];
+                        $task = $con->prepare("INSERT INTO Assignment (Name_, CNumber, CName, Weight_, Due_Date, Descrip, Contact, ListID) VALUES (?, ?, ?, ?, ?, null, null, ?)");
+                        $task->bind_param("sisisi", $_POST['Name'], $course[1], $course[0], $_POST['Weight'], $_POST['due'], $_SESSION[],$_SESSION['to-do-list-id']);
+                        $task->execute();
+                    }
+                ?>
 
 
                 
