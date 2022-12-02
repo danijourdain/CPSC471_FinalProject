@@ -87,9 +87,6 @@
                         ?>
                         <?php if($CAssign->num_rows == 0): ?>
                             <p class="lead mt3"> No Assignments for this class yet</p>
-                        <p class="lead mt3"> No assignments for this class yet</p>
-                        
-
                         <?php else: ?>
                             <?php foreach($CAssign as $assign): ?>
 
@@ -116,11 +113,6 @@
                         <h2> Add a new assignment: </h2>
                     <?php endforeach; ?>
                     <form method="post">
-                    <?php endforeach; ?></div>
-
-                    <div class="separation-bar"></div>
-
-                    <div class="form-section"><form>
                         <input class="add-task-box" type="text" name="Name" placeholder="Assignment Name"><br>
                         <input class="add-task-box" type="number" name="Weight" placeholder="Weight (percentage)"><br>
                         <label class="field-label" for="due">Due Date: </label>
@@ -129,9 +121,6 @@
                         <input class="add-task-box" type="text" name="Contact" placeholder="Contact (Optional)"><br><br>
                         <label for="courses"></label>
                         <select name="courses" id="courseNum">
-                        <input class="add-task-box" type="text" name="Contact" placeholder="Contact (Optional)"><br>
-                        <label for="courses">Course: </label>
-                        <select class="dropdown" name="courses" id="courseNum">
                             <option value= "none" selected disabled hidden> Select a course </option>
                             <?php foreach($courses as $item): ?>
                                 <option value= <?php echo ("'".$item['CName']. " " . $item['CNumber']."';"); ?>><?php echo ($item['CName']. " " . $item['CNumber']); ?></option>
@@ -145,17 +134,6 @@
                         $course = explode(" ", $_POST['courses']);
                         echo $course[0];
                         echo $course[1];
-                                <option value= "NameNum"><?php echo ($item['CName']. " " . $item['CNumber']); ?></option>
-                            <?php endforeach; ?>
-                        </select><br>
-                        <input class="add-assignment-button" type="Submit" name="Submit" value="Add Assignment">
-                    </form></div>
-                <?php endif; ?></div>
-                <?php
-                    if(!empty($_POST['Submit']) && $_POST['Submit'] == "Add Assignment"){
-                        echo "Hekko";
-                        $course = explode(" ", $_POST['NameNum']);
-                        echo "". $course[0];
                         $task = $con->prepare("INSERT INTO Assignment (Name_, CNumber, CName, Weight_, Due_Date, Descrip, Contact, ListID) VALUES (?, ?, ?, ?, ?, null, null, ?)");
                         $task->bind_param("sisisi", $_POST['Name'], $course[1], $course[0], $_POST['Weight'], $_POST['due'], $_SESSION['to-do-list-id']);
                         $task->execute();
