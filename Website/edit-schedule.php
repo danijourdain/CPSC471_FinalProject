@@ -5,7 +5,7 @@
         <title>Weekly Schedule</title>
 
         <link rel="stylesheet" href="styles/general.css">
-        <link rel="stylesheet" href="styles/my-schedule-page.css">
+        <link rel="stylesheet" href="styles/edit-schedule.css">
     </head>
 
     <body>
@@ -26,9 +26,11 @@
         </header>
 
         <nav class="sidebar">
-            <div class="selected-sidebar-tab">
-                <div>Weekly Schedule</div>
-            </div>
+            <a class="selected-link" href="my-schedule-weekly.php">
+                <div class="selected-sidebar-tab">
+                    <div>Weekly Schedule</div>
+                </div>
+            </a>
             <a class="sidebar-link" href="to-do-list.php">
                 <div class="sidebar-tab">
                     <div>To Do List</div>
@@ -96,7 +98,7 @@
     </div>
 
     <div>
-        <a href="courses.php"><button class="back-button">
+        <a href="my-schedule-weekly.php"><button class="back-button">
             Back
         </button></a>
     </div>

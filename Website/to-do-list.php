@@ -123,7 +123,7 @@
                 </div>
                 <?php endif; ?>
             <?php endforeach; ?>
-                <input type="submit" name="Submit" value="Complete Selected Tasks"> 
+                <input class="complete-button" type="submit" name="Submit" value="Complete Selected Tasks"> 
             </form>
             <?php endif; ?>
             <form method="post">

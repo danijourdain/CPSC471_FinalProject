@@ -1,3 +1,36 @@
+.selected-link {
+    color: rgb(35, 44, 51);
+    text-decoration: none;
+}
+
+.selected-sidebar-tab:hover {
+    background-color:  rgb(135, 169, 186);
+}
+
+.complete-button {
+    color: white;
+    background-color: rgb(35, 44, 51);
+    width: 170px;
+    height: 30px;
+    
+    border-style: none;
+    border-radius: 20px;
+    
+    margin-bottom: 50px;
+    margin-top: 10px;
+}
+
+.add-task-box {
+    border-radius: 1px;
+    border-color:  rgb(160, 193, 209);
+    border-style: solid;
+    width: 300px;
+    border-radius: 15px;
+    margin-bottom: 20px;
+    height: 30px;
+    padding-left: 15px;
+}
+
 .add-task-button {
     height: 30px;
     width: 80px;
@@ -13,27 +46,7 @@
     color: white;
 }
 
-.add-task-button:hover {
+.add-task-button:hover, .complete-button:hover {
     background-color: rgb(26, 31, 36);
     cursor: pointer;
-}
-
-.selected-link {
-    color: rgb(35, 44, 51);
-    text-decoration: none;
-}
-
-.selected-sidebar-tab:hover {
-    background-color:  rgb(135, 169, 186);
-}
-
-.add-task-box {
-    border-radius: 1px;
-    border-color:  rgb(160, 193, 209);
-    border-style: solid;
-    width: 300px;
-    border-radius: 15px;
-    margin-bottom: 40px;
-    height: 30px;
-    padding-left: 15px;
 }
