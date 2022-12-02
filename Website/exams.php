@@ -2,10 +2,9 @@
 
 <html>
     <head>
-        <title>Assignments</title>
+        <title>Exams</title>
 
         <link rel="stylesheet" href="styles/general.css">
-        <link rel="stylesheet" href="styles/assignment.css">
     </head>
 
     <body>
@@ -36,14 +35,14 @@
                     <div>To Do List</div>
                 </div>
             </a>
-            <div class="selected-sidebar-tab">
-                <div>Assignments</div>
-            </div>
-            <a class="sidebar-link" href="exams.php">
+            <a class="sidebar-link" href="assignments.php">
                 <div class="sidebar-tab">
-                    <div>Exams</div>
+                    <div>Assigments</div>
                 </div>
             </a>
+            <div class="selected-sidebar-tab">
+                <div>Exams</div>
+            </div>
             <a class="sidebar-link" href="courses.php">
                 <div class="sidebar-tab">
                     <div>Courses</div>
@@ -52,7 +51,7 @@
         </nav>
 
         <main>
-            <?php 
+        <?php 
                 session_start();
                 $con = new mysqli("localhost","admin","cpsc471","471_Final_Project");
                 //create database connection
@@ -69,7 +68,7 @@
                 <?php if($courses->num_rows == 0): ?>
                 <div class="card my-3 w-75">
                 <div class="card-body text-center">
-                    <p class="lead mt3"> Add a class first before adding assignements</p>
+                    <p class="lead mt3"> Add a class first before adding Exams</p>
                 </div>
                 </div>
                 <?php else: ?>
@@ -80,32 +79,32 @@
                             <?php echo ($item['CName']. " " . $item['CNumber']); ?>
                         </h2>
                         <?php 
-                            $CAssign = $con->prepare("SELECT * FROM Course AS C, Student_Course AS S, Assignment AS A 
+                            $CExam = $con->prepare("SELECT * FROM Course AS C, Student_Course AS S, Exam_Quiz AS  E
                                                         WHERE S.SEmail=? 
                                                         AND S.CName = C.CName AND C.CNumber = S.CNumber 
-                                                        AND A.CName = ? AND A.CNumber = ? 
-                                                        AND A.CName=C.CName AND A.CNumber =C.CNumber");
-                            $CAssign-> bind_param("ssi", $_SESSION['user-email'], $item['CName'], $item['CNumber']);
-                            $CAssign-> execute();
-                            $CAssign = $CAssign->get_result();
+                                                        AND E.Course_Name = ? AND E.Course_Number = ? 
+                                                        AND E.Course_Name=C.CName AND E.Course_Number =C.CNumber");
+                            $CExam-> bind_param("ssi", $_SESSION['user-email'], $item['CName'], $item['CNumber']);
+                            $CExam-> execute();
+                            $CExam = $CExam->get_result();
 
                         ?>
-                        <?php if($CAssign->num_rows == 0): ?>
-                            <p class="lead mt3"> No Assignments for this class yet</p>
+                        <?php if($CExam->num_rows == 0): ?>
+                            <p class="lead mt3"> No Exams for this class yet</p>
                         <?php else: ?>
-                            <?php foreach($CAssign as $assign): ?>
+                            <?php foreach($CExam as $exam): ?>
 
                                 <div class="course-box"><div>
-                                <?php echo $assign['Name_'];?>
+                                <?php echo $exam['Name_']. " On ". $exam['Date_']. " at ". $exam['StartTime'];?>
                                 </div>
 
-                                <div class="button-section"><form action="view-assignment.php" method="post">
+                                <div class="button-section"><form action="view-exams.php" method="post">
                                 <input type="hidden" name="cname" value="<?php echo $item['CName']?>"/>
                                 <input type="hidden" name="cnum" value="<?php echo $item['CNumber']?>"/>
                                 <input type="hidden" name="aName" value="<?php echo $assign['Name_']?>"/>
-                                <input class="edit-button" type="submit" value='View'>
+                                <input class="edit-button" type="submit" value='Details'>
                                 </form></div>
-                                <div class="button-section"><form action="delete-assignment.php" method="post">
+                                <div class="button-section"><form action="delete-exams.php" method="post">
                                 <input type="hidden" name="cname" value="<?php echo $item['CName']?>"/>
                                 <input type="hidden" name="cnum" value="<?php echo $item['CNumber']?>"/>
                                 <input type="hidden" name="aName" value="<?php echo $assign['Name_']?>"/>
@@ -117,14 +116,17 @@
                         <?php endif; ?>
                         
                     <?php endforeach; ?>
-                    <h2> Add a new assignment: </h2>
+                    <h2> Add a new Exam: </h2>
                     <form method="post">
-                        <input class="add-task-box" type="text" name="Name" placeholder="Assignment Name"><br>
+                        <input class="add-task-box" type="text" name="Name" placeholder="Exam Name"><br>
                         <input class="add-task-box" type="number" name="Weight" placeholder="Weight (percentage)"><br>
-                        <label class="field-label" for="due">Due Date: </label>
+                        <label class="field-label" for="due">Exam Date: </label>
                         <input class="date-field" type="date" name="due" placeholder="Due Date"><br>
-                        <input class="add-task-box" type="text" name="Description" placeholder="Description (Optional)"><br>
-                        <input class="add-task-box" type="text" name="Contact" placeholder="Contact (Optional)"><br><br>
+                        <label class="field-label" for="STime">Exam Start: </label>
+                        <input class="add-task-box" type="Time" name="STime" placeholder="Exam Start Time"><br>
+                        <input class="add-task-box" type="number" name="Length" placeholder="Exam length (minutes)"><br>
+                        <input class="add-task-box" type="text" name="Location" placeholder="Exam Location"><br>
+                        <input class="add-task-box" type="text" name="Chapters" placeholder="Exam Topic (Optional)"><br><br>
                         <label for="courses"></label>
                         <select name="courses" id="courseNum">
                             <option value= "none" selected disabled hidden> Select a course </option>
@@ -150,8 +152,8 @@
                             $course = explode(" ", $_POST['courses']);
                             echo $course[0];
                             echo $course[1];
-                            $task = $con->prepare("INSERT INTO Assignment (Name_, CNumber, CName, Weight_, Due_Date, Descrip, Contact, ListID) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
-                            $task->bind_param("sisisssi", $_POST['Name'], $course[1], $course[0], $_POST['Weight'], $_POST['due'], $_POST['Description'], $_POST['Contact'],$_SESSION['to-do-list-id']);
+                            $task = $con->prepare("INSERT INTO Exam_Quiz(Name_, Course_Name, Course_Number, Weight_, Chapters, Hall, Date_, StartTime, Length_) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+                            $task->bind_param("ssiissssi", $_POST['Name'], $course[0], $course[1], $_POST['Weight'], $_POST['Chapters'], $_POST['Location'], $_POST['due'], $_POST['STime'],$_POST['Length']);
                             $task->execute();
                             echo "<meta http-equiv='refresh' content='0'>";
                         }
@@ -161,9 +163,6 @@
                     echo "hi";
                 }
                 ?>
-
-
-                
 
         </main>
     </body>

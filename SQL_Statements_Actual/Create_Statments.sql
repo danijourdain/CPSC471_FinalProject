@@ -76,6 +76,7 @@ CREATE TABLE Exam_Quiz
     Hall            VARCHAR(32)     NOT NULL,
     -- does that already account for online quizzes?
     Date_           DATE            NOT NULL,
+    StartTime       Time            NOT NULL,
     Length_         INT             NOT NULL,
     PRIMARY KEY(Name_, Course_Name, Course_Number),
     FOREIGN KEY(Course_Name, Course_Number) REFERENCES Course(CName, CNumber)

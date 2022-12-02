@@ -41,7 +41,7 @@
                     <div>Assigments</div>
                 </div>
             </a>
-            <a class="sidebar-link" href="exams.html">
+            <a class="sidebar-link" href="exams.php">
                 <div class="sidebar-tab">
                     <div>Exams</div>
                 </div>

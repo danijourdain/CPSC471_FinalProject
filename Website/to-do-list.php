@@ -40,7 +40,7 @@
                     <div>Assigments</div>
                 </div>
             </a>
-            <a class="sidebar-link" href="exams.html">
+            <a class="sidebar-link" href="exams.php">
                 <div class="sidebar-tab">
                     <div>Exams</div>
                 </div>
@@ -60,7 +60,7 @@
                 if ($con->connect_error) {
                     echo "Failed to connect to MySQL: " . mysqli_connect_error();
                 }
-                
+                echo date("Y-m-d");
                 $email = $_SESSION['user-email'];
                 $to_do = $con->prepare("SELECT * FROM To_Do_List WHERE SEmail=?");
                 $to_do ->bind_param("s", $email);
