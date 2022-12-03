@@ -265,11 +265,11 @@ CREATE TABLE Section
 
 CREATE TABLE Group_Meeting
 (
-    ID              INT             NOT NULL,
+    ID              INT             NOT NULL AUTO_INCREMENT,
     Name_           VARCHAR(15)     NOT NULL,
     CName           CHAR(4)         NOT NULL,
     CNumber         INT             NOT NULL,
-    PRIMARY KEY(ID),
+    PRIMARY KEY(ID, Name_),
     FOREIGN KEY(CName, CNumber) REFERENCES Course(CName, CNumber)
      ON DELETE CASCADE       ON UPDATE CASCADE
 );
@@ -278,27 +278,20 @@ CREATE TABLE Group_Meeting
 CREATE TABLE Group_Meeting_Date
 (
     GroupID         INT             NOT NULL,
+    GroupName       VARCHAR(15)     NOT NULL,
     Date_           DATE            NOT NULL,
-    PRIMARY KEY(GroupID, Date_),
-    FOREIGN KEY(GroupID) REFERENCES Group_Meeting(ID)
-     ON DELETE CASCADE       ON UPDATE CASCADE
-);
-
-CREATE TABLE Group_Meeting_Members
-(
-    GroupID         INT             NOT NULL,
-    Member          VARCHAR(50)     NOT NULL,
-    PRIMARY KEY(GroupID, Member),
-    FOREIGN KEY(GroupID) REFERENCES Group_Meeting(ID)
+    PRIMARY KEY(GroupID, Date_, GroupName),
+    FOREIGN KEY(GroupID, GroupName) REFERENCES Group_Meeting(ID, Name_)
      ON DELETE CASCADE       ON UPDATE CASCADE
 );
 
 CREATE TABLE Attends_Group_Meeting
 (
     MeetingID       INT             NOT NULL,
+    GroupName       VARCHAR(15)     NOT NULL,
     SEmail          VARCHAR(32)     NOT NULL,
-    PRIMARY KEY(MeetingID, SEmail),
-    FOREIGN KEY(MeetingID) REFERENCES Group_Meeting(ID)
+    PRIMARY KEY(MeetingID, SEmail, GroupName),
+    FOREIGN KEY(MeetingID, GroupName) REFERENCES Group_Meeting(ID, Name_)
      ON DELETE CASCADE       ON UPDATE CASCADE,
     FOREIGN KEY(SEmail) REFERENCES Student(Email)
      ON DELETE CASCADE       ON UPDATE CASCADE

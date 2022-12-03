@@ -123,6 +123,38 @@
                     </form></div>
                 </div>
                 <?php }
+            
+                $group_meeting = $con->prepare("SELECT G.* FROM Group_Meeting AS G, Attends_Group_Meeting AS A WHERE G.ID=A.MeetingID AND G.Name_=A.GroupName AND A.SEmail=? AND G.CName=? AND G.CNumber=?");
+                $group_meeting->bind_param("ssi", $_SESSION['user-email'], $_SESSION['course-name'], $_SESSION['course-number']);
+                $group_meeting->execute();
+                $group_meeting = $group_meeting->get_result();
+
+                if($group_meeting->num_rows != 0) { ?>
+                    <div class="meeting-header">
+                    <div class="header-label">Group Name</div>
+                    <div class="header-label"></div>
+                    <div class="header-label"></div>
+                    <div class="header-label"></div>
+                    </div> 
+                    <?php
+                    foreach($group_meeting as $g) { ?>
+                        <div class="meeting">
+                            <div class="table"> <?php echo $g['Name_'];?></div>
+                            <div class="table">Group Meeting</div>
+        
+        
+                            <div class="button-section"><form class="view-form" action="view-group-meeting.php" method="post">
+                                <input type="hidden" name="name" value="<?php echo $g['MeetingName'];?>"/>
+                                <input type="hidden" name="type" value="<?php echo $g['MeetingType'];?>"/>
+                                <input class="edit-button" type="submit" value='View Meeting Details'>
+                            </form></div>
+                            <div class="button-section"><form class="delete-form" action="delete-group-meeting.php" method="post">
+                                <input type="hidden" name="name" value="<?php echo $g['MeetingName'];?>"/>
+                                <input class="edit-button" type="submit" value='Delete Meeting'>
+                            </form></div>
+                        </div>
+                    <?php }
+                }
             ?>
         </div>
         <div class="divider-bar"></div>
@@ -157,6 +189,7 @@
                         <option value="lecture">Lecture</option>
                         <option value="seminar">Seminar</option>
                         <option value="tutorial">Tutorial</option>
+                        <option value="group">Group Meeting</option>
                     </select>
                 </div>
                 <input class="add-meeting-button" type="submit" value="Add New Meeting">

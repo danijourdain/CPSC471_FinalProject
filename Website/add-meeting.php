@@ -82,16 +82,18 @@
                     echo "Failed to connect to MySQL: " . mysqli_connect_error();
                 }
 
-                $insert = $con->prepare("INSERT INTO Class_Meeting(MeetingName, SEmail, RoomNum, Topic, Course_Name, Course_Number, MeetingType) VALUES (?, ?, ?, ?, ?, ?, ?)");
-                $insert->bind_param("sssssis", $_POST["meeting-name"], $_SESSION['user-email'], $_POST["room-no"], $_POST["topic"], $_SESSION['course-name'], $_SESSION['course-number'], $_POST['meeting-type']);
-                $insert->execute();
-                //add the meeting into Class_Meeting
+                if($_POST['meeting-type'] != 'group') {
+                    $insert = $con->prepare("INSERT INTO Class_Meeting(MeetingName, SEmail, RoomNum, Topic, Course_Name, Course_Number, MeetingType) VALUES (?, ?, ?, ?, ?, ?, ?)");
+                    $insert->bind_param("sssssis", $_POST["meeting-name"], $_SESSION['user-email'], $_POST["room-no"], $_POST["topic"], $_SESSION['course-name'], $_SESSION['course-number'], $_POST['meeting-type']);
+                    $insert->execute();
+                    //add the meeting into Class_Meeting
 
-                $time = $con->prepare("INSERT INTO Scheduled_Time_Slot(MeetingName_, SEmail, CName, CNumber, DaysOFWeek, TimeOfDay, Frequency, Duration) VALUES(?, ?, ?, ?, ?, ?, ?, ?)");
-                $frequency = strtoupper($_POST["frequency"]);
-                $time->bind_param("sssisssi", $_POST["meeting-name"], $_SESSION['user-email'], $_SESSION['course-name'], $_SESSION['course-number'], $days, $_POST["time"],$frequency , $_POST["duration"]);
-                $time->execute();
-                //insert each day into the scheduled time slot table 
+                    $time = $con->prepare("INSERT INTO Scheduled_Time_Slot(MeetingName_, SEmail, CName, CNumber, DaysOFWeek, TimeOfDay, Frequency, Duration) VALUES(?, ?, ?, ?, ?, ?, ?, ?)");
+                    $frequency = strtoupper($_POST["frequency"]);
+                    $time->bind_param("sssisssi", $_POST["meeting-name"], $_SESSION['user-email'], $_SESSION['course-name'], $_SESSION['course-number'], $days, $_POST["time"],$frequency , $_POST["duration"]);
+                    $time->execute();
+                    //insert each day into the scheduled time slot table 
+                }
 
                 $_SESSION['meeting-name'] = $_POST['meeting-name'];
 
@@ -144,6 +146,15 @@
                     </form></div>
                     
             <?php  }
+                else if($_POST['meeting-type'] == 'group') {
+                    echo "Extra Info for Group Meeting:"; ?>
+
+                    <div class="input-area"><form method="post" action="add-group-meeting.php">
+                        <input class="text-field" type="text" name="gname" placeholder="Group Name"><br>
+                        <input class="text-field" type="text" name="id" placeholder="Group ID (leave blank if unknown)"><br>
+                        <input class="submit-button" type="submit" value="Add Group Meeting">
+                    </form></div>
+                <?php }
             }
         ?>
     </body>
