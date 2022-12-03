@@ -1,0 +1,73 @@
+.center {
+    display: flex;
+    direction: row;
+}
+
+.separation-bar {
+    width: 2px;
+    background-color: rgb(199, 217, 230);
+}
+
+.meeting-header {
+    display: flex;
+}
+
+.header-label {
+    font-weight: 700;
+    width: 120px;
+    text-align: left;
+}
+
+.add-date-input {
+    width: 150px;
+    margin-left: 50px;
+    margin-bottom: 5px;
+
+    height: 30px;
+    padding-left: 15px;
+
+    border: none;
+    border-radius: 15px; 
+}
+
+.add-date-button, .back-button {
+    height: 30px;
+    width: 140px;
+    padding-top: 7px;
+    padding-bottom: 7px;
+    margin-left: 50px;
+
+    font-size: 15px;
+
+    border-radius: 40px;
+    border: none;
+    background-color: rgb(35, 44, 51);
+    color: white;
+}
+
+.back-button {
+    width: 60px;
+    margin-top: 60px;
+}
+
+.add-date-button:hover, .back-button:hover {
+    background-color: rgb(26, 31, 36);
+    cursor: pointer;
+}
+
+.date {
+    display: flex;
+}
+
+.edit-button {
+    height: 24px;
+    background-color: transparent;
+    text-decoration: underline;
+    border-style: none;
+    color: rgb(70, 117, 142);
+}
+
+.edit-button:hover {
+    cursor: pointer;
+    color: rgb(26, 31, 36);
+}

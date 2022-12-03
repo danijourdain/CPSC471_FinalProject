@@ -144,12 +144,13 @@
         
         
                             <div class="button-section"><form class="view-form" action="view-group-meeting.php" method="post">
-                                <input type="hidden" name="name" value="<?php echo $g['MeetingName'];?>"/>
-                                <input type="hidden" name="type" value="<?php echo $g['MeetingType'];?>"/>
+                                <input type="hidden" name="name" value="<?php echo $g['Name_'];?>"/>
+                                <input type="hidden" name="id" value="<?php echo $g['ID'];?>"/>
                                 <input class="edit-button" type="submit" value='View Meeting Details'>
                             </form></div>
                             <div class="button-section"><form class="delete-form" action="delete-group-meeting.php" method="post">
-                                <input type="hidden" name="name" value="<?php echo $g['MeetingName'];?>"/>
+                                <input type="hidden" name="name" value="<?php echo $g['Name_'];?>"/>
+                                <input type="hidden" name="id" value="<?php echo $g['ID'];?>"/>
                                 <input class="edit-button" type="submit" value='Delete Meeting'>
                             </form></div>
                         </div>
