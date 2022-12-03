@@ -121,12 +121,13 @@
             } ?>
         </div>  
 
-        <?php foreach($meeting as $m) { ?>
+        <?php $mname;
+        foreach($meeting as $m) { ?>
         <div class="content-section">
-            <div class="content"><?php echo $m['MeetingName'] ?></div>
+            <div class="content"><?php $mname = $m['MeetingName']; echo $mname ?></div>
             <div class="content"><?php echo ucwords($m['MeetingType']) ?></div>
             <div class="content"><?php echo $m['RoomNum'] ?></div>
-            <div class="content"><?php echo $m['Topic'] ?></div>
+            <div class="content"><?php echo $m['Topic']?: "N/A" ?></div>
         <?php } 
         
         foreach($times as $t) { ?>
@@ -150,8 +151,21 @@
                 <div class="content"><?php echo $le['InstructorName']?: "N/A" ?></div>
             <?php }
         }
-        else if($_POST['type'] == 'seminar') { ?>
-            <div class="header-label">Speaker(s)</div>
+        else if($_POST['type'] == 'seminar') { 
+            $speakers = $con->prepare("SELECT * FROM Speaker WHERE MeetingName_Sp=? AND SEmail=? AND CName=? AND CNumber=?");
+            $speakers->bind_param("sssi", $mname, $_SESSION['user-email'], $_SESSION['course-name'], $_SESSION['course-number']);
+            $speakers->execute();
+            $speakers = $speakers->get_result();
+            if($speakers->num_rows == 0) { ?>
+                <div class="content">N/A</div>
+            <?php }
+            foreach($speakers as $sp) { ?>
+                <div class="speaker-section"><div class="speaker-content"><?php echo $sp['Name_'] ?></div>
+                <div class="speaker-content"><?php echo $sp['Organization'] ?></div>
+                <div class="speaker-content"><?php echo $sp['Credentials'] ?></div></div>
+            <?php }
+            ?>
+            
         <?php }
         else if($_POST['type'] == 'tutorial') {
             foreach($tutorial as $ti) { ?>
@@ -159,6 +173,18 @@
         <?php } 
         }?>
         </div>
+
+        <?php
+        if($_POST['type'] == 'seminar') { ?>
+            <div class="add-speaker"><form action="add-speaker.php" method="post">
+                <input type="hidden" name="mname" value="<?php echo $mname;?>"/>
+                <input class="speaker-input" type="text" name="name" placeholder="Speaker name"><br>
+                <input class="speaker-input" type="text" name="org" placeholder="Speaker organization"><br>
+                <input class="speaker-input" type="text" name="creds" placeholder="Speaker credentials"><br>
+                <input class="speaker-button" type="submit" value="Add Speaker">
+            </form></div>
+        <?php }
+        ?>
         </div>
 
         <div class="button-section"><form class="view-form" action="edit-course.php" method="post">

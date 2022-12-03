@@ -120,11 +120,19 @@
                     
             <?php }
                 else if($_POST['meeting-type'] == 'seminar') {
-                    echo "Extra Info for Seminar:"; ?>
+                    $insert = $con->prepare("INSERT INTO Seminar(MeetingName_Sem, SEmail, CName, CNumber) VALUES (?, ?, ?, ?)");
+                    $insert->bind_param("sssi", $_SESSION['meeting-name'], $_SESSION['user-email'], $_SESSION['course-name'], $_SESSION['course-number']);
+                    $insert->execute();
+                    ?>
 
-                    <div class="input-area"><form method="post" action="add-seminar.php">
-                        <input class="">
-                    </form></div>
+                    <form id="form" action="edit-course.php" method="post">
+                    <input type="hidden" name="cname" value="<?php echo $_SESSION['course-name'];?>"/>
+                    <input type="hidden" name="cnum" value="<?php echo $_SESSION['course-number'];?>"/>
+                    </form>
+
+                    <script type="text/javascript"> 
+                    document.getElementById("form").submit();
+                    </script>
                     
             <?php  }
                 else if($_POST['meeting-type'] == 'tutorial') {
