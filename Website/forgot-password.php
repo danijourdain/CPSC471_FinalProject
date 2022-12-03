@@ -19,7 +19,7 @@
                         <input class="input-box" type="text" name="email" placeholder="E-mail"><br>
                         <input class="input-box" type="password" name="password1" placeholder="New Password"><br>
                         <input class="input-box" type="password" name="password2" placeholder="Confirm Password"><br>
-                        <input class="change-password-button" type="submit" value="Change Password">
+                        <input class="change-password-button" type="submit" name="change" value="Change Password">
                     </form>
                 </div>
                 <div class="back-button-section">
@@ -32,6 +32,7 @@
     </body>
 
     <?php
+    if(!empty($_POST['change'])){
         if(empty($_POST["email"]) || empty($_POST["password1"]) || empty($_POST["password2"])) {
             echo '<script>alert("Must fill in all fields!")</script>';
             die();
@@ -77,6 +78,7 @@
         }
 
         $con->close();
+    }
 
     ?>
 </html>

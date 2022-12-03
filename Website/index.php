@@ -19,7 +19,7 @@
                     <form method="post">
                         <input class="login-input-box" type="text" name="email" placeholder="E-mail"><br>
                         <input class="login-input-box" type="password" name="password" placeholder="Password"><br>
-                        <input class="login-button" type="submit" value="Login">
+                        <input class="login-button" type="submit" name="Login" value="Login">
                     </form>
                 </div>
                 <div class="other-login-links-section">
@@ -38,11 +38,12 @@
     <?php
         //require_once("zapcallib.php");
         //for some reason mine does not work with this line
-        if(empty($_POST["email"]) || empty($_POST["password"])) {
-            echo '<script>alert("Must fill in all fields!")</script>';
-            die();
-            //if there is no match, give the user an error message
-        }
+        if(!empty($_POST['Login'])){
+            if(empty($_POST["email"]) || empty($_POST["password"])) {
+                echo '<script>alert("Must fill in all fields!")</script>';
+                die();
+                //if there is no match, give the user an error message
+            }
 
         $email = $_POST["email"];
         $password = hash('md5', $_POST["password"]);
@@ -90,8 +91,8 @@
             echo '<script>alert("Incorrect E-mail or Password!")</script>';
             //if there is no match, give the user an error message
         }
-
         $con->close();
         //close the conncection to the database
+    }
     ?>
 </html>
