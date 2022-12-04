@@ -60,7 +60,6 @@
                 if ($con->connect_error) {
                     echo "Failed to connect to MySQL: " . mysqli_connect_error();
                 }
-                echo date("Y-m-d");
                 $email = $_SESSION['user-email'];
                 $to_do = $con->prepare("SELECT * FROM To_Do_List WHERE SEmail=?");
                 $to_do ->bind_param("s", $email);
@@ -176,35 +175,7 @@
                
             }
         }
-        $addAssign = $con->prepare("SELECT * FROM Assignment AS A, completes_assignments As C
-                                    WHERE C.AName = A.Name_ AND A.CName = C.CName AND A.CNumber = C.CNumber
-                                    AND C.SEmail = ?");
-        $addAssign->bind_param("s", $_SESSION['user-email']) ;
-        $addAssign->execute();
-        $addAssign = $addAssign->get_result();
-        foreach($addAssign as $aAssign){
-            $result = ((strtotime($aAssign['Due_Date'])- strtotime(date("Y-m-d")))/86400 <=7);
-            echo $result;
-            if($result <=7){
-                $toAdd = $aAssign['Name_']. " ". $aAssign['CName']. " ". $aAssign['CNumber'];
-                $isDup = 0;
-                $allTasks = $con->prepare("SELECT * FROM Tasks WHERE ListID = ?");
-                $allTasks->bind_param("i", $_SESSION['to-do-list-id']);
-                $allTasks->execute();
-                $allTasks = $allTasks->get_result();
-                foreach($allTasks as $a){
-                    if($a['Task'] == $toAdd){
-                        $dupFlag = 1;
-                    }
-                }
-                if($dupFlag == 0){
-                    $task = $con->prepare("INSERT INTO Tasks (ListID, Task) VALUES (?, ?)");
-                    $task->bind_param("ss", $_SESSION['to-do-list-id'], $toAdd);
-                    $task->execute();
-                    echo "<meta http-equiv='refresh' content='0'>";
-                }
-            }
-        }
+        
         
 
     ?>

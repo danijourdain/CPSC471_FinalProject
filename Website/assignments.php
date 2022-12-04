@@ -80,12 +80,14 @@
                             <?php echo ($item['CName']. " " . $item['CNumber']); ?>
                         </h2>
                         <?php 
-                            $CAssign = $con->prepare("SELECT * FROM Course AS C, Student_Course AS S, completes_assignments AS A 
+                            $CAssign = $con->prepare("SELECT * FROM Course AS C, Student_Course AS S, completes_assignments AS A , assignment AS Assign
                                                         WHERE S.SEmail=? 
                                                         AND S.CName = C.CName AND C.CNumber = S.CNumber 
                                                         AND A.CName = ? AND A.CNumber = ? 
                                                         AND A.CName=C.CName AND A.CNumber =C.CNumber
-                                                        AND A.SEmail = ?");
+                                                        AND A.SEmail = ?
+                                                        AND A.AName = Assign.Name_
+                                                        AND A.CName = Assign.CName AND A.CNumber = Assign.CNumber");
                             $CAssign-> bind_param("ssis", $_SESSION['user-email'], $item['CName'], $item['CNumber'], $_SESSION['user-email']);
                             $CAssign-> execute();
                             $CAssign = $CAssign->get_result();
@@ -97,7 +99,7 @@
                             <?php foreach($CAssign as $assign): ?>
 
                                 <div class="course-box"><div>
-                                <?php echo $assign['AName'];?>
+                                <?php echo $assign['AName']. " Due on ". $assign['Due_Date'];?>
                                 </div>
 
                                 <div class="button-section"><form action="view-assignment.php" method="post">
@@ -173,15 +175,7 @@
                                 $task = $con->prepare("INSERT INTO completes_assignments (SEmail, AName, CName, CNumber) VALUES (?, ?, ?, ?)");
                                 $task->bind_param("sssi", $_SESSION['user-email'], $_POST['Name'], $course[0], $course[1]);
                                 $task->execute();
-                                //echo "<meta http-equiv='refresh' content='0'>";
-                                echo strtotime($_POST['due'])- strtotime(date("Y-m-d"))/86400;
-                                if((strtotime($_POST['due'])- strtotime(date("Y-m-d")))/86400 <=7){
-                                    $toAdd = $_POST['Name']. " ". $course[0]. " ". $course[1];
-                                    $task = $con->prepare("INSERT INTO Tasks (ListID, Task) VALUES (?, ?)");
-                                    $task->bind_param("ss", $_SESSION['to-do-list-id'], $toAdd);
-                                    $task->execute();
-                                    echo "<meta http-equiv='refresh' content='0'>";
-                                }
+                                echo "<meta http-equiv='refresh' content='0'>";
                             }
                             else{
                                 echo "This assignment is already added for this class";
