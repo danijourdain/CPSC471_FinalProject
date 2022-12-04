@@ -173,17 +173,23 @@
                                 $task = $con->prepare("INSERT INTO completes_assignments (SEmail, AName, CName, CNumber) VALUES (?, ?, ?, ?)");
                                 $task->bind_param("sssi", $_SESSION['user-email'], $_POST['Name'], $course[0], $course[1]);
                                 $task->execute();
-                                echo "<meta http-equiv='refresh' content='0'>";
+                                //echo "<meta http-equiv='refresh' content='0'>";
+                                echo strtotime($_POST['due'])- strtotime(date("Y-m-d"))/86400;
+                                if((strtotime($_POST['due'])- strtotime(date("Y-m-d")))/86400 <=7){
+                                    $toAdd = $_POST['Name']. " ". $course[0]. " ". $course[1];
+                                    $task = $con->prepare("INSERT INTO Tasks (ListID, Task) VALUES (?, ?)");
+                                    $task->bind_param("ss", $_SESSION['to-do-list-id'], $toAdd);
+                                    $task->execute();
+                                    echo "<meta http-equiv='refresh' content='0'>";
+                                }
                             }
                             else{
                                 echo "This assignment is already added for this class";
                             }
+                            
                         }
                 }
 
-                if(!empty($_POST['Edit'])){
-                    echo "hi";
-                }
                 ?>
 
 

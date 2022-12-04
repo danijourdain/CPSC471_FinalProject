@@ -153,15 +153,59 @@
         if (!empty($_POST['Submit']) && $_POST['Submit'] == "Complete Selected Tasks"){  
             if(!empty($_POST['chk1'])){
                 foreach($_POST['chk1'] as $selected){
-                    //echo $selected . " has been completed!";
-                    $complete = $con->prepare("DELETE FROM Tasks WHERE ListID = ? AND Task = ?");
-                    $complete ->bind_param("is", $_SESSION['to-do-list-id'], $selected);
-                    $complete ->execute();
+                    $isAssign = 0;
+                    $assign = $con->prepare("SELECT A.AName FROM completes_assignments AS A WHERE SEmail = ?");
+                    $assign->bind_param("s", $_SESSION['user-email']);
+                    $assign->execute();
+                    $assign = $assign->get_result();
+                    foreach($assign as $a){
+                        if($a = $selected){
+                            $assignment = $con->prepare("UPDATE tasks SET isDone = 1 WHERE ListID = ? AND Task = ?");
+                            $assignment->bind_param("is", $_SESSION['to-do-list-id'], $selected);
+                            $assignment->execute();
+                            $isAssign = 1;
+                        }
+                    }
+                    if($isAssign == 0){
+                        $complete = $con->prepare("DELETE FROM Tasks WHERE ListID = ? AND Task = ?");
+                        $complete ->bind_param("is", $_SESSION['to-do-list-id'], $selected);
+                        $complete ->execute();
+                    }
                     echo "<meta http-equiv='refresh' content='0'>";
                 }
                
             }
         }
+        $addAssign = $con->prepare("SELECT * FROM Assignment AS A, completes_assignments As C
+                                    WHERE C.AName = A.Name_ AND A.CName = C.CName AND A.CNumber = C.CNumber
+                                    AND C.SEmail = ?");
+        $addAssign->bind_param("s", $_SESSION['user-email']) ;
+        $addAssign->execute();
+        $addAssign = $addAssign->get_result();
+        foreach($addAssign as $aAssign){
+            $result = ((strtotime($aAssign['Due_Date'])- strtotime(date("Y-m-d")))/86400 <=7);
+            echo $result;
+            if($result <=7){
+                $toAdd = $aAssign['Name_']. " ". $aAssign['CName']. " ". $aAssign['CNumber'];
+                $isDup = 0;
+                $allTasks = $con->prepare("SELECT * FROM Tasks WHERE ListID = ?");
+                $allTasks->bind_param("i", $_SESSION['to-do-list-id']);
+                $allTasks->execute();
+                $allTasks = $allTasks->get_result();
+                foreach($allTasks as $a){
+                    if($a['Task'] == $toAdd){
+                        $dupFlag = 1;
+                    }
+                }
+                if($dupFlag == 0){
+                    $task = $con->prepare("INSERT INTO Tasks (ListID, Task) VALUES (?, ?)");
+                    $task->bind_param("ss", $_SESSION['to-do-list-id'], $toAdd);
+                    $task->execute();
+                    echo "<meta http-equiv='refresh' content='0'>";
+                }
+            }
+        }
+        
 
     ?>
         </main>

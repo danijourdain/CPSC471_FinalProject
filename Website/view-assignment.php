@@ -64,12 +64,12 @@
                 echo "Viewing assignment ". $_POST['aName'];
             ?></h1>
                 <?php
-                    $view = $con->prepare("SELECT * FROM Assignment AS A
-                                            WHERE A.Name_ = ?
-                                            AND A.CName = ?
-                                            AND A.CNumber = ?
-                                            AND A.ListID = ?");
-                    $view->bind_param("ssii", $_POST['aName'], $_POST['cname'], $_POST['cnum'], $_SESSION['to-do-list-id']);
+                    $view = $con->prepare("SELECT * FROM Assignment AS A, completes_assignments AS C
+                                            WHERE A.Name_ = ? AND A.Name_ = C.AName
+                                            AND A.CName = ? AND A.CName = C.CName
+                                            AND A.CNumber = ? AND A.CNumber = C.CNumber
+                                            AND C.SEmail = ?");
+                    $view->bind_param("ssis", $_POST['aName'], $_POST['cname'], $_POST['cnum'], $_SESSION['user-email']);
                     $view->execute();
                     $view = $view->get_result();
                 ?>
