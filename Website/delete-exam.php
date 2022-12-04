@@ -2,7 +2,7 @@
 
 <html>
     <head>
-        <title>Assignments</title>
+        <title>Exams</title>
 
         <link rel="stylesheet" href="styles/general.css">
     </head>
@@ -58,33 +58,32 @@
                 if ($con->connect_error) {
                     echo "Failed to connect to MySQL: " . mysqli_connect_error();
                 }
-                echo $_POST['aName'];
-                $takes = $con->prepare("DELETE FROM completes_assignments
-                                                            WHERE SEmail = ?
-                                                            AND AName = ?
-                                                            AND CNumber = ?
-                                                            AND CName = ?");
+                echo $_POST['aName']. $_POST['cnum']. $_POST['cname'];
+                $takes = $con->prepare("DELETE FROM student_exam
+                                                WHERE SEmail = ?
+                                                AND EQName = ?
+                                                AND Course_Number = ?
+                                                AND Course_Name = ?");
                 $takes->bind_param("ssis", $_SESSION['user-email'],$_POST['aName'], $_POST['cnum'], $_POST['cname']);
                 $takes->execute();
                 
-                $exists = $con->prepare("SELECT * FROM completes_assignments
-                                            WHERE AName = ?
-                                            AND CNumber = ?
-                                            AND CName = ?" );
+                $exists = $con->prepare("SELECT * FROM student_exam
+                                            WHERE EQName = ?
+                                            AND Course_Number = ?
+                                            AND Course_Name = ?" );
                 $exists->bind_param("sis", $_POST['aName'], $_POST['cnum'], $_POST['cname']);
                 $exists->execute();
                 $exists = $exists->get_result();
 
                 if($exists->num_rows == 0){
-                    $delete = $con->prepare("DELETE FROM Assignment
+                    $delete = $con->prepare("DELETE FROM exam_quiz
                                              WHERE Name_ = ?
-                                             AND CNumber = ?
-                                             AND CName = ?");
+                                             AND Course_Number = ?
+                                             AND Course_Name = ?");
                     $delete->bind_param("sis", $_POST['aName'], $_POST['cnum'], $_POST['cname']);
                     $delete->execute();
-
                 }
 
-                    header("Location: assignments.php");
+                    header("Location: exams.php");
                     die();
                 ?>

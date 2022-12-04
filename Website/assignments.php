@@ -80,12 +80,13 @@
                             <?php echo ($item['CName']. " " . $item['CNumber']); ?>
                         </h2>
                         <?php 
-                            $CAssign = $con->prepare("SELECT * FROM Course AS C, Student_Course AS S, Assignment AS A 
+                            $CAssign = $con->prepare("SELECT * FROM Course AS C, Student_Course AS S, completes_assignments AS A 
                                                         WHERE S.SEmail=? 
                                                         AND S.CName = C.CName AND C.CNumber = S.CNumber 
                                                         AND A.CName = ? AND A.CNumber = ? 
-                                                        AND A.CName=C.CName AND A.CNumber =C.CNumber");
-                            $CAssign-> bind_param("ssi", $_SESSION['user-email'], $item['CName'], $item['CNumber']);
+                                                        AND A.CName=C.CName AND A.CNumber =C.CNumber
+                                                        AND A.SEmail = ?");
+                            $CAssign-> bind_param("ssis", $_SESSION['user-email'], $item['CName'], $item['CNumber'], $_SESSION['user-email']);
                             $CAssign-> execute();
                             $CAssign = $CAssign->get_result();
 
@@ -96,19 +97,19 @@
                             <?php foreach($CAssign as $assign): ?>
 
                                 <div class="course-box"><div>
-                                <?php echo $assign['Name_'];?>
+                                <?php echo $assign['AName'];?>
                                 </div>
 
                                 <div class="button-section"><form action="view-assignment.php" method="post">
                                 <input type="hidden" name="cname" value="<?php echo $item['CName']?>"/>
                                 <input type="hidden" name="cnum" value="<?php echo $item['CNumber']?>"/>
-                                <input type="hidden" name="aName" value="<?php echo $assign['Name_']?>"/>
+                                <input type="hidden" name="aName" value="<?php echo $assign['AName']?>"/>
                                 <input class="edit-button" type="submit" value='View'>
                                 </form></div>
                                 <div class="button-section"><form action="delete-assignment.php" method="post">
                                 <input type="hidden" name="cname" value="<?php echo $item['CName']?>"/>
                                 <input type="hidden" name="cnum" value="<?php echo $item['CNumber']?>"/>
-                                <input type="hidden" name="aName" value="<?php echo $assign['Name_']?>"/>
+                                <input type="hidden" name="aName" value="<?php echo $assign['AName']?>"/>
                                 <input class="delete-button" type="submit" value='Delete'>
                                 </form></div>
                                 </div>
@@ -148,12 +149,35 @@
                         }
                         else{
                             $course = explode(" ", $_POST['courses']);
-                            echo $course[0];
-                            echo $course[1];
-                            $task = $con->prepare("INSERT INTO Assignment (Name_, CNumber, CName, Weight_, Due_Date, Descrip, Contact, ListID) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
-                            $task->bind_param("sisisssi", $_POST['Name'], $course[1], $course[0], $_POST['Weight'], $_POST['due'], $_POST['Description'], $_POST['Contact'],$_SESSION['to-do-list-id']);
-                            $task->execute();
-                            echo "<meta http-equiv='refresh' content='0'>";
+                            $assignExists = $con->prepare("SELECT * FROM Assignment
+                                                            WHERE Name_ = ?
+                                                            AND CNumber = ?
+                                                            AND CName = ?");
+                            $assignExists->bind_param("sis", $_POST['Name'], $course[1], $course[0]);
+                            $assignExists->execute();
+                            $assignExists = $assignExists->get_result();
+                            if($assignExists->num_rows == 0){
+                                $task = $con->prepare("INSERT INTO Assignment (Name_, CNumber, CName, Weight_, Due_Date, Descrip, Contact, ListID) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+                                $task->bind_param("sisisssi", $_POST['Name'], $course[1], $course[0], $_POST['Weight'], $_POST['due'], $_POST['Description'], $_POST['Contact'],$_SESSION['to-do-list-id']);
+                                $task->execute();
+                            }
+                            $takes = $con->prepare("SELECT * FROM completes_assignments
+                                                            WHERE SEmail = ?
+                                                            AND AName = ?
+                                                            AND CNumber = ?
+                                                            AND CName = ?");
+                            $takes->bind_param("ssis", $_SESSION['user-email'],$_POST['Name'], $course[1], $course[0]);
+                            $takes->execute();
+                            $takes = $takes->get_result();
+                            if($takes->num_rows == 0){
+                                $task = $con->prepare("INSERT INTO completes_assignments (SEmail, AName, CName, CNumber) VALUES (?, ?, ?, ?)");
+                                $task->bind_param("sssi", $_SESSION['user-email'], $_POST['Name'], $course[0], $course[1]);
+                                $task->execute();
+                                echo "<meta http-equiv='refresh' content='0'>";
+                            }
+                            else{
+                                echo "This assignment is already added for this class";
+                            }
                         }
                 }
 

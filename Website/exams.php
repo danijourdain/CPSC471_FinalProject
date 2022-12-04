@@ -79,12 +79,14 @@
                             <?php echo ($item['CName']. " " . $item['CNumber']); ?>
                         </h2>
                         <?php 
-                            $CExam = $con->prepare("SELECT * FROM Course AS C, Student_Course AS S, Exam_Quiz AS  E
+                            $CExam = $con->prepare("SELECT * FROM Course AS C, Student_Course AS S, student_exam AS E, exam_quiz as Q
                                                         WHERE S.SEmail=? 
                                                         AND S.CName = C.CName AND C.CNumber = S.CNumber 
                                                         AND E.Course_Name = ? AND E.Course_Number = ? 
-                                                        AND E.Course_Name=C.CName AND E.Course_Number =C.CNumber");
-                            $CExam-> bind_param("ssi", $_SESSION['user-email'], $item['CName'], $item['CNumber']);
+                                                        AND E.Course_Name=C.CName AND E.Course_Number =C.CNumber
+                                                        AND E.SEmail = ?
+                                                        AND E.Course_Name = Q.Course_Name AND E.Course_Number = Q.Course_Number");
+                            $CExam-> bind_param("ssis", $_SESSION['user-email'], $item['CName'], $item['CNumber'], $_SESSION['user-email']);
                             $CExam-> execute();
                             $CExam = $CExam->get_result();
 
@@ -95,19 +97,19 @@
                             <?php foreach($CExam as $exam): ?>
 
                                 <div class="course-box"><div>
-                                <?php echo $exam['Name_']. " On ". $exam['Date_']. " at ". $exam['StartTime'];?>
+                                <?php echo $exam['EQName']. " on ". $exam['Date_']. " starting at ". $exam['StartTime'] ;?>
                                 </div>
 
-                                <div class="button-section"><form action="view-exams.php" method="post">
+                                <div class="button-section"><form action="view-exam.php" method="post">
                                 <input type="hidden" name="cname" value="<?php echo $item['CName']?>"/>
                                 <input type="hidden" name="cnum" value="<?php echo $item['CNumber']?>"/>
-                                <input type="hidden" name="aName" value="<?php echo $assign['Name_']?>"/>
+                                <input type="hidden" name="aName" value="<?php echo $exam['EQName']?>"/>
                                 <input class="edit-button" type="submit" value='Details'>
                                 </form></div>
-                                <div class="button-section"><form action="delete-exams.php" method="post">
+                                <div class="button-section"><form action="delete-exam.php" method="post">
                                 <input type="hidden" name="cname" value="<?php echo $item['CName']?>"/>
                                 <input type="hidden" name="cnum" value="<?php echo $item['CNumber']?>"/>
-                                <input type="hidden" name="aName" value="<?php echo $assign['Name_']?>"/>
+                                <input type="hidden" name="aName" value="<?php echo $exam['EQName']?>"/>
                                 <input class="delete-button" type="submit" value='Delete'>
                                 </form></div>
                                 </div>
@@ -135,27 +137,64 @@
                             <?php endforeach; ?> 
                         </select>
                         <br><br>
-                        <input class="add-task-button" type="Submit" name="addTask" value="Add Assignment">
+                        <input class="add-task-button" type="Submit" name="addTask" value="Add Exam">
                     </form>
                 <?php endif; ?>
                 <?php if(!empty($_POST['addTask'])){
                         if(empty($_POST['Name'])){
-                            echo "Assignment name is required";
+                            echo "Exam name is required";
                         }
                         else if(empty($_POST['Weight'])){
-                            echo "Assignment weight is required";
+                            echo "Exam weight is required";
                         }
                         else if(empty($_POST['due'])){
-                            echo "Assignment due date is required";
+                            echo "Exam date is required";
+                        }
+                        else if(empty($_POST['STime'])){
+                            echo "Exam start time is required";
+                        }
+                        else if(empty($_POST['Length'])){
+                            echo "Exam length is required";
+                        }
+                        else if(empty($_POST['Location'])){
+                            echo "Exam location is required";
+                        }
+                        else if(empty($_POST['courses'])){
+                            echo "Course the exam is for is required";
                         }
                         else{
                             $course = explode(" ", $_POST['courses']);
-                            echo $course[0];
-                            echo $course[1];
-                            $task = $con->prepare("INSERT INTO Exam_Quiz(Name_, Course_Name, Course_Number, Weight_, Chapters, Hall, Date_, StartTime, Length_) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
-                            $task->bind_param("ssiissssi", $_POST['Name'], $course[0], $course[1], $_POST['Weight'], $_POST['Chapters'], $_POST['Location'], $_POST['due'], $_POST['STime'],$_POST['Length']);
-                            $task->execute();
-                            echo "<meta http-equiv='refresh' content='0'>";
+                            $course = explode(" ", $_POST['courses']);
+                            $examExists = $con->prepare("SELECT * FROM exam_quiz
+                                                            WHERE Name_ = ?
+                                                            AND Course_Number = ?
+                                                            AND Course_Name = ?");
+                            $examExists->bind_param("sis", $_POST['Name'], $course[1], $course[0]);
+                            $examExists->execute();
+                            $examExists = $examExists->get_result();
+                            if($examExists->num_rows == 0){
+                                $task = $con->prepare("INSERT INTO Exam_Quiz(Name_, Course_Name, Course_Number, Weight_, Chapters, Hall, Date_, StartTime, Length_) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+                                $task->bind_param("ssiissssi", $_POST['Name'], $course[0], $course[1], $_POST['Weight'], $_POST['Chapters'], $_POST['Location'], $_POST['due'], $_POST['STime'],$_POST['Length']);
+                                $task->execute();
+                                echo "<meta http-equiv='refresh' content='0'>";
+                            }
+                            $takes = $con->prepare("SELECT * FROM student_exam
+                                                            WHERE SEmail = ?
+                                                            AND EQName = ?
+                                                            AND Course_Number = ?
+                                                            AND Course_Name = ?");
+                            $takes->bind_param("ssis", $_SESSION['user-email'],$_POST['Name'], $course[1], $course[0]);
+                            $takes->execute();
+                            $takes = $takes->get_result();
+                            if($takes->num_rows == 0){
+                                $task = $con->prepare("INSERT INTO student_exam (SEmail, EQName, Course_Name, Course_Number) VALUES (?, ?, ?, ?)");
+                                $task->bind_param("sssi", $_SESSION['user-email'], $_POST['Name'], $course[0], $course[1]);
+                                $task->execute();
+                                echo "<meta http-equiv='refresh' content='0'>";
+                            }
+                            else{
+                                echo "This assignment is already added for this class";
+                            }
                         }
                 }
 
