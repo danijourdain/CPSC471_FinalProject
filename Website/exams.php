@@ -85,7 +85,8 @@
                                                         AND E.Course_Name = ? AND E.Course_Number = ? 
                                                         AND E.Course_Name=C.CName AND E.Course_Number =C.CNumber
                                                         AND E.SEmail = ?
-                                                        AND E.Course_Name = Q.Course_Name AND E.Course_Number = Q.Course_Number");
+                                                        AND E.Course_Name = Q.Course_Name AND E.Course_Number = Q.Course_Number
+                                                        AND E.EQName = Q.Name_");
                             $CExam-> bind_param("ssis", $_SESSION['user-email'], $item['CName'], $item['CNumber'], $_SESSION['user-email']);
                             $CExam-> execute();
                             $CExam = $CExam->get_result();
