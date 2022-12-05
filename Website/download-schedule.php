@@ -153,6 +153,7 @@
         $meeting_names->execute();
         $result = $meeting_names->get_result();
         $meeting_names->close();
+        $unique = 0;
         while($res1 = $result->fetch_array()){
             $curr_meeting = $res1['Name_'];
             $RoomNum = $con->prepare("SELECT * FROM exam_quiz WHERE Name_ = ?");
@@ -183,8 +184,8 @@
 
             // UID is a required item in VEVENT, create unique string for this event
             // Adding your domain to the end is a good way of creating uniqueness
-            $uid = $RoomInfo['Name_'] . $_SESSION['user-email'];
-            $eventobj->addNode(new ZCiCalDataNode("UID:" . $uid . 'exam'));
+            $uid = $RoomInfo['Name_'].$RoomInfo['Course_Name'] . $RoomInfo['Course_Number'] . $_SESSION['user-email'];
+            $eventobj->addNode(new ZCiCalDataNode("UID:" . $uid . 'exam' .$unique));
 
             // DTSTAMP is a required item in VEVENT
             $eventobj->addNode(new ZCiCalDataNode("DTSTAMP:" . ZCiCal::fromSqlDateTime()));
@@ -192,7 +193,7 @@
             // Add description
             $eventobj->addNode(new ZCiCalDataNode("Description:" . ZCiCal::formatContent($RoomInfo['Chapters'])));
             // $temp_end = ZCiCal::fromSqlDateTime($end_date . " ". $TimingInfo['TimeOfDay']);
-
+        $unique = $unique + 1;
 
             
         }
