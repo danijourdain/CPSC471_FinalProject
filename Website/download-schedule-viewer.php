@@ -25,33 +25,6 @@
             </a>
         </header>
 
-        <nav class="sidebar">
-            <a class="selected-link" href="my-schedule-weekly.php">
-                <div class="selected-sidebar-tab">
-                    <div>Weekly Schedule</div>
-                </div>
-            </a>
-            <a class="sidebar-link" href="to-do-list.php">
-                <div class="sidebar-tab">
-                    <div>To Do List</div>
-                </div>
-            </a>
-            <a class="sidebar-link" href="assignments.php">
-                <div class="sidebar-tab">
-                    <div>Assigments</div>
-                </div>
-            </a>
-            <a class="sidebar-link" href="exams.html">
-                <div class="sidebar-tab">
-                    <div>Exams</div>
-                </div>
-            </a>
-            <a class="sidebar-link" href="courses.php">
-                <div class="sidebar-tab">
-                    <div>Courses</div>
-                </div>
-            </a>
-        </nav>
 
         <main>
 
@@ -209,7 +182,7 @@
     }
         
     ?>
-        <p><div class="download-link"><a href=<?php echo $file?>>Download your icalendar file</a></div>
+        <p><a href=<?php echo $file?>>Download your icalendar file</a>
     Make sure to import the file to outlook or google calendar</p>
         <a href="my-schedule-weekly.php">Go Back to my schedule</a>
         </html>
