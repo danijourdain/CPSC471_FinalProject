@@ -69,12 +69,13 @@
     ?>
 
     <h1> <?php 
-        echo $_POST["SemName"]. " ". $_POST["Year_"]; ?>
+        echo $_POST["Semester"]. " ". $_POST["Year"]; ?>
     </h1>
         
     <?php
-        $_SESSION['Semester'] = $_POST['SemName'];
-        $_SESSION['Year'] = $_POST['Year_'];
+        $year = $_POST["Year"];
+        $semester = $_POST["Semester"];
+        $ID = $_POST["ID"];
     ?>
 
     <div class="center">
@@ -85,21 +86,26 @@
                 $student_semester->execute();
                 $student_semester = $student_semester->get_result();
 
-                foreach($student_semester as $c) {
-                    echo $c['SemName']. " ". $c['Year_']. " ". "<br>";
-                }
+                    echo "Please give the following ID to your friend to share this schedule: \"".$ID ."\" <br>";
+
             ?>
         </div>
-        
-    <div>
-        <form method="post" action="delete-course.php">
-            <input class="delete-course-button" type="submit" value="Delete Course">
-        </form>
     </div>
+        
+    <div class="center">
+        <div>
+        <form method="post" action="delete-schedule.php">
+            <input type="hidden" name="Semester" value="<?php echo $semester?>"/>
+            <input type="hidden" name="Year" value="<?php echo $year?>"/>
+            <input type="hidden" name="ID" value="<?php echo $ID?>"/>
+            <input class="delete-schedule-button" type="submit" value="Delete Schedule">
+        </form>
+   
 
-    <div>
-        <a href="my-schedule-weekly.php"><button class="back-button">
-            Back
-        </button></a>
+        <div>
+            <a href="my-schedule-weekly.php"><button class="back-button">
+                Back
+            </button></a>
+        </div>
     </div>
 </html>

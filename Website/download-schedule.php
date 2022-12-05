@@ -65,6 +65,8 @@
         $year = $_POST["Year"];
         $semester = $_POST["Semester"];
         $ID = $_POST["ID"];
+        $Email = $_POST["Email"];
+        
         
         include_once("zapcallib.php");
         // session_start();
@@ -77,7 +79,7 @@
 
         $icalobj = new ZCiCal();
         $start_date = $con->prepare("SELECT * FROM schedule_ WHERE StudentEmail = ? AND SemName = ? AND ID = ?");
-        $start_date->bind_param("ssi", $_SESSION['user-email'], $semester, $ID);
+        $start_date->bind_param("ssi", $Email, $semester, $ID);
         $start_date->execute();
         $result = $start_date->get_result();
         $start_date->close();
@@ -91,8 +93,9 @@
             $start_date = $res['StartDate'];
             $end_date = $res['EndDate'];
         }
-        $meeting_names = $con->prepare("SELECT * FROM class_meeting WHERE SEmail = ?");
-        $meeting_names->bind_param("s", $_SESSION['user-email']);
+        
+        $meeting_names = $con->prepare("SELECT * FROM class_meeting AS C,  section AS S WHERE C.SEmail = ? AND S.Semester = ? AND S.ID = ? AND C.Course_Name  = S.CName  AND C.Course_Number = CNumber");
+        $meeting_names->bind_param("ssi", $Email, $semester, $ID);
         $meeting_names->execute();
         $result = $meeting_names->get_result();
         $meeting_names->close();

@@ -98,13 +98,15 @@
                     //move to the weekly schedule page
                 }
                 else {
-                    $insert_viewer = $con->prepare("INSERT INTO Viewer (Email, SEmail, SchedID) VALUES (?, 'student@gmail.com', 1)");
-                    $insert_viewer->bind_param("s", $email);
-                    $insert_viewer->execute();
-
-                    header("Location: view-schedules.php");
-                    die();
-                    //move to the weekly schedule page
+                    ?>
+                    <div class="input-area"><form method="post" action="add-viewer.php">
+                        <input class="text-field" type="text" name="Femail" placeholder="Friend Email"><br>
+                        <input class="ID-field" type="text" name="ID" placeholder="Schedule ID"><br>
+                        <input type="hidden" name="email" value="<?$email?>"/>
+                        <input class="submit-button" type="submit" value="Submit Information">
+                    </form></div>
+                    <?php
+                    
                 }
             }
             else if ($password1 != $password2) {

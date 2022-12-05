@@ -94,8 +94,9 @@
                     </div>
 
                     <div class="button-section"><form action="edit-schedule.php" method="post">
-                        <input type="hidden" name="SemName" value="<?php echo $c['SemName']?>"/>
-                        <input type="hidden" name="Year_" value="<?php echo $c['Year_']?>"/>
+                        <input type="hidden" name="Semester" value="<?php echo $c['SemName']?>"/>
+                        <input type="hidden" name="Year" value="<?php echo $c['Year_']?>"/>
+                        <input type="hidden" name="ID" value="<?php echo $c['ID']?>"/>
                         <input class="edit-button" type="submit" value='Edit Schedule'>
                     </form></div>
                 </div>
@@ -103,6 +104,7 @@
                         <input type="hidden" name="Semester" value="<?php echo $c['SemName']?>"/>
                         <input type="hidden" name="Year" value="<?php echo $c['Year_']?>"/>
                         <input type="hidden" name="ID" value="<?php echo $c['ID']?>"/>
+                        <input type="hidden" name="Email" value="<?php echo $c['StudentEmail'] ?>"/>
                         <input class="download-button" type="submit" value='download Schedule'>
                     </form></div>
                 </div>
@@ -111,18 +113,6 @@
             //print each course name and number the student is taking
             
         ?></div>
-        <div class="other-button-section">
-                <!-- add course section -->
-                <div class="input-form"> <form method="post" action="add-schedule.php">
-                    <input class="schedule-input-box" type="text" name="start_date" placeholder="yyyy-mm--dd (ex. 2022-04-02)"><br>
-                    <input class="schedule-input-box" type="text" name="end_date" placeholder="yyyy-mm--dd (ex. 2022-10-21)"><br>
-                    <input class="schedule-input-box" type="text" name="Year" placeholder="yyyy (ex. 2019)"><br>
-                    <input class="schedule-input-box" type="text" name="Semester" placeholder="Semester (ex. Fall)"><br>
-                    <input class="add-schedule-button" type="submit" value="Add Schedule">
-                </form></div>
-        </div>
-            <div class="separation-line"></div>
-        </div>
     <div class="other-button-section">
             <!-- add course section -->
             <div class="input-form"> <form method="post" action="add-schedule.php">

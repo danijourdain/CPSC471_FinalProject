@@ -64,10 +64,12 @@
             echo "Failed to connect to MySQL: " . mysqli_connect_error();
         }
 
-        if(($_SESSION['course-name'] == null && $_SESSION['course-number'] == null) || ($_SESSION['course-name'] != $_POST['cname'] && $_SESSION['course-number'] != $_POST['cnum'])) {
-            $_SESSION['course-name'] = $_POST['cname'];
-            $_SESSION['course-number'] = $_POST['cnum']; 
-        }?>
+        // if(($_SESSION['course-name'] == null && $_SESSION['course-number'] == null) || ($_SESSION['course-name'] != $_POST['cname'] && $_SESSION['course-number'] != $_POST['cnum'])) {
+        //     
+        // }
+        $_SESSION['course-name'] = $_POST['cname'];
+        $_SESSION['course-number'] = $_POST['cnum']; 
+        ?>
 
     <h1> <?php 
         echo $_SESSION["course-name"]. " ". $_SESSION["course-number"]; 
