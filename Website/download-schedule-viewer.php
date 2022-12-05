@@ -131,6 +131,7 @@
         $meeting_names->execute();
         $result = $meeting_names->get_result();
         $meeting_names->close();
+        $unique = 0;
         while($res1 = $result->fetch_array()){
             $curr_meeting = $res1['Name_'];
             $RoomNum = $con->prepare("SELECT * FROM exam_quiz WHERE Name_ = ?");
@@ -161,8 +162,8 @@
 
             // UID is a required item in VEVENT, create unique string for this event
             // Adding your domain to the end is a good way of creating uniqueness
-            $uid = $RoomInfo['Name_'] . $_SESSION['user-email'];
-            $eventobj->addNode(new ZCiCalDataNode("UID:" . $uid . 'exam'));
+            $uid = $RoomInfo['Name_'].$RoomInfo['Course_Name'] . $RoomInfo['Course_Number'] . $_SESSION['user-email'];
+            $eventobj->addNode(new ZCiCalDataNode("UID:" . $uid . 'exam' .$unique));
 
             // DTSTAMP is a required item in VEVENT
             $eventobj->addNode(new ZCiCalDataNode("DTSTAMP:" . ZCiCal::fromSqlDateTime()));
@@ -170,7 +171,50 @@
             // Add description
             $eventobj->addNode(new ZCiCalDataNode("Description:" . ZCiCal::formatContent($RoomInfo['Chapters'])));
             // $temp_end = ZCiCal::fromSqlDateTime($end_date . " ". $TimingInfo['TimeOfDay']);
+        $unique = $unique + 1;
 
+            
+        }
+
+        $meeting_names = $con->prepare("SELECT * FROM attends_group_meeting AS C,  group_meeting_date AS S WHERE C.SEmail = ?  AND C.MeetingID   = S.GroupID   AND C.GroupName  = S.GroupName");
+        $meeting_names->bind_param("s", $Email);
+        $meeting_names->execute();
+        $result = $meeting_names->get_result();
+        $meeting_names->close();
+        $unique = 0;
+        while($res1 = $result->fetch_array()){
+            $curr_meeting = $res1['GroupID'];
+            $RoomNum = $con->prepare("SELECT * FROM group_meeting_date WHERE GroupID = ?");
+            $RoomNum->bind_param("s", $curr_meeting);
+            $RoomNum->execute();
+            $RoomResult = $RoomNum->get_result();
+            $RoomNum->close();
+            $RoomInfo = $RoomResult->fetch_array();
+
+            // create the event within the ical object
+            $eventobj = new ZCiCalNode("VEVENT", $icalobj->curnode);
+
+            // add title
+            $eventobj->addNode(new ZCiCalDataNode("SUMMARY:" . $RoomInfo['GroupName']));
+
+            $temp_start = ZCiCal::fromSqlDateTime($RoomInfo['Date_']);
+            // $temp_start = $start_date . " ". $TimingInfo['TimeOfDay'];
+
+            // add start date
+            $eventobj->addNode(new ZCiCalDataNode("DTSTART:" . $temp_start));
+
+            // add end date since no duration it is assumed to be 1 hr
+            // $eventobj->addNode(new ZCiCalDataNode("DTEND:" . ZCiCal::fromSqlDateTime($event_end)));
+
+            // UID is a required item in VEVENT, create unique string for this event
+            // Adding your domain to the end is a good way of creating uniqueness
+            $uid = $RoomInfo['GroupName'] . $_SESSION['user-email'];
+            $eventobj->addNode(new ZCiCalDataNode("UID:" . $uid . 'exam' .$unique));
+
+            // DTSTAMP is a required item in VEVENT
+            $eventobj->addNode(new ZCiCalDataNode("DTSTAMP:" . ZCiCal::fromSqlDateTime()));
+
+        $unique = $unique + 1;
 
             
         }
@@ -180,9 +224,8 @@
         $file = "./icalendar/calendars/".$_SESSION['user-email']. $semester . $year.".ics";
         file_put_contents($file, $info);
     }
-        
     ?>
-        <p><a href=<?php echo $file?>>Download your icalendar file</a>
+        <p><div class="download-link"><a href=<?php echo $file?>>Download your icalendar file</a></div>
     Make sure to import the file to outlook or google calendar</p>
-        <a href="my-schedule-weekly.php">Go Back to my schedule</a>
+        <a href="view-schedules.php">Go Back to my schedule</a>
         </html>
