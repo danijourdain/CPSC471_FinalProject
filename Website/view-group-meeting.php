@@ -62,10 +62,13 @@
             $dates->bind_param("is", $_POST['id'], $_POST['name']);
             $dates->execute();
             $dates = $dates->get_result();
+
         ?>
 
 
         <h1><?php echo $_POST['name']; ?> Dates</h1>
+
+        <?php echo "ID: ". $_POST['id']; ?>
         <div class="center">
             <div class="existing-meetings">
                 <div class="meeting-header">

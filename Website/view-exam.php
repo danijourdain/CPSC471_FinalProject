@@ -65,7 +65,8 @@
                                             WHERE A.Name_ = ?
                                             AND A.Course_Name = ? AND A.Course_Name = E.Course_Name
                                             AND A.Course_Number = ? AND A.Course_Number = E.Course_Number
-                                            AND E.SEmail = ?");
+                                            AND E.SEmail = ?
+                                            AND A.Name_ = E.EQName");
                     $view->bind_param("ssis", $_POST['aName'], $_POST['cname'], $_POST['cnum'], $_SESSION['user-email']);
                     $view->execute();
                     $view = $view->get_result();
