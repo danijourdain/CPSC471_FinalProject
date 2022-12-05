@@ -76,9 +76,9 @@
                     
                 <div class="content">
                     <div class="existing-assignments"><?php foreach($courses as $item): ?>
-                        <h2>
+                        <div class="course-name">
                             <?php echo ($item['CName']. " " . $item['CNumber']); ?>
-                        </h2>
+                        </div>
                         <?php 
                             $CAssign = $con->prepare("SELECT * FROM Course AS C, Student_Course AS S, completes_assignments AS A , assignment AS Assign
                                                         WHERE S.SEmail=? 
@@ -98,7 +98,7 @@
                         <?php else: ?>
                             <?php foreach($CAssign as $assign): ?>
 
-                                <div class="course-box"><div>
+                                <div class="course-box"><div class="assign-name">
                                 <?php echo $assign['AName']. " Due on ". $assign['Due_Date'];?>
                                 </div>
 
@@ -112,32 +112,35 @@
                                 <input type="hidden" name="cname" value="<?php echo $item['CName']?>"/>
                                 <input type="hidden" name="cnum" value="<?php echo $item['CNumber']?>"/>
                                 <input type="hidden" name="aName" value="<?php echo $assign['AName']?>"/>
-                                <input class="delete-button" type="submit" value='Delete'>
+                                <input class="edit-button" type="submit" value='Delete'>
                                 </form></div>
                                 </div>
                                 <div class="separation-line"></div>
                             <?php endforeach; ?>
                         <?php endif; ?>
-                        
                     <?php endforeach; ?>
-                    <h2> Add a new assignment: </h2>
-                    <form method="post">
+                    </div>
+
+                    <div class="separation-bar"></div>
+
+                    <div class="add-assignment-form">
+                        <div class="table-header"> Add a new assignment: </div>
+                        <form method="post">
                         <input class="add-task-box" type="text" name="Name" placeholder="Assignment Name"><br>
                         <input class="add-task-box" type="number" name="Weight" placeholder="Weight (percentage)"><br>
                         <label class="field-label" for="due">Due Date: </label>
                         <input class="date-field" type="date" name="due" placeholder="Due Date"><br>
                         <input class="add-task-box" type="text" name="Description" placeholder="Description (Optional)"><br>
                         <input class="add-task-box" type="text" name="Contact" placeholder="Contact (Optional)"><br><br>
-                        <label for="courses"></label>
-                        <select name="courses" id="courseNum">
+                        <select class="dropdown-box" name="courses" id="courseNum">
                             <option value= "none" selected disabled hidden> Select a course </option>
                             <?php foreach($courses as $item): ?>
                                 <option value= <?php echo ("'".$item['CName']. " " . $item['CNumber']."';"); ?>><?php echo ($item['CName']. " " . $item['CNumber']); ?></option>
                             <?php endforeach; ?> 
                         </select>
                         <br><br>
-                        <input class="add-task-button" type="Submit" name="addTask" value="Add Assignment">
-                    </form>
+                        <input class="add-assignment-button" type="Submit" name="addTask" value="Add Assignment">
+                    </form></div>
                 <?php endif; ?>
                 <?php if(!empty($_POST['addTask'])){
                         if(empty($_POST['Name'])){
