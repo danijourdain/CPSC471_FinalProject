@@ -9,7 +9,7 @@
     margin-right: 30px;
 }
 
-.edit-button, .download-button, .add-schedule-button {
+.add-schedule-button {
     height: 30px;
     width: 160px;
     padding-top: 7px;
@@ -25,7 +25,7 @@
     color: white;
 }
 
-.edit-button:hover, .download-button:hover, .add-schedule-button:hover {
+.add-schedule-button:hover {
     background-color: rgb(26, 31, 36);
     cursor: pointer;
 }
@@ -41,4 +41,35 @@
     margin-bottom: 5px;
     height: 30px;
     padding-left: 15px;
+}
+
+.separation-line {
+    width: 2px;
+    background-color: rgb(199, 217, 230);
+}
+
+.table-header {
+    font-weight: 700;
+}
+
+.center {
+    display: flex;
+    flex-direction: column;
+}
+
+.Schedule-box {
+    display: flex;
+}
+
+.edit-button {
+    height: 24px;
+    background-color: transparent;
+    text-decoration: underline;
+    border-style: none;
+    color: rgb(70, 117, 142);
+}
+
+.edit-button:hover {
+    cursor: pointer;
+    color: rgb(26, 31, 36);
 }

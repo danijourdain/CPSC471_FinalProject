@@ -6,3 +6,16 @@
 .selected-sidebar-tab:hover {
     background-color:  rgb(135, 169, 186);
 }
+
+.download-link {
+    height: 24px;
+    background-color: transparent;
+    text-decoration: underline;
+    border-style: none;
+    color: rgb(70, 117, 142);
+}
+
+.download-link:hover {
+    cursor: pointer;
+    color: rgb(26, 31, 36);
+}
