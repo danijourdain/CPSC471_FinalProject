@@ -154,7 +154,7 @@
     }
         
     ?>
-        <p><a href=<?php echo $file?>>Download your icalendar file</a>
+        <p><div class="download-link"><a href=<?php echo $file?>>Download your icalendar file</a></div>
     Make sure to import the file to outlook or google calendar</p>
         <a href="my-schedule-weekly.php">Go Back to my schedule</a>
         </html>

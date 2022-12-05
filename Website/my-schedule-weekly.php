@@ -63,10 +63,9 @@
         These are all the Schedules you have made so far
     </div>
 
-    <div>
-        <div class="separation-line"></div>
+    <div class="center">
 
-        <div>
+        <div >
             <div class="separation-line"></div>
             <?php
             
@@ -83,10 +82,6 @@
             $schedule = $schedule->get_result();
             //get all courses the student is currently taking from the database
 
-            // $i = 0;
-            // $_SESSION['cnames'] = array();
-            // $_SESSION['cnums'] = array();
-
             foreach($schedule as $c):?>
                 <div class="Schedule-box">
                     <div>
@@ -99,14 +94,14 @@
                         <input type="hidden" name="ID" value="<?php echo $c['ID']?>"/>
                         <input class="edit-button" type="submit" value='Edit Schedule'>
                     </form></div>
-                </div>
                 <div class="button-section"><form action="download-schedule.php" method="post">
                         <input type="hidden" name="Semester" value="<?php echo $c['SemName']?>"/>
                         <input type="hidden" name="Year" value="<?php echo $c['Year_']?>"/>
                         <input type="hidden" name="ID" value="<?php echo $c['ID']?>"/>
                         <input type="hidden" name="Email" value="<?php echo $c['StudentEmail'] ?>"/>
-                        <input class="download-button" type="submit" value='download Schedule'>
+                        <input class="edit-button" type="submit" value='Download Schedule'>
                     </form></div>
+                </div>
                 </div>
                 <div class="separation-line"></div>
             <?php endforeach;
