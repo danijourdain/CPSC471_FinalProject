@@ -180,8 +180,6 @@
                     <select class="dropdown-box" id="frequency" name="frequency">
                         <option value="none" selected disabled hidden>Select Freqency</option>
                         <option value="WEEKLY">Weekly</option>
-                        <option value="BIWEEKLY">Biweekly</option>
-                        <option value="ONETIME">One Time</option>
                     </select>
                 </div>
                 <input class="add-meeting-input" type="text" name="topic" placeholder="Topic"><br>

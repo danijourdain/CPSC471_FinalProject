@@ -71,11 +71,11 @@
                 foreach ($schedule as $c): ?>
                 <div class="Schedule-box">
                     <div>
-                        <?php echo $c['SemName'] . "\t" . $c['Year_']; ?>
+                        <?php echo $c['StudentEmail']."'s ". $c['SemName'] . "\t" . $c['Year_']; ?>
                     </div>
 
                 </div>
-                <div class="button-section"><form action="download-schedule.php" method="post">
+                <div class="button-section"><form action="download-schedule-viewer.php" method="post">
                         <input type="hidden" name="Semester" value="<?php echo $c['SemName'] ?>"/>
                         <input type="hidden" name="Year" value="<?php echo $c['Year_'] ?>"/>
                         <input type="hidden" name="ID" value="<?php echo $c['ID'] ?>"/>
