@@ -1,5 +1,6 @@
 DROP DATABASE IF EXISTS `471_Final_Project`;
 CREATE DATABASE `471_Final_Project`;
+USE `471_Final_Project`;
 
 CREATE TABLE User_
     (Email      VARCHAR(32)     NOT NULL,

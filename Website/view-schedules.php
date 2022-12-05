@@ -80,7 +80,7 @@
                         <input type="hidden" name="Year" value="<?php echo $c['Year_'] ?>"/>
                         <input type="hidden" name="ID" value="<?php echo $c['ID'] ?>"/>
                         <input type="hidden" name="Email" value="<?php echo $c['StudentEmail'] ?>"/>
-                        <input class="download-button" type="submit" value='download Schedule'>
+                        <input class="download-button" type="submit" value='Download Schedule'>
                     </form></div>
                 </div>
                 <div class="separation-line"></div>
@@ -93,7 +93,7 @@
             <!-- add course section -->
             <div class="input-area"><form method="post" action="add-schedule-viewer.php">
                         <input class="text-field" type="text" name="Femail" placeholder="Friend Email"><br>
-                        <input class="ID-field" type="text" name="ID" placeholder="Schedule ID"><br>
+                        <input class="text-field" type="number" name="ID" placeholder="Schedule ID"><br>
                         <input type="hidden" name="email" value="<?$email?>"/>
                         <input class="submit-button" type="submit" value="Submit Information">
                     </form></div>

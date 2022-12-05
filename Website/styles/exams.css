@@ -1,0 +1,93 @@
+.content {
+    display: flex;
+    margin-left: 150px;
+}
+
+.existing-assignments {
+    margin-right: 30px;
+}
+
+.separation-line {
+    width: 2px;
+    background-color: rgb(199, 217, 230);
+}
+
+.add-exam {
+    margin-left: 30px;
+}
+
+.add-task-box {
+    width: 250px;
+    margin-bottom: 5px;
+
+    height: 30px;
+    padding-left: 15px;
+
+    border: none;
+    border-radius: 15px;
+}
+
+.date-field {
+    width: 165px;
+    margin-bottom: 5px;
+
+    height: 30px;
+    padding-left: 15px;
+
+    border: none;
+    border-radius: 15px;
+}
+
+.field-label {
+    margin-left: 5px;
+}
+
+.dropdown-box {
+    border: none;
+    border-radius: 15px;
+    margin-bottom: 5px;
+    height: 30px;
+    width: 165px;
+    padding-left: 10px;
+    color: rgb(106, 106, 106);
+}
+
+.add-task-button {
+    height: 30px;
+    width: 140px;
+    padding-top: 7px;
+    padding-bottom: 7px;
+
+    font-size: 15px;
+
+    border-radius: 40px;
+    border: none;
+    background-color: rgb(35, 44, 51);
+    color: white;
+}
+
+.add-task-button:hover {
+    background-color: rgb(26, 31, 36);
+    cursor: pointer;
+}
+
+.course-box {
+    display: flex;
+}
+
+.details {
+    margin-right: 10px;
+}
+
+.edit-button {
+    height: 24px;
+    background-color: transparent;
+    text-decoration: underline;
+    border-style: none;
+    color: rgb(70, 117, 142);
+}
+
+.edit-button:hover {
+    cursor: pointer;
+    color: rgb(26, 31, 36);
+}

@@ -99,12 +99,13 @@
                 }
                 else {
                     ?>
-                    <div class="input-area"><form method="post" action="add-viewer.php">
-                        <input class="text-field" type="text" name="Femail" placeholder="Friend Email"><br>
-                        <input class="ID-field" type="text" name="ID" placeholder="Schedule ID"><br>
-                        <input type="hidden" name="email" value="<?$email?>"/>
-                        <input class="submit-button" type="submit" value="Submit Information">
-                    </form></div>
+                    <form id="form" action="add-viewer.php" method="post">
+                        <input type="hidden" name="password" value="<?php echo $_POST["password1"];?>"/>
+                    </form>
+
+                    <script type="text/javascript"> 
+                        document.getElementById("form").submit();
+                    </script>
                     <?php
                     
                 }

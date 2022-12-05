@@ -5,6 +5,7 @@
         <title>Exams</title>
 
         <link rel="stylesheet" href="styles/general.css">
+        <link rel="stylesheet" href="styles/exams.css">
     </head>
 
     <body>
@@ -97,7 +98,7 @@
                         <?php else: ?>
                             <?php foreach($CExam as $exam): ?>
 
-                                <div class="course-box"><div>
+                                <div class="course-box"><div class="details">
                                 <?php echo $exam['EQName']. " on ". $exam['Date_']. " starting at ". $exam['StartTime'] ;?>
                                 </div>
 
@@ -111,27 +112,28 @@
                                 <input type="hidden" name="cname" value="<?php echo $item['CName']?>"/>
                                 <input type="hidden" name="cnum" value="<?php echo $item['CNumber']?>"/>
                                 <input type="hidden" name="aName" value="<?php echo $exam['EQName']?>"/>
-                                <input class="delete-button" type="submit" value='Delete'>
+                                <input class="edit-button" type="submit" value='Delete'>
                                 </form></div>
                                 </div>
-                                <div class="separation-line"></div>
                             <?php endforeach; ?>
                         <?php endif; ?>
                         
-                    <?php endforeach; ?>
-                    <h2> Add a new Exam: </h2>
+                    <?php endforeach; ?></div>
+
+                    <div class="separation-line"></div>
+                    <div class="add-exam"><h2> Add a new Exam: </h2>
                     <form method="post">
                         <input class="add-task-box" type="text" name="Name" placeholder="Exam Name"><br>
                         <input class="add-task-box" type="number" name="Weight" placeholder="Weight (percentage)"><br>
                         <label class="field-label" for="due">Exam Date: </label>
                         <input class="date-field" type="date" name="due" placeholder="Due Date"><br>
                         <label class="field-label" for="STime">Exam Start: </label>
-                        <input class="add-task-box" type="Time" name="STime" placeholder="Exam Start Time"><br>
+                        <input class="date-field" type="Time" name="STime" placeholder="Exam Start Time"><br>
                         <input class="add-task-box" type="number" name="Length" placeholder="Exam length (minutes)"><br>
                         <input class="add-task-box" type="text" name="Location" placeholder="Exam Location"><br>
                         <input class="add-task-box" type="text" name="Chapters" placeholder="Exam Topic (Optional)"><br><br>
                         <label for="courses"></label>
-                        <select name="courses" id="courseNum">
+                        <select class="dropdown-box" name="courses" id="courseNum">
                             <option value= "none" selected disabled hidden> Select a course </option>
                             <?php foreach($courses as $item): ?>
                                 <option value= <?php echo ("'".$item['CName']. " " . $item['CNumber']."';"); ?>><?php echo ($item['CName']. " " . $item['CNumber']); ?></option>
@@ -139,7 +141,7 @@
                         </select>
                         <br><br>
                         <input class="add-task-button" type="Submit" name="addTask" value="Add Exam">
-                    </form>
+                    </form></div>
                 <?php endif; ?>
                 <?php if(!empty($_POST['addTask'])){
                         if(empty($_POST['Name'])){
