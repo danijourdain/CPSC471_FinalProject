@@ -36,12 +36,12 @@
     border-radius: 15px;
 }
 
-.dropdown {
+.dropdown-box {
     border: none;
     border-radius: 15px;
     margin-bottom: 5px;
     height: 30px;
-    width: 214px;
+    width: 165px;
     padding-left: 10px;
     color: rgb(106, 106, 106);
 }
@@ -64,4 +64,53 @@
 .add-assignment-button:hover {
     background-color: rgb(26, 31, 36);
     cursor: pointer;
+}
+
+.content {
+    margin-left: 100px;
+}
+
+.existing-assignments {
+    margin-right: 30px;
+}
+
+.table-header {
+    font-size: 30px;
+    font-weight: 700;
+}
+
+.course-name {
+    font-size: 24px;
+    font-weight: 700;
+    margin-top: 15px;
+}
+
+.separation-bar {
+    width: 2px;
+    background-color: rgb(199, 217, 230);
+}
+
+.add-assignment-form {
+    margin-left: 20px;
+}
+
+.course-box {
+    display: flex;
+}
+
+.assign-name {
+    margin-right: 10px;
+}
+
+.edit-button {
+    height: 24px;
+    background-color: transparent;
+    text-decoration: underline;
+    border-style: none;
+    color: rgb(70, 117, 142);
+}
+
+.edit-button:hover {
+    cursor: pointer;
+    color: rgb(26, 31, 36);
 }
