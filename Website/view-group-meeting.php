@@ -62,10 +62,13 @@
             $dates->bind_param("is", $_POST['id'], $_POST['name']);
             $dates->execute();
             $dates = $dates->get_result();
+
         ?>
 
 
         <h1><?php echo $_POST['name']; ?> Dates</h1>
+
+        <?php echo "ID: ". $_POST['id']; ?>
         <div class="center">
             <div class="existing-meetings">
                 <div class="meeting-header">
@@ -103,7 +106,7 @@
         
         <form method="post" action="edit-course.php">
             <input type="hidden" name="cname" value="<?php echo $_SESSION['course-name'];?>">
-            <input type="hidden" name="cnum" value="<?php echo $_SESSION['course-num'];?>">
+            <input type="hidden" name="cnum" value="<?php echo $_SESSION['course-number'];?>">
             <input class="back-button" type="submit" value="Back">
         </form>
     </body>

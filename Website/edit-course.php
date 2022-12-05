@@ -177,7 +177,7 @@
                         <option value="WEEKLY">Weekly</option>
                     </select>
                 </div>
-                <input class="add-meeting-input" type="text" name="topic" placeholder="Topic"><br>
+                <input class="add-meeting-input" type="text" name="topic" placeholder="Topic (Option)"><br>
                 <div>
                     <select class="dropdown-box" id="meeting-type" name="meeting-type">
                         <option value="none" selected disabled hidden>Select Class Type</option>
