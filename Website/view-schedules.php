@@ -18,11 +18,6 @@
             <div class="selected-header-tab">
                 <div>My Schedule</div>
             </div>
-            <a class="header-link" href="view-schedules.php">
-                <div class="header-tab">
-                    <div>View Schedules</div>
-                </div>
-            </a>
         </header>
 
 
