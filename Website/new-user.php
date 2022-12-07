@@ -89,7 +89,7 @@
                 //create the new user tuple
 
                 if($type == 'student') {
-                    $insert_student = $con->prepare("INSERT INTO Student (Email, Major, Year_) VALUES (?, 'fill_later', 0)");
+                    $insert_student = $con->prepare("INSERT INTO Student (Email) VALUES (?)");
                     $insert_student->bind_param("s", $email);
                     $insert_student->execute();
 

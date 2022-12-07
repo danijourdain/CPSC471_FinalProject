@@ -70,10 +70,8 @@ CREATE TABLE Exam_Quiz
     Course_Name     CHAR(4)         NOT NULL,
     Course_Number   INT             NOT NULL,
     Weight_         FLOAT           ,
-    -- can it be null, how to account for dropping lowest quiz
     Chapters        VARCHAR(128)     ,
     Hall            VARCHAR(32)     NOT NULL,
-    -- does that already account for online quizzes?
     Date_           DATE            NOT NULL,
     StartTime       Time            NOT NULL,
     Length_         INT             NOT NULL,
@@ -81,14 +79,6 @@ CREATE TABLE Exam_Quiz
     FOREIGN KEY(Course_Name, Course_Number) REFERENCES Course(CName, CNumber)
      ON DELETE CASCADE       ON UPDATE CASCADE
 );
-
-CREATE TABLE Exam_Topic
-    (ExamName   VARCHAR(15)     NOT NULL,
-    Topic       VARCHAR(15)     NOT NULL,
-    PRIMARY KEY(ExamName, Topic),
-    FOREIGN KEY(ExamName) REFERENCES Exam_Quiz(Name_)
-      ON DELETE CASCADE       ON UPDATE CASCADE
-    );
 
 CREATE TABLE To_Do_List
 (
@@ -222,7 +212,6 @@ CREATE TABLE Speaker
     Name_           VARCHAR(64)     NOT NULL,
     Organization    VARCHAR(32)     NOT NULL,
     Credentials     VARCHAR(256)    NOT NULL,
-    -- are all of these supposed to be a key, review ER
     PRIMARY KEY(MeetingName_Sp, SEmail, CName, CNumber, Name_, Organization, Credentials),
     FOREIGN KEY(MeetingName_Sp, SEmail, CName, CNumber) REFERENCES Seminar(MeetingName_Sem, SEmail, CName, CNumber)
      ON DELETE CASCADE       ON UPDATE CASCADE
@@ -235,9 +224,7 @@ CREATE TABLE Scheduled_Time_Slot
     CName     CHAR(4)         NOT NULL,
     CNumber   INT             NOT NULL,
     DaysOFWeek       VARCHAR(64)     NOT NULL,
-    -- not sure about not null/ primary key on Dayofweek
     TimeOfDay        VARCHAR(32)     NOT NULL,
-    -- format so refers to time and duration?
     Duration         INT            NOT NULL,
     Frequency        VARCHAR(16)     NOT NULL,
     
