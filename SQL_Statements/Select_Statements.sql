@@ -10,7 +10,7 @@ SELECT * FROM Attends_Group_Meeting WHERE SEmail=? AND MeetingID=? AND GroupName
 
 SELECT * FROM schedule_ WHERE StudentEmail=? AND SemName=? AND Year_=?
 
-SELECT t.Task FROM Tasks  AS t WHERE ListID = ' . $_SESSION['to-do-list-id']'
+SELECT t.Task FROM Tasks  AS t WHERE ListID = ?
 
 SELECT * FROM Course AS C, Student_Course AS S WHERE S.SEmail=? AND S.CName = C.CName AND C.CNumber = S.CNumber
 
@@ -86,13 +86,13 @@ SELECT * FROM User_ WHERE Email=?
 
 SELECT * FROM To_Do_List WHERE SEmail=?
 
-SELECT * FROM To_Do_List WHERE SEmail='". $_SESSION['user-email']'
+SELECT * FROM To_Do_List WHERE SEmail=?
 
 SELECT ListID FROM To_Do_List WHERE SEmail=?
 
 SELECT * FROM Tasks  AS t WHERE ListID = ? AND isDone = 0;
 
-SELECT t.Task FROM Tasks AS t WHERE ListID = ' . $_SESSION['to-do-list-id']'
+SELECT t.Task FROM Tasks AS t WHERE ListID = ?
 
 SELECT A.AName FROM completes_assignments AS A WHERE SEmail = ?
 
