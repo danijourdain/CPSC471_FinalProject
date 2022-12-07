@@ -103,7 +103,7 @@
         
         <form method="post" action="edit-course.php">
             <input type="hidden" name="cname" value="<?php echo $_SESSION['course-name'];?>">
-            <input type="hidden" name="cnum" value="<?php echo $_SESSION['course-num'];?>">
+            <input type="hidden" name="cnum" value="<?php echo $_SESSION['course-number'];?>">
             <input class="back-button" type="submit" value="Back">
         </form>
     </body>
