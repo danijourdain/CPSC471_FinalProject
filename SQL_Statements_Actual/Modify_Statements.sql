@@ -1,1 +1,0 @@
-UPDATE User_ SET Password_=? WHERE Email=?;
