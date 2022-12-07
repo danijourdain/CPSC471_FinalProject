@@ -18,14 +18,9 @@
             <div class="selected-header-tab">
                 <div>My Schedule</div>
             </div>
-            <a class="header-link" href="view-schedules.php">
-                <div class="header-tab">
-                    <div>View Schedules</div>
-                </div>
-            </a>
         </header>
         <nav class="sidebar">
-            <a class="sidebar-link" href="my-schedule-weekly.php">
+            <a class="selected-sidebar-tab" href="my-schedule-weekly.php">
                 <div class="sidebar-tab">
                     <div>Weekly Schedule</div>
                 </div>
@@ -40,9 +35,11 @@
                     <div>Assigments</div>
                 </div>
             </a>
-            <div class="selected-sidebar-tab">
-                <div>Exams</div>
-            </div>
+            <a class="sidebar-link" href="exams.php">
+                <div class="sidebar-tab">
+                    <div>Exams</div>
+                </div>
+            </a>
             <a class="sidebar-link" href="courses.php">
                 <div class="sidebar-tab">
                     <div>Courses</div>
@@ -142,7 +139,7 @@
             $eventobj->addNode(new ZCiCalDataNode("Description:" . ZCiCal::formatContent($RoomInfo['Topic'])));
             $temp_end = ZCiCal::fromSqlDateTime($end_date . " ". $TimingInfo['TimeOfDay']);
 
-            if (strcmp($TimingInfo['Frequency'], "WEEKLY")) {
+            if (strcmp($TimingInfo['Frequency'], "WEEKLY")==0) {
                 $eventobj->addNode(new ZCiCalDataNode("RRULE:FREQ=". $TimingInfo['Frequency'].";UNTIL=".$temp_end.";WKST=SU;BYDAY=".$TimingInfo['DaysOFWeek']));
             } else {
                 

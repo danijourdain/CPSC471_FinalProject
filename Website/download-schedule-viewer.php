@@ -118,7 +118,7 @@
             $eventobj->addNode(new ZCiCalDataNode("Description:" . ZCiCal::formatContent($RoomInfo['Topic'])));
             $temp_end = ZCiCal::fromSqlDateTime($end_date . " ". $TimingInfo['TimeOfDay']);
 
-            if (strcmp($TimingInfo['Frequency'], "WEEKLY")) {
+            if (strcmp($TimingInfo['Frequency'], "WEEKLY") == 0) {
                 $eventobj->addNode(new ZCiCalDataNode("RRULE:FREQ=". $TimingInfo['Frequency'].";UNTIL=".$temp_end.";WKST=SU;BYDAY=".$TimingInfo['DaysOFWeek']));
             } else {
                 

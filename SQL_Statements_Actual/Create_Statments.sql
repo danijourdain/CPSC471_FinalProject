@@ -14,8 +14,6 @@ CREATE TABLE User_
     
 CREATE TABLE Student
     (Email      VARCHAR(32)     NOT NULL,
-    Major       VARCHAR(15)     NOT NULL,
-    Year_        INT             NOT NULL,
     PRIMARY KEY(Email),
     FOREIGN KEY(Email) REFERENCES User_(Email)
     ON DELETE CASCADE       ON UPDATE CASCADE

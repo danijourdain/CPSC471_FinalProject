@@ -1,5 +1,7 @@
 <!DOCTYPE html>
     <html>
+    <?php 
+    session_start();?>
         <head>
             <title>Create Account</title>
             <link rel="stylesheet" href="styles/general.css">
@@ -21,8 +23,6 @@
     </html>
 
 <?php 
-    session_start();
-
     $con = new mysqli("localhost","admin","cpsc471","471_Final_Project");
     //create database connection
 
@@ -31,11 +31,13 @@
     }
 
     
-    $insert_viewer = $con->prepare("INSERT INTO Viewer (Email, SEmail, SchedID) VALUES (?, ?, ?)");
-    $insert_viewer->bind_param("ssi", $_SESSION['user-email'], $_POST['Femail'], $_POST['ID']);
-    $insert_viewer->execute();
-    header("Location: view-schedules.php");
-    die();
-    //move to the weekly schedule page
+    if(!empty($_POST['Femail']) && !empty($_POST['ID'])){
+        $insert_viewer = $con->prepare("INSERT INTO Viewer (Email, SEmail, SchedID) VALUES (?, ?, ?)");
+        $insert_viewer->bind_param("ssi", $_SESSION['user-email'], $_POST['Femail'], $_POST['ID']);
+        $insert_viewer->execute();
+        header("Location: view-schedules.php");
+        die();
+        //move to the weekly schedule page
+    }
 ?>
 

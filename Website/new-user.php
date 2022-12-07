@@ -101,6 +101,7 @@
                     ?>
                     <form id="form" action="add-viewer.php" method="post">
                         <input type="hidden" name="password" value="<?php echo $_POST["password1"];?>"/>
+                        <input type="hidden" name="password" value="<?php echo $_POST["password1"];?>"/>
                     </form>
 
                     <script type="text/javascript"> 
