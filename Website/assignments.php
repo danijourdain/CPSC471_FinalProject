@@ -147,7 +147,7 @@
                         else if(empty($_POST['due'])){
                             echo "Assignment due date is required";
                         }else if(empty($_POST['courses'])){
-                            echo "Course the exam is for is required";
+                            echo "Course the assignment is for is required";
                         }else{
                             $course = explode(" ", $_POST['courses']);
                             $assignExists = $con->prepare("SELECT * FROM Assignment
