@@ -90,7 +90,7 @@
                         <input class="text-field" type="text" name="Femail" placeholder="Friend Email"><br>
                         <input class="text-field" type="number" name="ID" placeholder="Schedule ID"><br>
                         <input type="hidden" name="email" value="<?$email?>"/>
-                        <input class="submit-button" type="submit" value="Submit Information">
+                        <input class="submit-button" type="submit" value="Submit Schedule">
                     </form></div>
 
             
